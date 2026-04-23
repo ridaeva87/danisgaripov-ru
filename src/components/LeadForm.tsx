@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { ArrowRight, Send } from "lucide-react";
 
@@ -16,7 +16,7 @@ type LeadFormProps = {
 export const LeadForm = ({ title, description, compact = false, ctaLabel = "Оставить заявку" }: LeadFormProps) => {
   const [form, setForm] = useState({ name: "", contact: "", request: "" });
 
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     toast.success("Заявка принята", {
