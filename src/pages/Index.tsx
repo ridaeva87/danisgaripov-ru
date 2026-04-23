@@ -93,7 +93,8 @@ const Index = () => {
             </div>
             <div className="space-y-5">
               <h1 className="max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
-                Понятные финансовые решения, когда ситуация требует взрослого и сильного подхода.
+                <span className="sm:hidden">Помогаем найти финансовое решение под вашу ситуацию.</span>
+                <span className="hidden sm:inline">Понятные финансовые решения, когда ситуация требует взрослого и сильного подхода.</span>
               </h1>
               <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
                 Данис Гарипов — лицо сервиса, где человек быстро понимает, с чем сюда можно прийти, как будет выстроена работа и какой следующий шаг сделать прямо сейчас.
@@ -109,7 +110,7 @@ const Index = () => {
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               {[
-                "строгий и спокойный сервис",
+                "сервис для людей, которым нужен результат.",
                 "быстрый разбор финансовой ситуации",
                 "понятное движение по шагам",
               ].map((item) => (
@@ -139,9 +140,8 @@ const Index = () => {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Основные направления</p>
-            <h2 className="max-w-3xl text-3xl font-semibold text-balance sm:text-4xl">Финансовые услуги, в которых важны порядок, ясность и правильная подача ситуации.</h2>
           </div>
-          <p className="max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">Каждое направление оформлено как отдельная услуга со своей страницей, понятным сценарием работы и формой обращения.</p>
+          <p className="max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">Каждое направление оформлено как отдельная услуга со своей страницей.</p>
         </div>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
@@ -246,7 +246,7 @@ const Index = () => {
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="space-y-3">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Кому подходит</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Для людей, которым нужен ясный финансовый путь без перегруза и сомнительного тона.</h2>
+            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Для людей, которым нужно улучшить финансовую ситуацию.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {audience.map((item) => (
@@ -308,7 +308,7 @@ const Index = () => {
       <section id="lead-form" className="container py-6 lg:py-10">
         <LeadForm
           title="Оставить заявку"
-          description="Если у вас есть финансовая ситуация, которую нужно разобрать без лишнего шума — оставьте контакт и запрос. Мы вернёмся с понятной логикой дальнейших действий."
+          description="Если у вас есть финансовая ситуация, которую нужно разобрать — оставьте контакт и запрос. Мы вернёмся с понятной логикой дальнейших действий."
         />
       </section>
 
