@@ -196,14 +196,29 @@ const Index = () => {
           {services.map((service) => {
             const Icon = service.icon;
             return (
-              <article key={service.slug} className="panel group rounded-lg p-6 transition-transform duration-300 hover:-translate-y-1">
+              <article key={service.slug} className="panel group flex flex-col rounded-lg p-6 transition-transform duration-300 hover:-translate-y-1">
                 <div className="flex items-center gap-3">
                   <div className="rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
                     <Icon className="size-5" />
                   </div>
-                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                  <h3 className="text-xl font-semibold">
+                    {service.title}
+                    {service.comingSoon && (
+                      <span className="ml-2 align-middle text-xs font-medium uppercase tracking-wider text-primary">скоро</span>
+                    )}
+                  </h3>
                 </div>
                 <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">{service.shortDescription}</p>
+                {service.bullets && (
+                  <ul className="mt-4 space-y-2">
+                    {service.bullets.map((b) => (
+                      <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <Button asChild variant="soft" className="flex-1 justify-between">
                     <Link to={`/services/${service.slug}`}>
@@ -217,6 +232,9 @@ const Index = () => {
                       <ArrowRight />
                     </a>
                   </Button>
+                </div>
+                <div className="mt-3">
+                  <WaitlistButton />
                 </div>
               </article>
             );
