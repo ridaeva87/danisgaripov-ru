@@ -389,18 +389,40 @@ const Index = () => {
                 <HeartHandshake className="size-4 text-primary" />
                 Благотворительность
               </div>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Отдельное направление, в котором важны участие, уважение к людям и реальная польза.</h2>
-              <p className="text-base leading-7 text-muted-foreground">Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление подчёркивает взрослую позицию проекта и его внутренний порядок.</p>
-              <Button asChild variant="soft" size="xl">
-                <a href="#lead-form">Связаться по разделу</a>
-              </Button>
+              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Отдельное направление, в котором важны участие, внимание и реальная польза.</h2>
+              <p className="text-base leading-7 text-muted-foreground">
+                Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление показывает ценности проекта и то, что за ним стоят не только деньги и задачи, но и внутренняя основа.
+              </p>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <a
+                  href="#lead-form"
+                  className="inline-flex flex-col items-center justify-center rounded-md bg-[#C8102E] px-8 py-3 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
+                >
+                  <span className="text-lg font-bold uppercase tracking-wider leading-none">Участвовать</span>
+                  <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">внести вклад</span>
+                </a>
+                <Button asChild variant="soft" size="xl">
+                  <a href="#lead-form">Связаться по разделу</a>
+                </Button>
+              </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {charityPoints.map((item) => (
-                <div key={item} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
-                  {item}
-                </div>
-              ))}
+            <div className="space-y-5">
+              <div className="rounded-lg border border-primary/30 bg-primary/5 p-6">
+                <p className="text-sm uppercase tracking-[0.16em] text-primary">Уже собрано на благотворительность</p>
+                <p className="mt-3 text-4xl font-bold tabular-nums text-foreground sm:text-5xl">
+                  {formatRub(charityRaised)}
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Счётчик отражает суммарные взносы, направленные через сервис.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {charityPoints.map((item) => (
+                  <div key={item} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
