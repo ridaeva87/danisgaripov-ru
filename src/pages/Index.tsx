@@ -325,7 +325,9 @@ const Index = () => {
         <div className="container py-14 lg:py-20">
           <div className="mb-8 max-w-3xl space-y-3">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Почему мне доверяют</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Данис Гарипов — про порядок в сложной финансовой ситуации, спокойную силу и работу по делу.</h2>
+            <h2 className="text-2xl font-semibold leading-snug text-balance sm:text-3xl">
+              Данис Гарипов — финансовый брокер с многолетним опытом, который структурирует сделки, соединяет нужных людей и выстраивает финансовое решение под конкретную задачу, сумму и срок.
+            </h2>
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
             {trustSignals.map(({ title, description, icon: Icon }) => (
