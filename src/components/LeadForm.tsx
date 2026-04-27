@@ -11,9 +11,16 @@ type LeadFormProps = {
   description: string;
   compact?: boolean;
   ctaLabel?: string;
+  contactPlaceholder?: string;
 };
 
-export const LeadForm = ({ title, description, compact = false, ctaLabel = "Оставить заявку" }: LeadFormProps) => {
+export const LeadForm = ({
+  title,
+  description,
+  compact = false,
+  ctaLabel = "Оставить заявку",
+  contactPlaceholder = "Телефон или email",
+}: LeadFormProps) => {
   const [form, setForm] = useState({ name: "", contact: "", request: "" });
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -43,7 +50,7 @@ export const LeadForm = ({ title, description, compact = false, ctaLabel = "Ос
         />
         <Input
           required
-          placeholder="Телефон или email"
+          placeholder={contactPlaceholder}
           value={form.contact}
           onChange={(event) => setForm((prev) => ({ ...prev, contact: event.target.value }))}
           className="h-12 border-border/80 bg-surface-soft"

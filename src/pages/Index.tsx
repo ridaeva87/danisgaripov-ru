@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 import {
   ArrowRight,
   BadgeCheck,
@@ -20,19 +21,32 @@ import { services } from "@/data/services";
 
 const workflow = [
   "Вы оставляете заявку",
-  "Мы изучаем вашу ситуацию",
+  "Мы изучаем ваше обращение",
   "Уточняем детали",
   "Предлагаем вариант решения",
   "Запускаем работу по вашему направлению",
 ];
 
 const audience = [
-  "если есть сложности с кредитованием",
+  "если есть сложности с кредитованием в банке",
   "если нужно улучшить кредитную историю",
   "если хотите вернуть страховку",
-  "если нужен быстрый финансовый выход",
-  "если хотите срочно продать авто",
+  "если нужны быстрые финансы",
+  "если нужно срочно продать авто 24/7",
 ];
+
+const analysisPoints = [
+  "что мешает увеличить доход",
+  "с чего начать, чтобы улучшить ситуацию с финансами",
+  "как стабилизировать деньги",
+  "что можно монетизировать",
+  "какие привычки и подходы мешают зарабатывать больше",
+  "что можно оптимизировать, чтобы доходы росли",
+  "как сократить лишние траты",
+  "в каком направлении сейчас лучше двигаться по деньгам",
+];
+
+const CHARITY_GOAL = 1_114_000;
 
 const trustSignals = [
   {
@@ -56,9 +70,43 @@ const agentReasons = ["для тех, кто умеет выстраивать �
 
 const charityPoints = ["поддержка людей в сложной жизненной ситуации", "участие в полезных адресных инициативах", "взрослая позиция сервиса — не только решать, но и помогать"];
 
+const formatRub = (value: number) =>
+  new Intl.NumberFormat("ru-RU").format(value) + " ₽";
+
+const WaitlistButton = () => (
+  <button
+    type="button"
+    onClick={() =>
+      toast.success("Вы в листе ожидания", {
+        description: "Сообщим, как только направление откроется.",
+      })
+    }
+    className="group flex w-full flex-col items-center justify-center rounded-md bg-[#C8102E] px-4 py-2 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
+  >
+    <span className="text-base font-bold uppercase tracking-wider leading-none">Waitlist</span>
+    <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">вы в очереди</span>
+  </button>
+);
+
 const Index = () => {
+  const [charityRaised, setCharityRaised] = useState(0);
+
   useEffect(() => {
     document.title = "Данис Гарипов — финансовые решения";
+  }, []);
+
+  useEffect(() => {
+    const duration = 1400;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setCharityRaised(Math.round(CHARITY_GOAL * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
@@ -92,11 +140,11 @@ const Index = () => {
               Сервис финансовых решений
             </div>
             <div className="space-y-5">
-              <h1 className="max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
-                Помогаем найти финансовое решение под вашу ситуацию .
+              <h1 className="max-w-3xl text-3xl font-bold uppercase leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                Финансовая экосистема, где каждый получает своё
               </h1>
-              <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                Данис Гарипов — лицо сервиса, где человек быстро понимает, с чем сюда можно прийти, как будет выстроена работа и какой следующий шаг сделать прямо сейчас.
+              <p className="max-w-2xl text-lg font-medium leading-snug text-foreground/90 sm:text-xl">
+                Помогаем найти финансовое решение под вашу ситуацию.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -146,14 +194,29 @@ const Index = () => {
           {services.map((service) => {
             const Icon = service.icon;
             return (
-              <article key={service.slug} className="panel group rounded-lg p-6 transition-transform duration-300 hover:-translate-y-1">
+              <article key={service.slug} className="panel group flex flex-col rounded-lg p-6 transition-transform duration-300 hover:-translate-y-1">
                 <div className="flex items-center gap-3">
                   <div className="rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
                     <Icon className="size-5" />
                   </div>
-                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                  <h3 className="text-xl font-semibold">
+                    {service.title}
+                    {service.comingSoon && (
+                      <span className="ml-2 align-middle text-xs font-medium uppercase tracking-wider text-primary">скоро</span>
+                    )}
+                  </h3>
                 </div>
                 <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">{service.shortDescription}</p>
+                {service.bullets && (
+                  <ul className="mt-4 space-y-2">
+                    {service.bullets.map((b) => (
+                      <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <Button asChild variant="soft" className="flex-1 justify-between">
                     <Link to={`/services/${service.slug}`}>
@@ -167,6 +230,9 @@ const Index = () => {
                       <ArrowRight />
                     </a>
                   </Button>
+                </div>
+                <div className="mt-3">
+                  <WaitlistButton />
                 </div>
               </article>
             );
@@ -197,7 +263,7 @@ const Index = () => {
         <div className="mb-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-3">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Финансовый разбор / прогноз ситуации</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Не просто форма обратной связи, а полезный первый шаг к ясному финансовому сценарию.</h2>
+            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Первый шаг, чтобы навести ясность в своей финансовой ситуации.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
@@ -212,11 +278,44 @@ const Index = () => {
           </div>
         </div>
 
+        <div className="mb-8 panel rounded-lg p-6 sm:p-8">
+          <h3 className="text-xl font-semibold sm:text-2xl">На финансовом разборе можно посмотреть:</h3>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            {analysisPoints.map((point) => (
+              <li key={point} className="flex items-start gap-3 rounded-md border border-border/60 bg-surface-soft/60 p-4 text-sm leading-6 text-muted-foreground sm:text-base">
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="space-y-1">
+            <p className="text-sm uppercase tracking-[0.16em] text-primary">Бесплатный финансовый разбор</p>
+            <p className="text-lg font-semibold text-foreground sm:text-xl">
+              Чтобы получить бесплатный финансовый разбор — подпишись на соцсети
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild variant="hero">
+              <a href="#" target="_blank" rel="noreferrer">Telegram</a>
+            </Button>
+            <Button asChild variant="soft">
+              <a href="#" target="_blank" rel="noreferrer">Instagram</a>
+            </Button>
+            <Button asChild variant="soft">
+              <a href="#" target="_blank" rel="noreferrer">YouTube</a>
+            </Button>
+          </div>
+        </div>
+
         <LeadForm
           title="Получить финансовый разбор"
-          description="Оставьте имя, контакт и короткий запрос. Мы разберём вашу ситуацию как финансовую задачу: спокойно, предметно и с фокусом на следующий разумный шаг."
+          description="Оставьте имя, контакт и короткий запрос. После финансового разбора вы поймёте, что сейчас происходит с вашей финансовой ситуацией, где у вас слабое место и какой следующий шаг поможет увеличить доход и навести порядок в деньгах."
           compact
           ctaLabel="Получить финансовый разбор"
+          contactPlaceholder="Ссылка на ваш Тг личный или на Max"
         />
       </section>
 
@@ -224,7 +323,9 @@ const Index = () => {
         <div className="container py-14 lg:py-20">
           <div className="mb-8 max-w-3xl space-y-3">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Почему мне доверяют</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Данис Гарипов — про порядок в сложной финансовой ситуации, спокойную силу и работу по делу.</h2>
+            <h2 className="text-2xl font-semibold leading-snug text-balance sm:text-3xl">
+              Данис Гарипов — финансовый брокер с многолетним опытом, который структурирует сделки, соединяет нужных людей и выстраивает финансовое решение под конкретную задачу, сумму и срок.
+            </h2>
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
             {trustSignals.map(({ title, description, icon: Icon }) => (
@@ -261,8 +362,8 @@ const Index = () => {
           <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
             <div className="space-y-4">
               <p className="text-sm uppercase tracking-[0.16em] text-primary">Стать агентом</p>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Формат для тех, кто хочет приводить людей в сильный финансовый сервис и работать на доверии.</h2>
-              <p className="text-base leading-7 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью зрелого финансового сервиса.</p>
+              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Формат для тех, кто хочет зарабатывать в команде сильных экспертов финансового сервиса и работать на доверие.</h2>
+              <p className="text-base leading-7 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью финансовой экосистемы.</p>
               <Button asChild variant="hero" size="xl">
                 <a href="#lead-form">Оставить заявку</a>
               </Button>
@@ -286,18 +387,40 @@ const Index = () => {
                 <HeartHandshake className="size-4 text-primary" />
                 Благотворительность
               </div>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Отдельное направление, в котором важны участие, уважение к людям и реальная польза.</h2>
-              <p className="text-base leading-7 text-muted-foreground">Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление подчёркивает взрослую позицию проекта и его внутренний порядок.</p>
-              <Button asChild variant="soft" size="xl">
-                <a href="#lead-form">Связаться по разделу</a>
-              </Button>
+              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Отдельное направление, в котором важны участие, внимание и реальная польза.</h2>
+              <p className="text-base leading-7 text-muted-foreground">
+                Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление показывает ценности проекта и то, что за ним стоят не только деньги и задачи, но и внутренняя основа.
+              </p>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <a
+                  href="#lead-form"
+                  className="inline-flex flex-col items-center justify-center rounded-md bg-[#C8102E] px-8 py-3 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
+                >
+                  <span className="text-lg font-bold uppercase tracking-wider leading-none">Участвовать</span>
+                  <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">внести вклад</span>
+                </a>
+                <Button asChild variant="soft" size="xl">
+                  <a href="#lead-form">Связаться по разделу</a>
+                </Button>
+              </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {charityPoints.map((item) => (
-                <div key={item} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
-                  {item}
-                </div>
-              ))}
+            <div className="space-y-5">
+              <div className="rounded-lg border border-primary/30 bg-primary/5 p-6">
+                <p className="text-sm uppercase tracking-[0.16em] text-primary">Уже собрано на благотворительность</p>
+                <p className="mt-3 text-4xl font-bold tabular-nums text-foreground sm:text-5xl">
+                  {formatRub(charityRaised)}
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Счётчик отражает суммарные взносы, направленные через сервис.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {charityPoints.map((item) => (
+                  <div key={item} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

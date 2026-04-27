@@ -1,4 +1,4 @@
-import { BadgeDollarSign, FileCheck2, GaugeCircle, HandCoins, ShieldCheck, type LucideIcon } from "lucide-react";
+import { BadgeDollarSign, FileCheck2, GaugeCircle, HandCoins, Landmark, ShieldCheck, type LucideIcon } from "lucide-react";
 
 export type ServiceItem = {
   slug: string;
@@ -9,6 +9,8 @@ export type ServiceItem = {
   suitableFor: string[];
   steps: string[];
   trustPoints: string[];
+  comingSoon?: boolean;
+  bullets?: string[];
 };
 
 export const services: ServiceItem[] = [
@@ -125,6 +127,35 @@ export const services: ServiceItem[] = [
       "спокойный тон и прозрачный процесс",
       "ориентир на реальную задачу клиента",
       "понятные решения без перегруза",
+    ],
+  },
+  {
+    slug: "kreditnaya-kultura",
+    title: "Кредитная культура",
+    shortDescription: "Направление о финансовых решениях вне привычной банковской схемы — для нестандартных задач и сумм.",
+    heroDescription: "Кредитная культура — это про взрослый подход к заёмным деньгам: когда привычные банковские продукты не подходят и нужно собирать решение из других инструментов.",
+    icon: Landmark,
+    comingSoon: true,
+    bullets: [
+      "Кредиты вне банковской системы",
+      "Private credit",
+      "Специализированные кредитные программы",
+    ],
+    suitableFor: [
+      "если стандартные банковские продукты не подходят",
+      "если нужна нестандартная сумма или структура сделки",
+      "если важно понимать, как устроен рынок частного и специализированного кредита",
+    ],
+    steps: [
+      "разбираем задачу и допустимые рамки",
+      "подбираем подходящий инструмент вне банка",
+      "формируем структуру сделки",
+      "сопровождаем до запуска",
+    ],
+    trustPoints: [
+      "опыт работы с нестандартными кредитными задачами",
+      "доступ к закрытым кредитным форматам",
+      "прозрачная логика на каждом шаге",
     ],
   },
 ];
