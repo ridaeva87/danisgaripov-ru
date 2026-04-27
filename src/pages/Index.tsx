@@ -265,7 +265,7 @@ const Index = () => {
         <div className="mb-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-3">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Финансовый разбор / прогноз ситуации</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Не просто форма обратной связи, а полезный первый шаг к ясному финансовому сценарию.</h2>
+            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Первый шаг, чтобы навести ясность в своей финансовой ситуации.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
@@ -280,11 +280,44 @@ const Index = () => {
           </div>
         </div>
 
+        <div className="mb-8 panel rounded-lg p-6 sm:p-8">
+          <h3 className="text-xl font-semibold sm:text-2xl">На финансовом разборе можно посмотреть:</h3>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            {analysisPoints.map((point) => (
+              <li key={point} className="flex items-start gap-3 rounded-md border border-border/60 bg-surface-soft/60 p-4 text-sm leading-6 text-muted-foreground sm:text-base">
+                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+          <div className="space-y-1">
+            <p className="text-sm uppercase tracking-[0.16em] text-primary">Бесплатный финансовый разбор</p>
+            <p className="text-lg font-semibold text-foreground sm:text-xl">
+              Чтобы получить бесплатный финансовый разбор — подпишись на соцсети
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild variant="hero">
+              <a href="#" target="_blank" rel="noreferrer">Telegram</a>
+            </Button>
+            <Button asChild variant="soft">
+              <a href="#" target="_blank" rel="noreferrer">Instagram</a>
+            </Button>
+            <Button asChild variant="soft">
+              <a href="#" target="_blank" rel="noreferrer">YouTube</a>
+            </Button>
+          </div>
+        </div>
+
         <LeadForm
           title="Получить финансовый разбор"
-          description="Оставьте имя, контакт и короткий запрос. Мы разберём вашу ситуацию как финансовую задачу: спокойно, предметно и с фокусом на следующий разумный шаг."
+          description="Оставьте имя, контакт и короткий запрос. После финансового разбора вы поймёте, что сейчас происходит с вашей финансовой ситуацией, где у вас слабое место и какой следующий шаг поможет увеличить доход и навести порядок в деньгах."
           compact
           ctaLabel="Получить финансовый разбор"
+          contactPlaceholder="Ссылка на ваш Тг личный или на Max"
         />
       </section>
 
