@@ -364,8 +364,8 @@ const Index = () => {
           <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
             <div className="space-y-4">
               <p className="text-sm uppercase tracking-[0.16em] text-primary">Стать агентом</p>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Формат для тех, кто хочет приводить людей в сильный финансовый сервис и работать на доверии.</h2>
-              <p className="text-base leading-7 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью зрелого финансового сервиса.</p>
+              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Формат для тех, кто хочет зарабатывать в команде сильных экспертов финансового сервиса и работать на доверие.</h2>
+              <p className="text-base leading-7 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью финансовой экосистемы.</p>
               <Button asChild variant="hero" size="xl">
                 <a href="#lead-form">Оставить заявку</a>
               </Button>
