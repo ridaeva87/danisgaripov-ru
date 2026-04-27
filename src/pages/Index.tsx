@@ -5,14 +5,12 @@ import {
   ArrowRight,
   BadgeCheck,
   BriefcaseBusiness,
-  Clock,
   HandHelping,
   HeartHandshake,
   Mail,
   MessageCircle,
   Phone,
   Scale,
-  Send,
   Shield,
 } from "lucide-react";
 
