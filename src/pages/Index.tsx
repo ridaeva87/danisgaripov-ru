@@ -142,11 +142,11 @@ const Index = () => {
               Сервис финансовых решений
             </div>
             <div className="space-y-5">
-              <h1 className="max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
-                Помогаем найти финансовое решение под вашу ситуацию .
+              <h1 className="max-w-3xl text-3xl font-bold uppercase leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">
+                Финансовая экосистема, где каждый получает своё
               </h1>
-              <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                Данис Гарипов — лицо сервиса, где человек быстро понимает, с чем сюда можно прийти, как будет выстроена работа и какой следующий шаг сделать прямо сейчас.
+              <p className="max-w-2xl text-lg font-medium leading-snug text-foreground/90 sm:text-xl">
+                Помогаем найти финансовое решение под вашу ситуацию.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
