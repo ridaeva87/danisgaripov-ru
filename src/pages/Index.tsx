@@ -72,9 +72,43 @@ const agentReasons = ["для тех, кто умеет выстраивать �
 
 const charityPoints = ["поддержка людей в сложной жизненной ситуации", "участие в полезных адресных инициативах", "взрослая позиция сервиса — не только решать, но и помогать"];
 
+const formatRub = (value: number) =>
+  new Intl.NumberFormat("ru-RU").format(value) + " ₽";
+
+const WaitlistButton = () => (
+  <button
+    type="button"
+    onClick={() =>
+      toast.success("Вы в листе ожидания", {
+        description: "Сообщим, как только направление откроется.",
+      })
+    }
+    className="group flex w-full flex-col items-center justify-center rounded-md bg-[#C8102E] px-4 py-2 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
+  >
+    <span className="text-base font-bold uppercase tracking-wider leading-none">Waitlist</span>
+    <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">вы в очереди</span>
+  </button>
+);
+
 const Index = () => {
+  const [charityRaised, setCharityRaised] = useState(0);
+
   useEffect(() => {
     document.title = "Данис Гарипов — финансовые решения";
+  }, []);
+
+  useEffect(() => {
+    const duration = 1400;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setCharityRaised(Math.round(CHARITY_GOAL * eased));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
