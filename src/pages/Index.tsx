@@ -133,45 +133,52 @@ const Index = () => {
 
       <section className="relative overflow-hidden border-b border-border/60 bg-[#1E1E1E] text-[#FDFDFD]">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-70"
+          className="absolute inset-0 bg-cover bg-center opacity-80"
           style={{ backgroundImage: `url(${heroBackground})` }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1E1E1E]/85 via-[#1E1E1E]/55 to-[#1E1E1E]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1E1E1E]/70 via-[#1E1E1E]/30 to-[#1E1E1E]" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent" aria-hidden="true" />
 
-        <div className="container relative py-14 lg:py-20">
+        <div className="container relative pt-10 pb-0 lg:pt-14">
           <p className="text-center text-[11px] font-medium uppercase tracking-[0.4em] text-[#97965B] sm:text-xs">
             Финансовый брокер · Эксперт · Стратег
           </p>
 
-          <div className="relative mt-8 flex items-end justify-center">
+          {/* Stage: big name behind, full-body photo in front, side panels on desktop */}
+          <div className="relative mt-6 flex items-end justify-center min-h-[560px] sm:min-h-[640px] lg:min-h-[760px]">
             {/* Big name behind the photo */}
             <h1
               aria-label="Данис Гарипов"
-              className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-bold uppercase leading-[0.85] tracking-tight"
+              className="pointer-events-none absolute inset-x-0 top-[6%] select-none text-center font-bold uppercase leading-[0.85] tracking-tight"
               style={{ letterSpacing: "-0.02em" }}
             >
-              <span className="block text-[18vw] text-[#FDFDFD]/[0.08] sm:text-[16vw] lg:text-[13vw]">
+              <span className="block text-[15vw] text-[#FDFDFD]/[0.08] sm:text-[13vw] lg:text-[11vw]">
                 ДАНИС
               </span>
-              <span className="mt-[-0.15em] block text-[14vw] text-[#97965B]/30 sm:text-[12vw] lg:text-[10vw]">
+              <span className="mt-[-0.15em] block text-[12vw] text-[#97965B]/25 sm:text-[10vw] lg:text-[9vw]">
                 ГАРИПОВ
               </span>
             </h1>
 
-            {/* Photo in front */}
-            <div className="relative z-10 flex justify-center">
+            {/* Soft ground shadow under feet */}
+            <div
+              className="pointer-events-none absolute bottom-0 left-1/2 h-10 w-[55%] max-w-[520px] -translate-x-1/2 rounded-[50%] bg-black/70 blur-2xl"
+              aria-hidden="true"
+            />
+
+            {/* Photo in front — full body, bottom aligned */}
+            <div className="relative z-10 flex w-full justify-center">
               <img
                 src={danisHero}
                 alt="Данис Гарипов — финансовый брокер"
-                className="h-[60vh] max-h-[640px] min-h-[380px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.7)]"
+                className="h-[520px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.7)] sm:h-[600px] lg:h-[720px]"
                 loading="eager"
               />
             </div>
 
-            {/* Side info panels — desktop only, absolutely placed alongside the photo */}
-            <div className="pointer-events-none absolute left-0 top-1/2 hidden w-[26%] -translate-y-1/2 lg:block">
+            {/* Side info panels — desktop only */}
+            <div className="pointer-events-none absolute left-0 top-[22%] hidden w-[24%] lg:block">
               <div className="pointer-events-auto rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-5 backdrop-blur-md shadow-panel">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
                 <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
@@ -179,7 +186,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="pointer-events-none absolute right-0 top-1/2 hidden w-[26%] -translate-y-1/2 lg:block">
+            <div className="pointer-events-none absolute right-0 top-[22%] hidden w-[24%] lg:block">
               <div className="pointer-events-auto rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-5 backdrop-blur-md shadow-panel">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
                 <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
@@ -189,13 +196,9 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Tablet/mobile name + side panels stacked below */}
+          {/* Tablet/mobile side panels stacked below */}
           <div className="mt-8 lg:hidden">
-            <h2 className="text-center text-4xl font-bold uppercase leading-[0.95] tracking-tight text-[#FDFDFD] sm:text-5xl">
-              <span className="block">ДАНИС</span>
-              <span className="block text-[#97965B]">ГАРИПОВ</span>
-            </h2>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-2">
               <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-4 backdrop-blur-md">
                 <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
                 <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
@@ -211,7 +214,7 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="relative mt-10 text-center">
+          <div className="relative mt-10 pb-14 text-center lg:pb-20">
             <p className="mx-auto max-w-3xl text-base leading-relaxed text-[#FDFDFD]/85 sm:text-lg">
               <span className="block text-xs uppercase tracking-[0.3em] text-[#97965B] sm:text-sm">
                 Финансовая экосистема, где каждый получает своё
