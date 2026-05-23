@@ -133,106 +133,85 @@ const Index = () => {
 
       <section className="relative overflow-hidden border-b border-border/60 bg-[#1E1E1E] text-[#FDFDFD]">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-80"
+          className="absolute inset-0 bg-cover bg-center opacity-70"
           style={{ backgroundImage: `url(${heroBackground})` }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1E1E1E]/70 via-[#1E1E1E]/30 to-[#1E1E1E]" aria-hidden="true" />
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1E1E1E]/60 via-[#1E1E1E]/40 to-[#1E1E1E]" aria-hidden="true" />
+        {/* Vertical olive spotlight */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-0 h-[70%] w-[60%] -translate-x-1/2 opacity-60"
+          style={{
+            background:
+              "radial-gradient(ellipse at top, rgba(151,150,91,0.35) 0%, rgba(151,150,91,0.08) 35%, transparent 70%)",
+          }}
+          aria-hidden="true"
+        />
 
-        <div className="container relative pt-10 pb-0 lg:pt-14">
+        <div className="container relative pt-8 pb-10 lg:pt-12 lg:pb-16">
           <p className="text-center text-[11px] font-medium uppercase tracking-[0.4em] text-[#97965B] sm:text-xs">
-            Финансовый брокер · Эксперт · Стратег
+            Финансовый брокер · Эксперт · Стратег · Наставник
           </p>
 
-          {/* Stage: big name behind, full-body photo in front, side panels on desktop */}
-          <div className="relative mt-6 flex items-end justify-center min-h-[560px] sm:min-h-[640px] lg:min-h-[760px]">
-            {/* Big name behind the photo */}
+          {/* Stage: huge name + photo overlapping the bottom word */}
+          <div className="relative mt-6 lg:mt-8">
+            {/* Huge name behind the photo */}
             <h1
               aria-label="Данис Гарипов"
-              className="pointer-events-none absolute inset-x-0 top-[6%] select-none text-center font-bold uppercase leading-[0.85] tracking-tight"
-              style={{ letterSpacing: "-0.02em" }}
+              className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-[0.82] tracking-tight"
+              style={{ letterSpacing: "-0.03em" }}
             >
-              <span className="block text-[15vw] text-[#FDFDFD]/[0.08] sm:text-[13vw] lg:text-[11vw]">
+              <span className="block bg-gradient-to-b from-[#FDFDFD] to-[#FDFDFD]/40 bg-clip-text text-[19vw] text-transparent sm:text-[17vw] lg:text-[14vw]">
                 ДАНИС
               </span>
-              <span className="mt-[-0.15em] block text-[12vw] text-[#97965B]/25 sm:text-[10vw] lg:text-[9vw]">
+              <span className="mt-[-0.18em] block bg-gradient-to-b from-[#FDFDFD]/95 to-[#FDFDFD]/30 bg-clip-text text-[16vw] text-transparent sm:text-[14vw] lg:text-[12vw]">
                 ГАРИПОВ
               </span>
             </h1>
 
-            {/* Soft ground shadow under feet */}
-            <div
-              className="pointer-events-none absolute bottom-0 left-1/2 h-10 w-[55%] max-w-[520px] -translate-x-1/2 rounded-[50%] bg-black/70 blur-2xl"
-              aria-hidden="true"
-            />
-
-            {/* Photo in front — full body, bottom aligned */}
-            <div className="relative z-10 flex w-full justify-center">
+            {/* Photo in front — overlaps the second word, cropped at bottom */}
+            <div className="pointer-events-none absolute inset-x-0 top-[14%] z-10 flex justify-center">
               <img
                 src={danisHero}
                 alt="Данис Гарипов — финансовый брокер"
-                className="h-[520px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.7)] sm:h-[600px] lg:h-[720px]"
+                className="h-[360px] w-auto object-contain object-top drop-shadow-[0_25px_50px_rgba(0,0,0,0.75)] sm:h-[460px] lg:h-[560px]"
                 loading="eager"
               />
             </div>
 
-            {/* Side info panels — desktop only */}
-            <div className="pointer-events-none absolute left-0 top-[22%] hidden w-[24%] lg:block">
-              <div className="pointer-events-auto rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-5 backdrop-blur-md shadow-panel">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
-                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
-                  Финансовый брокер с многолетним опытом структурирования сделок.
-                </p>
-              </div>
+            {/* Reserve vertical space so the photo fits without clipping the layout below */}
+            <div aria-hidden="true" className="h-[340px] sm:h-[420px] lg:h-[500px]" />
+          </div>
+
+          {/* Two short description blocks under the figure, left + right */}
+          <div className="relative z-20 mx-auto mt-2 grid max-w-5xl gap-3 sm:grid-cols-2 sm:gap-6">
+            <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/70 p-4 text-left backdrop-blur-md sm:p-5">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
+              <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
+                Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
+              </p>
             </div>
-            <div className="pointer-events-none absolute right-0 top-[22%] hidden w-[24%] lg:block">
-              <div className="pointer-events-auto rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-5 backdrop-blur-md shadow-panel">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
-                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
-                  Решения под конкретную задачу, сумму и срок.
-                </p>
-              </div>
+            <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/70 p-4 text-left backdrop-blur-md sm:p-5">
+              <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
+              <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
+                Решения под конкретную задачу, сумму и срок — без шаблонов и лишнего шума.
+              </p>
             </div>
           </div>
 
-          {/* Tablet/mobile side panels stacked below */}
-          <div className="mt-8 lg:hidden">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-4 backdrop-blur-md">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
-                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
-                  Финансовый брокер с многолетним опытом структурирования сделок.
-                </p>
-              </div>
-              <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-4 backdrop-blur-md">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
-                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
-                  Решения под конкретную задачу, сумму и срок.
-                </p>
-              </div>
-            </div>
+          {/* CTAs */}
+          <div className="relative z-20 mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button asChild variant="hero" size="xl">
+              <a href="#lead-form">Оставить заявку</a>
+            </Button>
+            <Button asChild size="xl" className="border border-[#FDFDFD]/20 bg-[#2E2430] text-[#FDFDFD] hover:bg-[#2E2430]/80">
+              <a href="#services">Мои услуги</a>
+            </Button>
           </div>
 
-          <div className="relative mt-10 pb-14 text-center lg:pb-20">
-            <p className="mx-auto max-w-3xl text-base leading-relaxed text-[#FDFDFD]/85 sm:text-lg">
-              <span className="block text-xs uppercase tracking-[0.3em] text-[#97965B] sm:text-sm">
-                Финансовая экосистема, где каждый получает своё
-              </span>
-              <span className="mt-3 block">
-                Помогаем найти финансовое решение под вашу ситуацию.
-              </span>
-            </p>
-
-            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <Button asChild variant="hero" size="xl">
-                <a href="#lead-form">Оставить заявку</a>
-              </Button>
-              <Button asChild size="xl" className="border border-[#FDFDFD]/20 bg-[#2E2430] text-[#FDFDFD] hover:bg-[#2E2430]/80">
-                <a href="#services">Мои услуги</a>
-              </Button>
-            </div>
-          </div>
+          <p className="relative z-20 mx-auto mt-6 max-w-2xl text-center text-xs uppercase tracking-[0.3em] text-[#97965B] sm:text-sm">
+            Финансовая экосистема, где каждый получает своё
+          </p>
         </div>
       </section>
 
