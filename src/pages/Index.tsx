@@ -558,6 +558,26 @@ const Index = () => {
           />
         </div>
       </section>
+      <section className="border-t border-border/60 bg-surface-elevated/30">
+        <div className="container py-10 lg:py-14">
+          <p className="text-sm uppercase tracking-[0.16em] text-primary">Документы</p>
+          <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Правовая информация</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {[
+              { label: "Политика обработки персональных данных", href: "/docs/politika-personalnyh-dannyh.docx" },
+              { label: "Согласие на обработку персональных данных", href: "/docs/soglasie-personalnyh-dannyh.docx" },
+              { label: "Согласие на получение рекламы", href: "/docs/soglasie-na-reklamu.docx" },
+            ].map((doc) => (
+              <Button key={doc.href} asChild variant="soft" className="h-auto justify-between whitespace-normal py-4 text-left">
+                <a href={doc.href} target="_blank" rel="noreferrer">
+                  <span className="text-sm leading-5">{doc.label}</span>
+                  <ArrowRight className="shrink-0" />
+                </a>
+              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   );
 };
