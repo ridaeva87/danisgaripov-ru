@@ -179,17 +179,17 @@ const Index = () => {
             </h1>
 
             {/* Figure in front — overlaps lower portion of the name */}
-            <div className="pointer-events-none absolute inset-x-0 top-[18%] z-10 flex justify-center">
+            <div className="pointer-events-none absolute inset-x-0 top-[16%] z-10 flex justify-center">
               <img
                 src={danisHero}
                 alt="Данис Гарипов — финансовый брокер"
-                className="h-[380px] w-auto object-contain object-top drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)] sm:h-[500px] lg:h-[620px]"
+                className="h-[420px] w-auto object-contain object-top drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)] sm:h-[560px] lg:h-[720px]"
                 loading="eager"
               />
             </div>
 
             {/* Reserve vertical space for figure */}
-            <div aria-hidden="true" className="h-[360px] sm:h-[460px] lg:h-[560px]" />
+            <div aria-hidden="true" className="h-[400px] sm:h-[520px] lg:h-[660px]" />
 
             {/* Side info panels — flank the figure on lg, stack on mobile */}
             <div className="relative z-20 mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:absolute lg:inset-x-0 lg:top-[58%] lg:mt-0 lg:grid-cols-[minmax(180px,220px)_1fr_minmax(180px,220px)] lg:gap-6 lg:px-4">
@@ -440,8 +440,8 @@ const Index = () => {
               <div className="relative flex justify-center lg:justify-end">
                 <img
                   src={danisPortrait}
-                  alt="Данис Гарипов в полный рост"
-                  className="h-[420px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[520px] lg:h-[620px]"
+                  alt="Данис Гарипов"
+                  className="h-[480px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[600px] lg:h-[720px]"
                   loading="lazy"
                 />
               </div>
