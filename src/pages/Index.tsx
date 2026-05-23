@@ -75,20 +75,6 @@ const charityPoints = ["поддержка людей в сложной жизн
 const formatRub = (value: number) =>
   new Intl.NumberFormat("ru-RU").format(value) + " ₽";
 
-const WaitlistButton = () => (
-  <button
-    type="button"
-    onClick={() =>
-      toast.success("Вы в листе ожидания", {
-        description: "Сообщим, как только направление откроется.",
-      })
-    }
-    className="group flex w-full flex-col items-center justify-center rounded-md bg-[#C8102E] px-4 py-2 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
-  >
-    <span className="text-base font-bold uppercase tracking-wider leading-none">Waitlist</span>
-    <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">вы в очереди</span>
-  </button>
-);
 
 const Index = () => {
   const [charityRaised, setCharityRaised] = useState(0);
