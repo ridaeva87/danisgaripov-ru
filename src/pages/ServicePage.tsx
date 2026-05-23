@@ -38,20 +38,30 @@ const ServicePage = () => {
 
       <section className="container grid gap-10 py-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:py-16">
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-soft px-4 py-2 text-sm text-muted-foreground">
-            <Icon className="size-4 text-primary" />
-            Финансовое решение по направлению
+          <div className="inline-flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-soft px-4 py-2 text-sm text-muted-foreground">
+              <Icon className="size-4 text-primary" />
+              Финансовое решение по направлению
+            </div>
+            {service.comingSoon && (
+              <span className="rounded-md bg-[#C8102E] px-3 py-1 text-base font-bold uppercase tracking-wider text-white">СКОРО</span>
+            )}
           </div>
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight text-balance sm:text-5xl">{service.title}</h1>
           <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">{service.heroDescription}</p>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Button asChild variant="hero" size="xl">
-              <a href="#service-form">Оставить заявку</a>
-            </Button>
-            <Button asChild variant="soft" size="xl">
-              <a href="#service-form">Получить финансовый разбор</a>
-            </Button>
-          </div>
+          {service.intro && (
+            <p className="max-w-2xl text-base leading-7 text-muted-foreground">{service.intro}</p>
+          )}
+          {!service.comingSoon && (
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Button asChild variant="hero" size="xl">
+                <a href="#service-form">Оставить заявку</a>
+              </Button>
+              <Button asChild variant="soft" size="xl">
+                <a href="#service-form">Получить финансовый разбор</a>
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="relative overflow-hidden rounded-lg border border-border/70 bg-surface-elevated shadow-panel">
@@ -60,57 +70,109 @@ const ServicePage = () => {
         </div>
       </section>
 
-      <section className="container grid gap-6 py-6 lg:grid-cols-3 lg:py-10">
-        <div className="panel rounded-lg p-6 lg:col-span-1">
-          <h2 className="text-2xl font-semibold">Кому подходит</h2>
-          <ul className="mt-5 space-y-4">
-            {service.suitableFor.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground sm:text-base">
-                <CircleCheckBig className="mt-1 size-4 shrink-0 text-primary" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+      {service.comingSoon ? (
+        <section className="container py-10 lg:py-16">
+          <div className="panel flex flex-col items-center rounded-lg p-10 text-center">
+            <span className="rounded-md bg-[#C8102E] px-6 py-2 text-2xl font-bold uppercase tracking-widest text-white">СКОРО</span>
+            <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">Направление готовится к запуску</h2>
+            <p className="mt-3 max-w-xl text-base leading-7 text-muted-foreground">
+              Мы сообщим о старте этой услуги. Возвращайтесь позже или оставьте заявку по другому направлению.
+            </p>
+            <Button asChild variant="hero" size="xl" className="mt-6">
+              <Link to="/">К списку услуг</Link>
+            </Button>
+          </div>
+        </section>
+      ) : (
+        <>
+          <section className="container grid gap-6 py-6 lg:grid-cols-3 lg:py-10">
+            <div className="panel rounded-lg p-6 lg:col-span-1">
+              <h2 className="text-2xl font-semibold">{service.suitableForTitle ?? "Кому подходит"}</h2>
+              <ul className="mt-5 space-y-4">
+                {service.suitableFor.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                    <CircleCheckBig className="mt-1 size-4 shrink-0 text-primary" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              {service.important && (
+                <p className="mt-5 rounded-md border border-primary/30 bg-primary/5 p-4 text-sm leading-6 text-foreground">
+                  <span className="font-semibold">Важно: </span>
+                  {service.important}
+                </p>
+              )}
+            </div>
 
-        <div className="panel rounded-lg p-6 lg:col-span-2">
-          <h2 className="text-2xl font-semibold">Как это работает</h2>
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {service.steps.map((step, index) => (
-              <div key={step} className="rounded-lg border border-border/70 bg-surface-soft p-5">
-                <p className="text-sm text-primary">Шаг {index + 1}</p>
-                <p className="mt-2 text-base leading-7 text-muted-foreground">{step}</p>
+            <div className="panel rounded-lg p-6 lg:col-span-2">
+              <h2 className="text-2xl font-semibold">{service.stepsTitle ?? "Как это работает"}</h2>
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                {service.steps.map((step, index) => (
+                  <div key={step} className="rounded-lg border border-border/70 bg-surface-soft p-5">
+                    <p className="text-sm text-primary">Шаг {index + 1}</p>
+                    <p className="mt-2 text-base leading-7 text-muted-foreground">{step}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="container py-6 lg:py-10">
-        <div className="panel rounded-lg p-6 sm:p-8">
-          <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-            <div className="space-y-4">
-              <h2 className="text-2xl font-semibold">Короткий блок доверия</h2>
-              <p className="text-base leading-7 text-muted-foreground">Данис Гарипов — это спокойный, взрослый подход к финансовым ситуациям, где важны ясность, порядок и понятное движение по шагам.</p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {service.trustPoints.map((point) => (
-                <div key={point} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
-                  {point}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      <section id="service-form" className="container py-6 lg:py-10">
-        <LeadForm
-          title={`Заявка по направлению «${service.title}»`}
-          description="Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
-          ctaLabel="Отправить запрос"
-        />
-      </section>
+          {service.whyUs && (
+            <section className="container py-6 lg:py-10">
+              <div className="panel rounded-lg p-6 sm:p-8">
+                <h2 className="text-2xl font-semibold">{service.whyUs.title}</h2>
+                <ul className="mt-5 grid gap-4 md:grid-cols-2">
+                  {service.whyUs.items.map((item) => (
+                    <li key={item} className="flex gap-3 rounded-md border border-border/70 bg-surface-soft p-4 text-sm leading-6 text-muted-foreground sm:text-base">
+                      <CircleCheckBig className="mt-1 size-4 shrink-0 text-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          )}
+
+          {service.differences && (
+            <section className="container py-6 lg:py-10">
+              <div className="panel rounded-lg p-6 sm:p-8">
+                <h2 className="text-2xl font-semibold">{service.differences.title}</h2>
+                <ul className="mt-5 grid gap-4 md:grid-cols-2">
+                  {service.differences.items.map((item) => (
+                    <li key={item} className="flex gap-3 rounded-md border border-border/70 bg-surface-soft p-4 text-sm leading-6 text-muted-foreground sm:text-base">
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          )}
+
+          {service.bonus && (
+            <section className="container py-6 lg:py-10">
+              <div className="panel rounded-lg p-6 sm:p-8">
+                <h2 className="text-2xl font-semibold">{service.bonus.title}</h2>
+                <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {service.bonus.items.map((item) => (
+                    <li key={item} className="rounded-md border border-border/70 bg-surface-soft p-4 text-sm leading-6 text-foreground">
+                      ✅ {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          )}
+
+          <section id="service-form" className="container py-6 lg:py-10">
+            <LeadForm
+              title={`Заявка по направлению «${service.title}»`}
+              description="Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
+              ctaLabel="Отправить запрос"
+            />
+          </section>
+        </>
+      )}
 
       <section className="container py-6 lg:py-12">
         <div className="flex items-center justify-between gap-4">

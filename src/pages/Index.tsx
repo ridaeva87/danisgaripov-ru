@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+
 import {
   ArrowRight,
   BadgeCheck,
@@ -75,20 +75,6 @@ const charityPoints = ["поддержка людей в сложной жизн
 const formatRub = (value: number) =>
   new Intl.NumberFormat("ru-RU").format(value) + " ₽";
 
-const WaitlistButton = () => (
-  <button
-    type="button"
-    onClick={() =>
-      toast.success("Вы в листе ожидания", {
-        description: "Сообщим, как только направление откроется.",
-      })
-    }
-    className="group flex w-full flex-col items-center justify-center rounded-md bg-[#C8102E] px-4 py-2 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
-  >
-    <span className="text-base font-bold uppercase tracking-wider leading-none">Waitlist</span>
-    <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">вы в очереди</span>
-  </button>
-);
 
 const Index = () => {
   const [charityRaised, setCharityRaised] = useState(0);
@@ -203,7 +189,7 @@ const Index = () => {
               <div className="rounded-md border border-[#97965B]/35 bg-[#0E0E0E]/75 p-4 text-left backdrop-blur-md sm:p-5 lg:col-start-3">
                 <p className="text-[10px] uppercase tracking-[0.22em] text-[#97965B]">Подход</p>
                 <p className="mt-2 text-[13px] leading-5 text-[#FDFDFD]/90">
-                  Решения под конкретную задачу, сумму и срок — без шаблонов и лишнего шума.
+                  Решения под конкретную задачу, сумму и срок.
                 </p>
               </div>
             </div>
@@ -242,10 +228,10 @@ const Index = () => {
                   <div className="rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
                     <Icon className="size-5" />
                   </div>
-                  <h3 className="text-xl font-semibold">
-                    {service.title}
+                  <h3 className="flex flex-wrap items-center gap-2 text-xl font-semibold">
+                    <span>{service.title}</span>
                     {service.comingSoon && (
-                      <span className="ml-2 align-middle text-xs font-medium uppercase tracking-wider text-primary">скоро</span>
+                      <span className="rounded-md bg-[#C8102E] px-2 py-0.5 text-sm font-bold uppercase tracking-wider text-white">СКОРО</span>
                     )}
                   </h3>
                 </div>
@@ -273,9 +259,6 @@ const Index = () => {
                       <ArrowRight />
                     </a>
                   </Button>
-                </div>
-                <div className="mt-3">
-                  <WaitlistButton />
                 </div>
               </article>
             );
@@ -342,13 +325,10 @@ const Index = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="hero">
-              <a href="#" target="_blank" rel="noreferrer">Telegram</a>
+              <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">Telegram</a>
             </Button>
             <Button asChild variant="soft">
-              <a href="#" target="_blank" rel="noreferrer">Instagram</a>
-            </Button>
-            <Button asChild variant="soft">
-              <a href="#" target="_blank" rel="noreferrer">YouTube</a>
+              <a href="https://www.instagram.com/danisgaripov?igsh=MXZweTQ2MnNzcGk3cg==" target="_blank" rel="noreferrer">Instagram</a>
             </Button>
           </div>
         </div>
@@ -576,6 +556,26 @@ const Index = () => {
             description="Оставьте ваш способ связи и коротко обозначьте задачу. Мы вернёмся к вам с ясным и спокойным предложением следующего шага."
             ctaLabel="Отправить заявку"
           />
+        </div>
+      </section>
+      <section className="border-t border-border/60 bg-surface-elevated/30">
+        <div className="container py-10 lg:py-14">
+          <p className="text-sm uppercase tracking-[0.16em] text-primary">Документы</p>
+          <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Правовая информация</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {[
+              { label: "Политика обработки персональных данных", href: "/docs/politika-personalnyh-dannyh.docx" },
+              { label: "Согласие на обработку персональных данных", href: "/docs/soglasie-personalnyh-dannyh.docx" },
+              { label: "Согласие на получение рекламы", href: "/docs/soglasie-na-reklamu.docx" },
+            ].map((doc) => (
+              <Button key={doc.href} asChild variant="soft" className="h-auto justify-between whitespace-normal py-4 text-left">
+                <a href={doc.href} target="_blank" rel="noreferrer">
+                  <span className="text-sm leading-5">{doc.label}</span>
+                  <ArrowRight className="shrink-0" />
+                </a>
+              </Button>
+            ))}
+          </div>
         </div>
       </section>
     </main>
