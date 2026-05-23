@@ -203,7 +203,7 @@ const Index = () => {
               <div className="rounded-md border border-[#97965B]/35 bg-[#0E0E0E]/75 p-4 text-left backdrop-blur-md sm:p-5 lg:col-start-3">
                 <p className="text-[10px] uppercase tracking-[0.22em] text-[#97965B]">Подход</p>
                 <p className="mt-2 text-[13px] leading-5 text-[#FDFDFD]/90">
-                  Решения под конкретную задачу, сумму и срок — без шаблонов и лишнего шума.
+                  Решения под конкретную задачу, сумму и срок.
                 </p>
               </div>
             </div>
@@ -242,10 +242,10 @@ const Index = () => {
                   <div className="rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
                     <Icon className="size-5" />
                   </div>
-                  <h3 className="text-xl font-semibold">
-                    {service.title}
+                  <h3 className="flex flex-wrap items-center gap-2 text-xl font-semibold">
+                    <span>{service.title}</span>
                     {service.comingSoon && (
-                      <span className="ml-2 align-middle text-xs font-medium uppercase tracking-wider text-primary">скоро</span>
+                      <span className="rounded-md bg-[#C8102E] px-2 py-0.5 text-sm font-bold uppercase tracking-wider text-white">СКОРО</span>
                     )}
                   </h3>
                 </div>
@@ -273,9 +273,6 @@ const Index = () => {
                       <ArrowRight />
                     </a>
                   </Button>
-                </div>
-                <div className="mt-3">
-                  <WaitlistButton />
                 </div>
               </article>
             );
@@ -342,13 +339,10 @@ const Index = () => {
           </div>
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="hero">
-              <a href="#" target="_blank" rel="noreferrer">Telegram</a>
+              <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">Telegram</a>
             </Button>
             <Button asChild variant="soft">
-              <a href="#" target="_blank" rel="noreferrer">Instagram</a>
-            </Button>
-            <Button asChild variant="soft">
-              <a href="#" target="_blank" rel="noreferrer">YouTube</a>
+              <a href="https://www.instagram.com/danisgaripov?igsh=MXZweTQ2MnNzcGk3cg==" target="_blank" rel="noreferrer">Instagram</a>
             </Button>
           </div>
         </div>
