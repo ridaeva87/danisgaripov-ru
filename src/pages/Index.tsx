@@ -406,15 +406,15 @@ const Index = () => {
                   Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
                 </p>
 
-                <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
+                <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
                   {[
                     { v: "7+", l: "лет в финансах" },
                     { v: "500+", l: "проведённых сделок" },
                     { v: "24/7", l: "сопровождение" },
                   ].map((s) => (
-                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-3 text-center shadow-sm sm:p-4">
-                      <p className="text-xl font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[10px] uppercase tracking-wider text-[#1E1E1E]/60 sm:text-[11px]">{s.l}</p>
+                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
+                      <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                      <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">{s.l}</p>
                     </div>
                   ))}
                   {[
@@ -422,9 +422,9 @@ const Index = () => {
                     { v: "5+", l: "направлений сервиса" },
                     { v: "1×1", l: "разбор ситуации" },
                   ].map((s) => (
-                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-3 text-center shadow-sm sm:p-4">
-                      <p className="text-xl font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[10px] uppercase tracking-wider text-[#1E1E1E]/60 sm:text-[11px]">{s.l}</p>
+                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
+                      <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                      <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">{s.l}</p>
                     </div>
                   ))}
                 </div>
@@ -441,7 +441,7 @@ const Index = () => {
                 <img
                   src={danisPortrait}
                   alt="Данис Гарипов"
-                  className="h-[480px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[600px] lg:h-[720px]"
+                  className="h-[560px] w-auto max-h-none object-contain object-center drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[680px] lg:h-[820px]"
                   loading="lazy"
                 />
               </div>
