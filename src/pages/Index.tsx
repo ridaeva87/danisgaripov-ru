@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import danisHero from "@/assets/danis-garipov-hero.png";
+import danisPortrait from "@/assets/danis-garipov-portrait.png";
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
 import { Button } from "@/components/ui/button";
@@ -131,89 +132,99 @@ const Index = () => {
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b border-border/60 bg-[#1E1E1E] text-[#FDFDFD]">
+      <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] text-[#FDFDFD]">
+        {/* Background image */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-70"
+          className="absolute inset-0 bg-cover bg-center opacity-50"
           style={{ backgroundImage: `url(${heroBackground})` }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1E1E1E]/60 via-[#1E1E1E]/40 to-[#1E1E1E]" aria-hidden="true" />
-        {/* Vertical olive spotlight */}
+        {/* Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,14,14,0.55)_55%,#0E0E0E_100%)]" aria-hidden="true" />
+        {/* Olive top spotlight */}
         <div
-          className="pointer-events-none absolute left-1/2 top-0 h-[70%] w-[60%] -translate-x-1/2 opacity-60"
+          className="pointer-events-none absolute left-1/2 top-0 h-[80%] w-[75%] -translate-x-1/2"
           style={{
             background:
-              "radial-gradient(ellipse at top, rgba(151,150,91,0.35) 0%, rgba(151,150,91,0.08) 35%, transparent 70%)",
+              "radial-gradient(ellipse at top, rgba(151,150,91,0.32) 0%, rgba(151,150,91,0.08) 40%, transparent 75%)",
           }}
           aria-hidden="true"
         />
+        {/* Decorative side diamonds */}
+        <div className="pointer-events-none absolute left-6 top-1/3 hidden h-2 w-2 rotate-45 bg-[#97965B]/40 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-6 top-1/3 hidden h-2 w-2 rotate-45 bg-[#97965B]/40 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-10 bottom-24 hidden h-1.5 w-1.5 rotate-45 bg-[#97965B]/30 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-10 bottom-24 hidden h-1.5 w-1.5 rotate-45 bg-[#97965B]/30 lg:block" aria-hidden="true" />
 
-        <div className="container relative pt-8 pb-10 lg:pt-12 lg:pb-16">
-          <p className="text-center text-[11px] font-medium uppercase tracking-[0.4em] text-[#97965B] sm:text-xs">
+        <div className="container relative pt-8 pb-12 lg:pt-12 lg:pb-20">
+          {/* Tagline above name */}
+          <p className="text-center text-[10px] font-medium uppercase tracking-[0.45em] text-[#97965B] sm:text-xs">
             Финансовый брокер · Эксперт · Стратег · Наставник
           </p>
 
-          {/* Stage: huge name + photo overlapping the bottom word */}
-          <div className="relative mt-6 lg:mt-8">
-            {/* Huge name behind the photo */}
+          {/* Composition stage */}
+          <div className="relative mt-5 lg:mt-7">
+            {/* Huge name behind the figure */}
             <h1
               aria-label="Данис Гарипов"
-              className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-[0.82] tracking-tight"
-              style={{ letterSpacing: "-0.03em" }}
+              className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-[0.85] tracking-tight"
+              style={{ letterSpacing: "-0.04em" }}
             >
-              <span className="block bg-gradient-to-b from-[#FDFDFD] to-[#FDFDFD]/40 bg-clip-text text-[19vw] text-transparent sm:text-[17vw] lg:text-[14vw]">
+              <span className="block bg-gradient-to-b from-[#FDFDFD] via-[#FDFDFD]/85 to-[#FDFDFD]/30 bg-clip-text text-[18vw] text-transparent drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-[15vw] lg:text-[11.5vw]">
                 ДАНИС
               </span>
-              <span className="mt-[-0.18em] block bg-gradient-to-b from-[#FDFDFD]/95 to-[#FDFDFD]/30 bg-clip-text text-[16vw] text-transparent sm:text-[14vw] lg:text-[12vw]">
+              <span className="mt-[-0.12em] block bg-gradient-to-b from-[#FDFDFD] via-[#FDFDFD]/80 to-[#FDFDFD]/25 bg-clip-text text-[16vw] text-transparent drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-[13vw] lg:text-[10.5vw]">
                 ГАРИПОВ
               </span>
             </h1>
 
-            {/* Photo in front — overlaps the second word, cropped at bottom */}
-            <div className="pointer-events-none absolute inset-x-0 top-[14%] z-10 flex justify-center">
+            {/* Figure in front — overlaps lower portion of the name */}
+            <div className="pointer-events-none absolute inset-x-0 top-[18%] z-10 flex justify-center">
               <img
                 src={danisHero}
                 alt="Данис Гарипов — финансовый брокер"
-                className="h-[360px] w-auto object-contain object-top drop-shadow-[0_25px_50px_rgba(0,0,0,0.75)] sm:h-[460px] lg:h-[560px]"
+                className="h-[380px] w-auto object-contain object-top drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)] sm:h-[500px] lg:h-[620px]"
                 loading="eager"
               />
             </div>
 
-            {/* Reserve vertical space so the photo fits without clipping the layout below */}
-            <div aria-hidden="true" className="h-[340px] sm:h-[420px] lg:h-[500px]" />
+            {/* Reserve vertical space for figure */}
+            <div aria-hidden="true" className="h-[360px] sm:h-[460px] lg:h-[560px]" />
+
+            {/* Side info panels — flank the figure on lg, stack on mobile */}
+            <div className="relative z-20 mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:absolute lg:inset-x-0 lg:top-[58%] lg:mt-0 lg:grid-cols-[minmax(180px,220px)_1fr_minmax(180px,220px)] lg:gap-6 lg:px-4">
+              <div className="rounded-md border border-[#97965B]/35 bg-[#0E0E0E]/75 p-4 text-left backdrop-blur-md sm:p-5 lg:col-start-1">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-[#97965B]">О сервисе</p>
+                <p className="mt-2 text-[13px] leading-5 text-[#FDFDFD]/90">
+                  Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
+                </p>
+              </div>
+              <div className="hidden lg:block lg:col-start-2" aria-hidden="true" />
+              <div className="rounded-md border border-[#97965B]/35 bg-[#0E0E0E]/75 p-4 text-left backdrop-blur-md sm:p-5 lg:col-start-3">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-[#97965B]">Подход</p>
+                <p className="mt-2 text-[13px] leading-5 text-[#FDFDFD]/90">
+                  Решения под конкретную задачу, сумму и срок — без шаблонов и лишнего шума.
+                </p>
+              </div>
+            </div>
           </div>
 
-          {/* Two short description blocks under the figure, left + right */}
-          <div className="relative z-20 mx-auto mt-2 grid max-w-5xl gap-3 sm:grid-cols-2 sm:gap-6">
-            <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/70 p-4 text-left backdrop-blur-md sm:p-5">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
-              <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
-                Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
-              </p>
-            </div>
-            <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/70 p-4 text-left backdrop-blur-md sm:p-5">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
-              <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
-                Решения под конкретную задачу, сумму и срок — без шаблонов и лишнего шума.
-              </p>
-            </div>
-          </div>
-
-          {/* CTAs */}
-          <div className="relative z-20 mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button asChild variant="hero" size="xl">
+          {/* CTAs — sit just under the figure, like reference */}
+          <div className="relative z-30 mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row lg:mt-10">
+            <Button asChild variant="hero" size="xl" className="min-w-[230px]">
               <a href="#lead-form">Оставить заявку</a>
             </Button>
-            <Button asChild size="xl" className="border border-[#FDFDFD]/20 bg-[#2E2430] text-[#FDFDFD] hover:bg-[#2E2430]/80">
+            <Button asChild size="xl" className="min-w-[230px] border border-[#FDFDFD]/15 bg-[#2A2A2A] text-[#FDFDFD] hover:bg-[#1F1F1F]">
               <a href="#services">Мои услуги</a>
             </Button>
           </div>
 
-          <p className="relative z-20 mx-auto mt-6 max-w-2xl text-center text-xs uppercase tracking-[0.3em] text-[#97965B] sm:text-sm">
+          <p className="relative z-30 mx-auto mt-6 max-w-2xl text-center text-[11px] uppercase tracking-[0.32em] text-[#97965B] sm:text-xs">
             Финансовая экосистема, где каждый получает своё
           </p>
         </div>
       </section>
+
 
       <section id="services" className="container py-14 lg:py-20">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -372,6 +383,74 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Editorial portrait block — inspired by the reference bottom block */}
+      <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] py-14 text-[#FDFDFD] lg:py-20">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: `url(${heroBackground})` }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,14,14,0.7)_60%,#0E0E0E_100%)]" aria-hidden="true" />
+
+        <div className="container relative">
+          <div className="mx-auto max-w-6xl rounded-2xl border border-[#FDFDFD]/10 bg-[#F4F1EA] p-6 text-[#1E1E1E] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] sm:p-8 lg:p-10">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-10">
+              {/* Left — name + stats */}
+              <div>
+                <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
+                  <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
+                  <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
+                </h2>
+                <p className="mt-4 max-w-md text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
+                  Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
+                </p>
+
+                <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
+                  {[
+                    { v: "7+", l: "лет в финансах" },
+                    { v: "500+", l: "проведённых сделок" },
+                    { v: "24/7", l: "сопровождение" },
+                  ].map((s) => (
+                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-3 text-center shadow-sm sm:p-4">
+                      <p className="text-xl font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-wider text-[#1E1E1E]/60 sm:text-[11px]">{s.l}</p>
+                    </div>
+                  ))}
+                  {[
+                    { v: "100%", l: "по сути, без шума" },
+                    { v: "5+", l: "направлений сервиса" },
+                    { v: "1×1", l: "разбор ситуации" },
+                  ].map((s) => (
+                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-3 text-center shadow-sm sm:p-4">
+                      <p className="text-xl font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-wider text-[#1E1E1E]/60 sm:text-[11px]">{s.l}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6">
+                  <Button asChild variant="hero" size="xl">
+                    <a href="#lead-form">Записаться сейчас</a>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Right — full portrait */}
+              <div className="relative flex justify-center lg:justify-end">
+                <img
+                  src={danisPortrait}
+                  alt="Данис Гарипов в полный рост"
+                  className="h-[420px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[520px] lg:h-[620px]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       <section className="container py-14 lg:py-20">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
