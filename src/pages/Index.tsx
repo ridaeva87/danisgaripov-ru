@@ -384,6 +384,74 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Editorial portrait block — inspired by the reference bottom block */}
+      <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] py-14 text-[#FDFDFD] lg:py-20">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: `url(${heroBackground})` }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,14,14,0.7)_60%,#0E0E0E_100%)]" aria-hidden="true" />
+
+        <div className="container relative">
+          <div className="mx-auto max-w-6xl rounded-2xl border border-[#FDFDFD]/10 bg-[#F4F1EA] p-6 text-[#1E1E1E] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] sm:p-8 lg:p-10">
+            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-10">
+              {/* Left — name + stats */}
+              <div>
+                <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
+                  <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
+                  <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
+                </h2>
+                <p className="mt-4 max-w-md text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
+                  Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
+                </p>
+
+                <div className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
+                  {[
+                    { v: "7+", l: "лет в финансах" },
+                    { v: "500+", l: "проведённых сделок" },
+                    { v: "24/7", l: "сопровождение" },
+                  ].map((s) => (
+                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-3 text-center shadow-sm sm:p-4">
+                      <p className="text-xl font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-wider text-[#1E1E1E]/60 sm:text-[11px]">{s.l}</p>
+                    </div>
+                  ))}
+                  {[
+                    { v: "100%", l: "по сути, без шума" },
+                    { v: "5+", l: "направлений сервиса" },
+                    { v: "1×1", l: "разбор ситуации" },
+                  ].map((s) => (
+                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-3 text-center shadow-sm sm:p-4">
+                      <p className="text-xl font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-wider text-[#1E1E1E]/60 sm:text-[11px]">{s.l}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6">
+                  <Button asChild variant="hero" size="xl">
+                    <a href="#lead-form">Записаться сейчас</a>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Right — full portrait */}
+              <div className="relative flex justify-center lg:justify-end">
+                <img
+                  src={danisPortrait}
+                  alt="Данис Гарипов в полный рост"
+                  className="h-[420px] w-auto object-contain object-bottom drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[520px] lg:h-[620px]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
       <section className="container py-14 lg:py-20">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="space-y-3">
