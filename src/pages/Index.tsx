@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import danisHero from "@/assets/danis-garipov-hero.png";
+import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
@@ -130,54 +131,103 @@ const Index = () => {
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b border-border/60">
-        <div className="absolute inset-0 bg-gradient-hero" />
-        <div className="absolute right-[10%] top-24 hidden h-60 w-60 rounded-full bg-primary/10 blur-3xl lg:block lg:animate-pulse-glow" />
-        <div className="container relative grid gap-10 py-12 lg:min-h-[calc(100vh-5rem)] lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:py-20">
-          <div className="space-y-7">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-soft px-4 py-2 text-sm text-muted-foreground">
-              <BriefcaseBusiness className="size-4 text-primary" />
-              Сервис финансовых решений
+      <section className="relative overflow-hidden border-b border-border/60 bg-[#1E1E1E] text-[#FDFDFD]">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-70"
+          style={{ backgroundImage: `url(${heroBackground})` }}
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1E1E1E]/85 via-[#1E1E1E]/55 to-[#1E1E1E]" aria-hidden="true" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent" aria-hidden="true" />
+
+        <div className="container relative py-14 lg:py-20">
+          <p className="text-center text-[11px] font-medium uppercase tracking-[0.4em] text-[#97965B] sm:text-xs">
+            Финансовый брокер · Эксперт · Стратег
+          </p>
+
+          <div className="relative mt-8 flex items-end justify-center">
+            {/* Big name behind the photo */}
+            <h1
+              aria-label="Данис Гарипов"
+              className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-bold uppercase leading-[0.85] tracking-tight"
+              style={{ letterSpacing: "-0.02em" }}
+            >
+              <span className="block text-[18vw] text-[#FDFDFD]/[0.08] sm:text-[16vw] lg:text-[13vw]">
+                ДАНИС
+              </span>
+              <span className="mt-[-0.15em] block text-[14vw] text-[#97965B]/30 sm:text-[12vw] lg:text-[10vw]">
+                ГАРИПОВ
+              </span>
+            </h1>
+
+            {/* Photo in front */}
+            <div className="relative z-10 flex justify-center">
+              <img
+                src={danisHero}
+                alt="Данис Гарипов — финансовый брокер"
+                className="h-[60vh] max-h-[640px] min-h-[380px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.7)]"
+                loading="eager"
+              />
             </div>
-            <div className="space-y-5">
-              <h1 className="max-w-3xl text-3xl font-bold uppercase leading-[1.05] tracking-tight text-balance sm:text-5xl lg:text-6xl">
-                Финансовая экосистема, где каждый получает своё
-              </h1>
-              <p className="max-w-2xl text-lg font-medium leading-snug text-foreground/90 sm:text-xl">
-                Помогаем найти финансовое решение под вашу ситуацию.
-              </p>
+
+            {/* Side info panels — desktop only, absolutely placed alongside the photo */}
+            <div className="pointer-events-none absolute left-0 top-1/2 hidden w-[26%] -translate-y-1/2 lg:block">
+              <div className="pointer-events-auto rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-5 backdrop-blur-md shadow-panel">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
+                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
+                  Финансовый брокер с многолетним опытом структурирования сделок.
+                </p>
+              </div>
             </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild variant="hero" size="xl">
-                <a href="#lead-form">Оставить заявку</a>
-              </Button>
-              <Button asChild variant="soft" size="xl">
-                <a href="#analysis">Получить финансовый разбор</a>
-              </Button>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                "сервис для людей, которым нужен результат.",
-                "быстрый разбор финансовой ситуации",
-                "понятное движение по шагам",
-              ].map((item) => (
-                <div key={item} className="rounded-lg border border-border/70 bg-surface-elevated/80 p-4 text-sm leading-6 text-muted-foreground shadow-soft backdrop-blur">
-                  {item}
-                </div>
-              ))}
+            <div className="pointer-events-none absolute right-0 top-1/2 hidden w-[26%] -translate-y-1/2 lg:block">
+              <div className="pointer-events-auto rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-5 backdrop-blur-md shadow-panel">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
+                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
+                  Решения под конкретную задачу, сумму и срок.
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-2xl lg:ml-auto">
-            <div className="absolute -inset-4 rounded-[28px] border border-primary/15 bg-primary/5 blur-2xl" aria-hidden="true" />
-            <div className="relative overflow-hidden rounded-lg border border-border/70 bg-surface-elevated shadow-panel">
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-              <img
-                src={danisHero}
-                alt="Данис Гарипов — финансовый сервис и финансовые решения"
-                className="h-full min-h-[520px] w-full object-cover object-center"
-                loading="eager"
-              />
+          {/* Tablet/mobile name + side panels stacked below */}
+          <div className="mt-8 lg:hidden">
+            <h2 className="text-center text-4xl font-bold uppercase leading-[0.95] tracking-tight text-[#FDFDFD] sm:text-5xl">
+              <span className="block">ДАНИС</span>
+              <span className="block text-[#97965B]">ГАРИПОВ</span>
+            </h2>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-4 backdrop-blur-md">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">О сервисе</p>
+                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
+                  Финансовый брокер с многолетним опытом структурирования сделок.
+                </p>
+              </div>
+              <div className="rounded-md border border-[#97965B]/30 bg-[#1E1E1E]/80 p-4 backdrop-blur-md">
+                <p className="text-[11px] uppercase tracking-[0.2em] text-[#97965B]">Подход</p>
+                <p className="mt-2 text-sm leading-6 text-[#FDFDFD]/90">
+                  Решения под конкретную задачу, сумму и срок.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative mt-10 text-center">
+            <p className="mx-auto max-w-3xl text-base leading-relaxed text-[#FDFDFD]/85 sm:text-lg">
+              <span className="block text-xs uppercase tracking-[0.3em] text-[#97965B] sm:text-sm">
+                Финансовая экосистема, где каждый получает своё
+              </span>
+              <span className="mt-3 block">
+                Помогаем найти финансовое решение под вашу ситуацию.
+              </span>
+            </p>
+
+            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button asChild variant="hero" size="xl">
+                <a href="#lead-form">Оставить заявку</a>
+              </Button>
+              <Button asChild size="xl" className="border border-[#FDFDFD]/20 bg-[#2E2430] text-[#FDFDFD] hover:bg-[#2E2430]/80">
+                <a href="#services">Мои услуги</a>
+              </Button>
             </div>
           </div>
         </div>
