@@ -108,19 +108,19 @@ export const LeadForm = ({
         />
         <Input
           type="email"
-          placeholder="Email (необязательно)"
+          placeholder="Email"
           value={form.email}
           onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
           className="h-12 border-border/80 bg-surface-soft"
         />
         <Input
-          placeholder="Telegram (необязательно)"
+          placeholder="Telegram"
           value={form.telegram}
           onChange={(event) => setForm((prev) => ({ ...prev, telegram: event.target.value }))}
           className="h-12 border-border/80 bg-surface-soft"
         />
         <Input
-          placeholder="Желаемая сумма (необязательно)"
+          placeholder="Желаемая сумма"
           value={form.max}
           onChange={(event) => setForm((prev) => ({ ...prev, max: event.target.value }))}
           className={`h-12 border-border/80 bg-surface-soft ${compact ? "" : "lg:col-span-2"}`}
