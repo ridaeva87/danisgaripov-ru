@@ -50,10 +50,13 @@ export const LeadForm = ({
 
     setLoading(true);
     try {
+      // Google Apps Script Web App не отдаёт CORS-заголовки и делает 302-редирект.
+      // Используем text/plain, чтобы избежать preflight, и mode: "no-cors".
+      // Ответ будет opaque — отсутствие сетевой ошибки считаем успехом.
       await fetch(SHEETS_WEBHOOK_URL, {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           name: form.name,
           phone: form.phone,
@@ -76,12 +79,13 @@ export const LeadForm = ({
     } catch (error) {
       console.error("Lead submit error", error);
       toast.error("Не удалось отправить заявку", {
-        description: "Попробуйте ещё раз или свяжитесь напрямую в мессенджере.",
+        description: "Проверьте интернет-соединение или напишите нам в мессенджер.",
       });
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <form onSubmit={onSubmit} className="panel relative rounded-lg p-5 sm:p-6">
