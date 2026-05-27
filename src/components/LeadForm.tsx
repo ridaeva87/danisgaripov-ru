@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
-import { ArrowRight, Send } from "lucide-react";
+import { ArrowRight, Send, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,20 +14,33 @@ type LeadFormProps = {
   compact?: boolean;
   ctaLabel?: string;
   contactPlaceholder?: string;
+  service?: string;
 };
+
+const SHEETS_WEBHOOK_URL =
+  "https://script.google.com/macros/s/AKfycbxb-6Z9chGABoxiOuwwopHJgl1FIpYoZ0ANhWaOLaSjCh8kBduWkYtPaipY47ttliWF/exec";
 
 export const LeadForm = ({
   title,
   description,
   compact = false,
   ctaLabel = "Оставить заявку",
-  contactPlaceholder = "Телефон или email",
+  contactPlaceholder = "Телефон",
+  service,
 }: LeadFormProps) => {
-  const [form, setForm] = useState({ name: "", contact: "", request: "" });
+  const [form, setForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    telegram: "",
+    max: "",
+    comment: "",
+  });
   const [agree, setAgree] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!agree) {
@@ -35,14 +48,39 @@ export const LeadForm = ({
       return;
     }
 
-    toast.success("Заявка принята", {
-      description: "Мы свяжемся с вами и разберём ситуацию предметно и спокойно.",
-    });
+    setLoading(true);
+    try {
+      await fetch(SHEETS_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          email: form.email,
+          telegram: form.telegram,
+          max: form.max,
+          service: service ?? title,
+          comment: form.comment,
+        }),
+      });
 
-    setForm({ name: "", contact: "", request: "" });
-    setAgree(false);
-    setSubmitted(true);
-    window.setTimeout(() => setSubmitted(false), 6000);
+      toast.success("Заявка отправлена", {
+        description: "Мы свяжемся с вами и разберём ситуацию предметно и спокойно.",
+      });
+
+      setForm({ name: "", phone: "", email: "", telegram: "", max: "", comment: "" });
+      setAgree(false);
+      setSubmitted(true);
+      window.setTimeout(() => setSubmitted(false), 6000);
+    } catch (error) {
+      console.error("Lead submit error", error);
+      toast.error("Не удалось отправить заявку", {
+        description: "Попробуйте ещё раз или свяжитесь напрямую в мессенджере.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,16 +100,36 @@ export const LeadForm = ({
         />
         <Input
           required
+          type="tel"
           placeholder={contactPlaceholder}
-          value={form.contact}
-          onChange={(event) => setForm((prev) => ({ ...prev, contact: event.target.value }))}
+          value={form.phone}
+          onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
           className="h-12 border-border/80 bg-surface-soft"
+        />
+        <Input
+          type="email"
+          placeholder="Email (необязательно)"
+          value={form.email}
+          onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
+          className="h-12 border-border/80 bg-surface-soft"
+        />
+        <Input
+          placeholder="Telegram (необязательно)"
+          value={form.telegram}
+          onChange={(event) => setForm((prev) => ({ ...prev, telegram: event.target.value }))}
+          className="h-12 border-border/80 bg-surface-soft"
+        />
+        <Input
+          placeholder="Желаемая сумма (необязательно)"
+          value={form.max}
+          onChange={(event) => setForm((prev) => ({ ...prev, max: event.target.value }))}
+          className={`h-12 border-border/80 bg-surface-soft ${compact ? "" : "lg:col-span-2"}`}
         />
         <Textarea
           required
           placeholder="Коротко опишите вашу финансовую ситуацию"
-          value={form.request}
-          onChange={(event) => setForm((prev) => ({ ...prev, request: event.target.value }))}
+          value={form.comment}
+          onChange={(event) => setForm((prev) => ({ ...prev, comment: event.target.value }))}
           className={`min-h-32 border-border/80 bg-surface-soft ${compact ? "lg:col-span-3" : "lg:col-span-2"}`}
         />
       </div>
@@ -98,17 +156,17 @@ export const LeadForm = ({
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm leading-6 text-muted-foreground">Фокус на вашей ситуации, сроках и реальном варианте решения.</p>
-        <Button type="submit" variant="hero" size="xl" disabled={!agree}>
-          <Send />
-          {ctaLabel}
-          <ArrowRight />
+        <Button type="submit" variant="hero" size="xl" disabled={!agree || loading}>
+          {loading ? <Loader2 className="animate-spin" /> : <Send />}
+          {loading ? "Отправляем…" : ctaLabel}
+          {!loading && <ArrowRight />}
         </Button>
       </div>
 
       {submitted && (
-        <div className="mt-5 flex animate-in fade-in slide-in-from-bottom-2 flex-col items-center justify-center rounded-md bg-[#C8102E] px-4 py-3 text-white shadow-soft">
-          <span className="text-base font-bold uppercase tracking-wider leading-none">Waitlist</span>
-          <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">вы в очереди</span>
+        <div className="mt-5 flex animate-in fade-in slide-in-from-bottom-2 flex-col items-center justify-center rounded-md bg-[#0a7d3b] px-4 py-3 text-white shadow-soft">
+          <span className="text-base font-bold uppercase tracking-wider leading-none">Заявка принята</span>
+          <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">мы скоро свяжемся</span>
         </div>
       )}
     </form>
