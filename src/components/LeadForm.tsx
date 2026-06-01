@@ -20,6 +20,9 @@ type LeadFormProps = {
 const SHEETS_WEBHOOK_URL =
   "https://script.google.com/macros/s/AKfycbxb-6Z9chGABoxiOuwwopHJgl1FIpYoZ0ANhWaOLaSjCh8kBduWkYtPaipY47ttliWF/exec";
 
+const TELEGRAM_BOT_TOKEN = "8633522720:AAESZq9pqUjROVediUOC88ULuUA9wmkyeNM";
+const TELEGRAM_CHAT_ID = "658189023";
+
 export const LeadForm = ({
   title,
   description,
@@ -53,20 +56,41 @@ export const LeadForm = ({
       // Google Apps Script Web App не отдаёт CORS-заголовки и делает 302-редирект.
       // Используем text/plain, чтобы избежать preflight, и mode: "no-cors".
       // Ответ будет opaque — отсутствие сетевой ошибки считаем успехом.
-      await fetch(SHEETS_WEBHOOK_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({
-          name: form.name,
-          phone: form.phone,
-          email: form.email,
-          telegram: form.telegram,
-          max: form.max,
-          service: service ?? title,
-          comment: form.comment,
+      const serviceName = service ?? title;
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        telegram: form.telegram,
+        max: form.max,
+        service: serviceName,
+        comment: form.comment,
+      };
+
+      const tgText =
+        `🔔 Новая заявка с сайта\n\n` +
+        `👤 Имя: ${form.name || "—"}\n` +
+        `📞 Телефон: ${form.phone || "—"}\n` +
+        `✉️ Email: ${form.email || "—"}\n` +
+        `💬 Telegram: ${form.telegram || "—"}\n` +
+        `💰 MAX: ${form.max || "—"}\n` +
+        `🛠 Услуга: ${serviceName || "—"}\n` +
+        `📝 Комментарий: ${form.comment || "—"}`;
+
+      await Promise.all([
+        fetch(SHEETS_WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
         }),
-      });
+        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgText }),
+        }),
+      ]);
 
       toast.success("Заявка отправлена", {
         description: "Мы свяжемся с вами и разберём ситуацию предметно и спокойно.",
