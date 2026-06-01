@@ -198,9 +198,6 @@ const Index = () => {
 
           {/* CTAs — sit just under the figure, like reference */}
           <div className="relative z-30 mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row lg:mt-10">
-            <Button asChild variant="hero" size="xl" className="min-w-[230px]">
-              <a href="#lead-form">Оставить заявку</a>
-            </Button>
             <Button asChild size="xl" className="min-w-[230px] border border-[#FDFDFD]/15 bg-[#2A2A2A] text-[#FDFDFD] hover:bg-[#1F1F1F]">
               <a href="#services">Мои услуги</a>
             </Button>
@@ -317,7 +314,7 @@ const Index = () => {
           </ul>
         </div>
 
-        <div className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div id="free-financial-analysis" className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div className="space-y-1">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Бесплатный финансовый разбор</p>
             <p className="text-lg font-semibold text-foreground sm:text-xl">
@@ -327,9 +324,6 @@ const Index = () => {
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="hero">
               <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">Telegram</a>
-            </Button>
-            <Button asChild variant="soft">
-              <a href="https://www.instagram.com/danisgaripov?igsh=MXZweTQ2MnNzcGk3cg==" target="_blank" rel="noreferrer">Instagram</a>
             </Button>
           </div>
         </div>
@@ -341,7 +335,7 @@ const Index = () => {
               Ответьте на 7 коротких вопросов — подготовим разбор под вашу ситуацию
             </h3>
           </div>
-          <CustdevQuiz scrollTargetId="financial-analysis-form" />
+          <CustdevQuiz scrollTargetId="free-financial-analysis" />
         </div>
 
         <div id="financial-analysis-form" className="scroll-mt-24">
