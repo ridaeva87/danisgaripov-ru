@@ -198,9 +198,6 @@ const Index = () => {
 
           {/* CTAs — sit just under the figure, like reference */}
           <div className="relative z-30 mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row lg:mt-10">
-            <Button asChild variant="hero" size="xl" className="min-w-[230px]">
-              <a href="#lead-form">Оставить заявку</a>
-            </Button>
             <Button asChild size="xl" className="min-w-[230px] border border-[#FDFDFD]/15 bg-[#2A2A2A] text-[#FDFDFD] hover:bg-[#1F1F1F]">
               <a href="#services">Мои услуги</a>
             </Button>
