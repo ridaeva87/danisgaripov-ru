@@ -82,6 +82,13 @@ const Index = () => {
 
   useEffect(() => {
     document.title = "Данис Гарипов — финансовые решения";
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      requestAnimationFrame(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   }, []);
 
   useEffect(() => {
