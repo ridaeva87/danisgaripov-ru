@@ -101,6 +101,7 @@ type CustdevQuizProps = {
 };
 
 export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
+  const [showGate, setShowGate] = useState(true);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(STEPS.length).fill(""));
   const [contact, setContact] = useState({ name: "", phone: "", telegram: "" });
