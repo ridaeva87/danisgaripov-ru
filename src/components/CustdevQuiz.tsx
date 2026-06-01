@@ -7,8 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-const SHEETS_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbxb-6Z9chGABoxiOuwwopHJgl1FIpYoZ0ANhWaOLaSjCh8kBduWkYtPaipY47ttliWF/exec";
 const TELEGRAM_BOT_TOKEN = "8633522720:AAESZq9pqUjROVediUOC88ULuUA9wmkyeNM";
 const TELEGRAM_CHAT_ID = "658189023";
 
@@ -138,18 +136,6 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
 
     setLoading(true);
     try {
-      const payload = {
-        name: contact.name,
-        phone: contact.phone,
-        email: "",
-        telegram: contact.telegram,
-        max: "",
-        service: "Кастдэв-квиз",
-        comment: STEPS.map(
-          (s, i) => `${i + 1}. ${s.question}\n→ ${answers[i] || "—"}`,
-        ).join("\n\n"),
-      };
-
       const tgText =
         `🧩 Новая заявка из квиза (кастдэв)\n\n` +
         `👤 Имя: ${contact.name || "—"}\n` +
@@ -159,19 +145,17 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
           (s, i) => `${i + 1}. ${s.question}\n→ ${answers[i] || "—"}`,
         ).join("\n\n");
 
-      await Promise.all([
-        fetch(SHEETS_WEBHOOK_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload),
-        }),
-        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      await fetch(
+        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgText }),
-        }),
-      ]);
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: tgText,
+          }),
+        }
+      );
 
       setDone(true);
     } catch (error) {

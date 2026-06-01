@@ -15,6 +15,7 @@ type LeadFormProps = {
   ctaLabel?: string;
   contactPlaceholder?: string;
   service?: string;
+  telegramOnly?: boolean;
 };
 
 const SHEETS_WEBHOOK_URL =
@@ -30,6 +31,7 @@ export const LeadForm = ({
   ctaLabel = "Оставить заявку",
   contactPlaceholder = "Телефон",
   service,
+  telegramOnly = false,
 }: LeadFormProps) => {
   const [form, setForm] = useState({
     name: "",
@@ -53,9 +55,6 @@ export const LeadForm = ({
 
     setLoading(true);
     try {
-      // Google Apps Script Web App не отдаёт CORS-заголовки и делает 302-редирект.
-      // Используем text/plain, чтобы избежать preflight, и mode: "no-cors".
-      // Ответ будет opaque — отсутствие сетевой ошибки считаем успехом.
       const serviceName = service ?? title;
       const payload = {
         name: form.name,
@@ -67,42 +66,57 @@ export const LeadForm = ({
         comment: form.comment,
       };
 
-      const tgText =
-        `🔔 Новая заявка с сайта\n\n` +
-        `👤 Имя: ${form.name || "—"}\n` +
-        `📞 Телефон: ${form.phone || "—"}\n` +
-        `✉️ Email: ${form.email || "—"}\n` +
-        `💬 Telegram: ${form.telegram || "—"}\n` +
-        `💰 MAX: ${form.max || "—"}\n` +
-        `🛠 Услуга: ${serviceName || "—"}\n` +
-        `📝 Комментарий: ${form.comment || "—"}`;
+      if (telegramOnly) {
+        const tgText =
+          `🔔 Новая заявка — ${serviceName}\n\n` +
+          `👤 Имя: ${form.name || "—"}\n` +
+          `📞 Телефон: ${form.phone || "—"}\n` +
+          `✉️ Email: ${form.email || "—"}\n` +
+          `💬 Telegram: ${form.telegram || "—"}\n` +
+          `💰 MAX: ${form.max || "—"}\n` +
+          `📝 Комментарий: ${form.comment || "—"}`;
 
-      await Promise.all([
-        fetch(SHEETS_WEBHOOK_URL, {
+        await fetch(
+          `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: TELEGRAM_CHAT_ID,
+              text: tgText,
+            }),
+          }
+        );
+      } else {
+        await fetch(SHEETS_WEBHOOK_URL, {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload),
-        }),
-        fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: tgText }),
-        }),
-      ]);
+        });
+      }
 
       toast.success("Заявка отправлена", {
-        description: "Мы свяжемся с вами и разберём ситуацию предметно и спокойно.",
+        description:
+          "Мы свяжемся с вами и разберём ситуацию предметно и спокойно.",
       });
 
-      setForm({ name: "", phone: "", email: "", telegram: "", max: "", comment: "" });
+      setForm({
+        name: "",
+        phone: "",
+        email: "",
+        telegram: "",
+        max: "",
+        comment: "",
+      });
       setAgree(false);
       setSubmitted(true);
       window.setTimeout(() => setSubmitted(false), 6000);
     } catch (error) {
       console.error("Lead submit error", error);
       toast.error("Не удалось отправить заявку", {
-        description: "Проверьте интернет-соединение или напишите нам в мессенджер.",
+        description:
+          "Проверьте интернет-соединение или напишите нам в мессенджер.",
       });
     } finally {
       setLoading(false);

@@ -351,6 +351,7 @@ const Index = () => {
             compact
             ctaLabel="Получить финансовый разбор"
             contactPlaceholder="Ссылка на ваш Тг личный или на Max"
+            telegramOnly
           />
         </div>
       </section>
