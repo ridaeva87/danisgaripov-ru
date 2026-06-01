@@ -314,7 +314,7 @@ const Index = () => {
           </ul>
         </div>
 
-        <div className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div id="free-financial-analysis" className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div className="space-y-1">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Бесплатный финансовый разбор</p>
             <p className="text-lg font-semibold text-foreground sm:text-xl">
@@ -324,9 +324,6 @@ const Index = () => {
           <div className="flex flex-wrap gap-3">
             <Button asChild variant="hero">
               <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">Telegram</a>
-            </Button>
-            <Button asChild variant="soft">
-              <a href="https://www.instagram.com/danisgaripov?igsh=MXZweTQ2MnNzcGk3cg==" target="_blank" rel="noreferrer">Instagram</a>
             </Button>
           </div>
         </div>
@@ -338,7 +335,7 @@ const Index = () => {
               Ответьте на 7 коротких вопросов — подготовим разбор под вашу ситуацию
             </h3>
           </div>
-          <CustdevQuiz scrollTargetId="financial-analysis-form" />
+          <CustdevQuiz scrollTargetId="free-financial-analysis" />
         </div>
 
         <div id="financial-analysis-form" className="scroll-mt-24">
