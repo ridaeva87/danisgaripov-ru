@@ -329,7 +329,7 @@ const Index = () => {
               Ответьте на 7 коротких вопросов — подготовим разбор под вашу ситуацию
             </h3>
           </div>
-          <CustdevQuiz scrollTargetId="free-financial-analysis" />
+          <CustdevQuiz scrollTargetId="lead-form" />
         </div>
 
         <div id="financial-analysis-form" className="scroll-mt-24">
