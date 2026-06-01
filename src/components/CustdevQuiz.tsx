@@ -174,6 +174,34 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  if (showGate) {
+    return (
+      <div className="panel rounded-lg p-6 sm:p-10 text-center">
+        <div className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-primary/15 text-primary">
+          <Send className="size-7" />
+        </div>
+        <h3 className="mt-5 text-2xl font-semibold text-balance sm:text-3xl">
+          Подпишитесь на наш Telegram-канал
+        </h3>
+        <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+          Чтобы получить бесплатный финансовый разбор, подпишитесь на канал Даниса Гарипова в Telegram.
+        </p>
+        <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <Button asChild variant="hero" size="xl">
+            <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">
+              <Send className="size-4" />
+              Подписаться на канал
+            </a>
+          </Button>
+          <Button variant="soft" size="xl" onClick={() => setShowGate(false)}>
+            <Check className="size-4" />
+            Я подписался — продолжить
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   if (done) {
     return (
       <div className="panel rounded-lg p-6 sm:p-10 text-center">
