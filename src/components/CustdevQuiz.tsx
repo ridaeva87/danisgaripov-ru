@@ -210,6 +210,12 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
           После подписки напишите /start боту @finance_razbor_bot и введите полученный код:
         </p>
         <div className="mx-auto mt-3 flex max-w-sm flex-col gap-3">
+          <Button asChild variant="hero" size="xl">
+            <a href="https://t.me/finance_razbor_bot?start=c1780323003486-ds" target="_blank" rel="noreferrer">
+              <Send className="size-4" />
+              Написать боту
+            </a>
+          </Button>
           <Input
             placeholder="Введите код"
             value={gateCode}
