@@ -102,6 +102,8 @@ type CustdevQuizProps = {
 
 export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
   const [showGate, setShowGate] = useState(true);
+  const [gateCode, setGateCode] = useState("");
+  const [gateError, setGateError] = useState("");
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>(Array(STEPS.length).fill(""));
   const [contact, setContact] = useState({ name: "", phone: "", telegram: "" });
@@ -110,6 +112,15 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
   const [done, setDone] = useState(false);
 
   const progress = ((step + 1) / TOTAL_STEPS) * 100;
+
+  const verifyGate = () => {
+    if (gateCode.trim().toUpperCase() === "ФИНРАЗБОР") {
+      setShowGate(false);
+      setGateError("");
+    } else {
+      setGateError("Неверный код. Напишите /start боту @finance_razbor_bot");
+    }
+  };
 
   const selectOption = (value: string) => {
     setAnswers((prev) => {
