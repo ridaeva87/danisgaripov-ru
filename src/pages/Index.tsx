@@ -18,6 +18,7 @@ import danisHero from "@/assets/danis-garipov-hero.png";
 import danisPortrait from "@/assets/danis-garipov-portrait.png";
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
+import { CustdevQuiz } from "@/components/CustdevQuiz";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
 
@@ -333,13 +334,25 @@ const Index = () => {
           </div>
         </div>
 
-        <LeadForm
-          title="Получить финансовый разбор"
-          description="Оставьте имя, контакт и короткий запрос. После финансового разбора вы поймёте, что сейчас происходит с вашей финансовой ситуацией, где у вас слабое место и какой следующий шаг поможет увеличить доход и навести порядок в деньгах."
-          compact
-          ctaLabel="Получить финансовый разбор"
-          contactPlaceholder="Ссылка на ваш Тг личный или на Max"
-        />
+        <div className="mb-8">
+          <div className="mb-5 space-y-2">
+            <p className="text-sm uppercase tracking-[0.16em] text-primary">Мини-опрос перед разбором</p>
+            <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
+              Ответьте на 7 коротких вопросов — подготовим разбор под вашу ситуацию
+            </h3>
+          </div>
+          <CustdevQuiz scrollTargetId="financial-analysis-form" />
+        </div>
+
+        <div id="financial-analysis-form" className="scroll-mt-24">
+          <LeadForm
+            title="Получить финансовый разбор"
+            description="Оставьте имя, контакт и короткий запрос. После финансового разбора вы поймёте, что сейчас происходит с вашей финансовой ситуацией, где у вас слабое место и какой следующий шаг поможет увеличить доход и навести порядок в деньгах."
+            compact
+            ctaLabel="Получить финансовый разбор"
+            contactPlaceholder="Ссылка на ваш Тг личный или на Max"
+          />
+        </div>
       </section>
 
       <section className="border-y border-border/60 bg-surface-elevated/40">
