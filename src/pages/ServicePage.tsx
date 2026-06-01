@@ -58,7 +58,7 @@ const ServicePage = () => {
                 <a href="#service-form">Оставить заявку</a>
               </Button>
               <Button asChild variant="soft" size="xl">
-                <Link to="/#free-financial-analysis">Получить финансовый разбор</Link>
+                <Link to="/#lead-form">Получить финансовый разбор</Link>
               </Button>
             </div>
           )}
