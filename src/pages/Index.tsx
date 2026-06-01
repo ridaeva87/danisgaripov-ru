@@ -552,12 +552,6 @@ const Index = () => {
               ))}
             </div>
           </div>
-
-          <LeadForm
-            title="Форма связи"
-            description="Оставьте ваш способ связи и коротко обозначьте задачу. Мы вернёмся к вам с ясным и спокойным предложением следующего шага."
-            ctaLabel="Отправить заявку"
-          />
         </div>
       </section>
       <section className="border-t border-border/60 bg-surface-elevated/30">
