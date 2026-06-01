@@ -18,6 +18,7 @@ import danisHero from "@/assets/danis-garipov-hero.png";
 import danisPortrait from "@/assets/danis-garipov-portrait.png";
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
+import { CustdevQuiz } from "@/components/CustdevQuiz";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
 
