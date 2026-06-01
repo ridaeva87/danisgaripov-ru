@@ -321,19 +321,6 @@ const Index = () => {
           </ul>
         </div>
 
-        <div id="free-financial-analysis" className="mb-8 panel flex flex-col items-start gap-4 rounded-lg border border-primary/30 bg-primary/5 p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-          <div className="space-y-1">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Бесплатный финансовый разбор</p>
-            <p className="text-lg font-semibold text-foreground sm:text-xl">
-              Чтобы получить бесплатный финансовый разбор — подпишись на соцсети
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild variant="hero">
-              <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">Telegram</a>
-            </Button>
-          </div>
-        </div>
 
         <div className="mb-8">
           <div className="mb-5 space-y-2">
@@ -342,7 +329,7 @@ const Index = () => {
               Ответьте на 7 коротких вопросов — подготовим разбор под вашу ситуацию
             </h3>
           </div>
-          <CustdevQuiz scrollTargetId="free-financial-analysis" />
+          <CustdevQuiz scrollTargetId="lead-form" />
         </div>
 
         <div id="financial-analysis-form" className="scroll-mt-24">
@@ -565,12 +552,6 @@ const Index = () => {
               ))}
             </div>
           </div>
-
-          <LeadForm
-            title="Форма связи"
-            description="Оставьте ваш способ связи и коротко обозначьте задачу. Мы вернёмся к вам с ясным и спокойным предложением следующего шага."
-            ctaLabel="Отправить заявку"
-          />
         </div>
       </section>
       <section className="border-t border-border/60 bg-surface-elevated/30">
