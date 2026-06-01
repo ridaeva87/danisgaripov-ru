@@ -192,21 +192,37 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
           <Send className="size-7" />
         </div>
         <h3 className="mt-5 text-2xl font-semibold text-balance sm:text-3xl">
-          Подпишитесь на наш Telegram-канал
+          Бесплатный финансовый разбор
         </h3>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
-          Чтобы получить бесплатный финансовый разбор, подпишитесь на канал Даниса Гарипова в Telegram.
+          Чтобы получить бесплатный финансовый разбор, подпишитесь на канал @garipovdanis
         </p>
-        <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <div className="mt-4 flex justify-center">
           <Button asChild variant="hero" size="xl">
             <a href="https://t.me/garipovdanis" target="_blank" rel="noreferrer">
               <Send className="size-4" />
               Подписаться на канал
             </a>
           </Button>
-          <Button variant="soft" size="xl" onClick={() => setShowGate(false)}>
-            <Check className="size-4" />
-            Я подписался — продолжить
+        </div>
+        <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+          После подписки напишите /start боту @finance_razbor_bot и введите полученный код:
+        </p>
+        <div className="mx-auto mt-3 flex max-w-sm flex-col gap-3">
+          <Input
+            placeholder="Введите код"
+            value={gateCode}
+            onChange={(e) => {
+              setGateCode(e.target.value);
+              if (gateError) setGateError("");
+            }}
+            className="h-12 border-border/80 bg-surface-soft text-center text-base"
+          />
+          {gateError && (
+            <p className="text-sm text-destructive">{gateError}</p>
+          )}
+          <Button variant="hero" size="xl" onClick={verifyGate}>
+            Подтвердить
           </Button>
         </div>
       </div>
