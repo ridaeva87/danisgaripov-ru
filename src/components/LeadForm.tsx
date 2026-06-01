@@ -80,11 +80,12 @@ export const LeadForm = ({
           `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
           {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+            mode: "no-cors",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
               chat_id: TELEGRAM_CHAT_ID,
               text: tgText,
-            }),
+            }).toString(),
           }
         );
       } else {
