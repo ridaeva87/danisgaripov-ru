@@ -473,7 +473,7 @@ const Index = () => {
         <div className="container grid gap-8 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:py-18">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Контакты и форма</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Связь без лишних кругов — через заявку, удобный контакт и понятный запрос.</h2>
+            
             <div className="grid gap-3">
               {[
                 {
