@@ -279,10 +279,13 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
       {isContactStep ? (
         <div className="space-y-5">
           <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
-            Куда отправить результаты финансового разбора?
+            Куда отправить результаты мини-разбора на картах таро?
           </h3>
           <p className="text-sm leading-6 text-muted-foreground">
             Оставьте контакты — мы свяжемся с вами и обсудим результаты.
+          </p>
+          <p className="rounded-md border border-border/60 bg-surface-soft/60 p-3 text-xs leading-5 text-muted-foreground">
+            Мини-разбор на картах таро — символический формат и не является финансовой, юридической или инвестиционной рекомендацией. Практические финансовые решения Данис оказывает как финансовый брокер отдельно.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <Input
