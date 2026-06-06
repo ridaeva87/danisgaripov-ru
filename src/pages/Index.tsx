@@ -509,8 +509,8 @@ const Index = () => {
                 {
                   icon: MessageCircle,
                   label: "Канал в MAX",
-                  value: "Если Telegram недоступен — скоро",
-                  href: undefined as string | undefined,
+                  value: "Если Telegram недоступен",
+                  href: "https://max.ru/join/AyR7Opid1dNqTW_j70Y5fxCN4mEp_x8BvtziiucoDZ4",
                 },
                 {
                   icon: HandHelping,
