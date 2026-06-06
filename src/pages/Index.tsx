@@ -323,9 +323,8 @@ const Index = () => {
             </h2>
           </div>
         </div>
-
-        </div>
       </section>
+
 
       {/* Editorial portrait block — inspired by the reference bottom block */}
       <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] py-14 text-[#FDFDFD] lg:py-20">
