@@ -355,9 +355,9 @@ const Index = () => {
                   { v: "5+", l: ["направлений", "сервиса"] },
                   { v: "1×1", l: ["разбор ситуации"] },
                 ].map((s) => (
-                  <div key={s.l.join(" ")} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
-                    <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                    <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 sm:text-[11px] sm:tracking-wider">
+                  <div key={s.l.join(" ")} className="rounded-lg border border-[#1E1E1E]/10 bg-white px-1 py-2 text-center shadow-sm sm:p-4">
+                    <p className="text-base font-bold leading-none text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                    <p className="mt-1 text-[8px] uppercase leading-tight tracking-tight text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">
                       {s.l.map((line, idx) => (
                         <span key={idx} className="block">{line}</span>
                       ))}
