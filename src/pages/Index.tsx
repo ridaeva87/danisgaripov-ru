@@ -95,7 +95,7 @@ const Index = () => {
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Услуги</a>
-            <a href="#analysis" className="transition-colors hover:text-foreground">Финансовый разбор</a>
+            <a href="#analysis" className="transition-colors hover:text-foreground">Мини-разбор на таро</a>
             <a href="#agent" className="transition-colors hover:text-foreground">Стать агентом</a>
             <a href="#charity" className="transition-colors hover:text-foreground">Благотворительность</a>
             <a href="#contacts" className="transition-colors hover:text-foreground">Контакты</a>
