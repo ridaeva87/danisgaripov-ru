@@ -322,17 +322,8 @@ const Index = () => {
               Данис Гарипов — финансовый брокер с многолетним опытом, который структурирует сделки, соединяет нужных людей и выстраивает финансовое решение под конкретную задачу, сумму и срок.
             </h2>
           </div>
-          <div className="grid gap-5 lg:grid-cols-3">
-            {trustSignals.map(({ title, description, icon: Icon }) => (
-              <article key={title} className="panel rounded-lg p-6">
-                <div className="inline-flex rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
-                  <Icon className="size-5" />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">{description}</p>
-              </article>
-            ))}
-          </div>
+        </div>
+
         </div>
       </section>
 
@@ -347,59 +338,44 @@ const Index = () => {
 
         <div className="container relative">
           <div className="mx-auto max-w-6xl rounded-2xl border border-[#FDFDFD]/10 bg-[#F4F1EA] p-6 text-[#1E1E1E] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] sm:p-8 lg:p-10">
-            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-10">
-              {/* Left — name + stats */}
-              <div>
-                <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
-                  <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
-                  <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
-                </h2>
-                <p className="mt-4 max-w-md text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
-                  Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
-                </p>
+            <div>
+              <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
+                <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
+                <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
+                Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
+              </p>
 
-                <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
-                  {[
-                    { v: "7+", l: "лет в финансах" },
-                    { v: "500+", l: "проведённых сделок" },
-                    { v: "24/7", l: "сопровождение" },
-                  ].map((s) => (
-                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
-                      <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">{s.l}</p>
-                    </div>
-                  ))}
-                  {[
-                    { v: "100%", l: "по сути, без шума" },
-                    { v: "5+", l: "направлений сервиса" },
-                    { v: "1×1", l: "разбор ситуации" },
-                  ].map((s) => (
-                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
-                      <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">{s.l}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-6">
-                  <Button asChild variant="hero" size="xl">
-                    <a href="#lead-form">Записаться сейчас</a>
-                  </Button>
-                </div>
+              <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
+                {[
+                  { v: "7+", l: ["лет в финансах"] },
+                  { v: "500+", l: ["проведённых", "сделок"] },
+                  { v: "24/7", l: ["сопровождение"] },
+                  { v: "100%", l: ["по вашему запросу"] },
+                  { v: "5+", l: ["направлений", "сервиса"] },
+                  { v: "1×1", l: ["разбор ситуации"] },
+                ].map((s) => (
+                  <div key={s.l.join(" ")} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
+                    <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                    <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 sm:text-[11px] sm:tracking-wider">
+                      {s.l.map((line, idx) => (
+                        <span key={idx} className="block">{line}</span>
+                      ))}
+                    </p>
+                  </div>
+                ))}
               </div>
 
-              {/* Right — full portrait */}
-              <div className="relative flex justify-center lg:justify-end">
-                <img
-                  src={danisPortrait}
-                  alt="Данис Гарипов"
-                  className="h-[560px] w-auto max-h-none object-contain object-center drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[680px] lg:h-[820px]"
-                  loading="lazy"
-                />
+              <div className="mt-6">
+                <Button asChild variant="hero" size="xl">
+                  <a href="#lead-form">Записаться сейчас</a>
+                </Button>
               </div>
             </div>
           </div>
         </div>
+
       </section>
 
 
