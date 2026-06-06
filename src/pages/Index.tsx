@@ -430,17 +430,15 @@ const Index = () => {
                 Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление показывает ценности проекта и то, что за ним стоят не только деньги и задачи, но и внутренняя основа.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
-                <a
-                  href="#lead-form"
+                <button
+                  type="button"
                   className="inline-flex flex-col items-center justify-center rounded-md bg-[#C8102E] px-8 py-3 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
                 >
                   <span className="text-lg font-bold uppercase tracking-wider leading-none">Участвовать</span>
                   <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">внести вклад</span>
-                </a>
-                <Button asChild variant="soft" size="xl">
-                  <a href="#lead-form">Связаться по разделу</a>
-                </Button>
+                </button>
               </div>
+
             </div>
             <div className="space-y-5">
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-6">
@@ -478,12 +476,26 @@ const Index = () => {
             <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Связь без лишних кругов — через заявку, удобный контакт и понятный запрос.</h2>
             <div className="grid gap-3">
               {[
-                { icon: Phone, label: "Телефон", value: "Связь по заявке" },
-                { icon: Mail, label: "Email", value: "Ответ на указанный контакт" },
-                { icon: MessageCircle, label: "Мессенджеры", value: "Telegram / WhatsApp по обращению" },
-                { icon: HandHelping, label: "Режим работы", value: "Предметный разбор по вашему запросу" },
-              ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm">
+                {
+                  icon: Send,
+                  label: "Telegram-канал Даниса Гарипова",
+                  value: "@garipovdanis",
+                  href: "https://t.me/garipovdanis",
+                },
+                {
+                  icon: MessageCircle,
+                  label: "Канал в MAX",
+                  value: "Если Telegram недоступен — скоро",
+                  href: undefined as string | undefined,
+                },
+                {
+                  icon: HandHelping,
+                  label: "Связаться с менеджером",
+                  value: "@Albina_assistent",
+                  href: "https://t.me/Albina_assistent",
+                },
+              ].map(({ icon: Icon, label, value, href }) => {
+                const content = (
                   <div className="flex items-center gap-3">
                     <div className="rounded-md border border-border/70 bg-surface-soft p-2 text-primary">
                       <Icon className="size-4" />
@@ -493,9 +505,25 @@ const Index = () => {
                       <p className="text-base text-foreground">{value}</p>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+                return href ? (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm transition-colors hover:border-primary/60"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div key={label} className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm">
+                    {content}
+                  </div>
+                );
+              })}
             </div>
+
           </div>
         </div>
       </section>
