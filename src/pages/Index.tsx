@@ -3,19 +3,15 @@ import { Link } from "react-router-dom";
 
 import {
   ArrowRight,
-  BadgeCheck,
-  BriefcaseBusiness,
   HandHelping,
   HeartHandshake,
-  Mail,
   MessageCircle,
-  Phone,
-  Scale,
-  Shield,
+  Send,
 } from "lucide-react";
 
+
 import danisHero from "@/assets/danis-garipov-hero.png";
-import danisPortrait from "@/assets/danis-garipov-portrait.png";
+
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
 import { CustdevQuiz } from "@/components/CustdevQuiz";
@@ -36,6 +32,7 @@ const audience = [
   "если хотите вернуть страховку",
   "если нужны быстрые финансы",
   "если нужно срочно продать авто 24/7",
+  "если вам нужно автоматизировать бизнес и масштабироваться",
 ];
 
 const analysisPoints = [
@@ -51,23 +48,6 @@ const analysisPoints = [
 
 const CHARITY_GOAL = 1_114_000;
 
-const trustSignals = [
-  {
-    title: "Финансовые решения по сути",
-    description: "Сложные ситуации собираются в понятную систему действий без лишнего шума.",
-    icon: Scale,
-  },
-  {
-    title: "Спокойная сильная подача",
-    description: "Коммуникация строится ровно, предметно и с уважением к реальной ситуации человека.",
-    icon: Shield,
-  },
-  {
-    title: "Порядок на каждом этапе",
-    description: "От первого обращения до запуска решения клиент понимает, что происходит и зачем.",
-    icon: BadgeCheck,
-  },
-];
 
 const agentReasons = ["для тех, кто умеет выстраивать доверие", "для тех, кто хочет вести людей к сильному сервису", "для тех, кому важен взрослый формат работы"];
 
@@ -322,7 +302,7 @@ const Index = () => {
         </div>
 
 
-        <div className="mb-8">
+        <div id="quiz" className="scroll-mt-24">
           <div className="mb-5 space-y-2">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Мини-опрос перед разбором</p>
             <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
@@ -332,16 +312,6 @@ const Index = () => {
           <CustdevQuiz scrollTargetId="lead-form" />
         </div>
 
-        <div id="financial-analysis-form" className="scroll-mt-24">
-          <LeadForm
-            title="Получить финансовый разбор"
-            description="Оставьте имя, контакт и короткий запрос. После финансового разбора вы поймёте, что сейчас происходит с вашей финансовой ситуацией, где у вас слабое место и какой следующий шаг поможет увеличить доход и навести порядок в деньгах."
-            compact
-            ctaLabel="Получить финансовый разбор"
-            contactPlaceholder="Ссылка на ваш Тг личный или на Max"
-            telegramOnly
-          />
-        </div>
       </section>
 
       <section className="border-y border-border/60 bg-surface-elevated/40">
