@@ -193,10 +193,10 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
           <Send className="size-7" />
         </div>
         <h3 className="mt-5 text-2xl font-semibold text-balance sm:text-3xl">
-          Бесплатный финансовый разбор
+          Бесплатный финансовый мини-разбор на картах таро
         </h3>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
-          Чтобы получить бесплатный финансовый разбор, подпишитесь на канал @garipovdanis
+          Чтобы получить бесплатный финансовый мини-разбор на картах таро, подпишитесь на канал @garipovdanis
         </p>
         <div className="mt-4 flex justify-center">
           <Button asChild variant="hero" size="xl">
