@@ -95,7 +95,7 @@ const Index = () => {
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Услуги</a>
-            <a href="#analysis" className="transition-colors hover:text-foreground">Финансовый разбор</a>
+            <a href="#analysis" className="transition-colors hover:text-foreground">Мини-разбор на таро</a>
             <a href="#agent" className="transition-colors hover:text-foreground">Стать агентом</a>
             <a href="#charity" className="transition-colors hover:text-foreground">Благотворительность</a>
             <a href="#contacts" className="transition-colors hover:text-foreground">Контакты</a>
@@ -273,8 +273,8 @@ const Index = () => {
       <section id="analysis" className="container py-14 lg:py-20">
         <div className="mb-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-3">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Финансовый разбор / прогноз ситуации</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Первый шаг, чтобы навести ясность в своей финансовой ситуации.</h2>
+            <p className="text-sm uppercase tracking-[0.16em] text-primary">Финансовый мини-разбор на картах таро</p>
+            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Первый бережный шаг, чтобы шире посмотреть на свою финансовую ситуацию.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
@@ -290,9 +290,15 @@ const Index = () => {
         </div>
 
         <div className="mb-8 panel rounded-lg p-6 sm:p-8">
-          <h3 className="text-xl font-semibold sm:text-2xl">На финансовом разборе можно посмотреть:</h3>
+          <h3 className="text-xl font-semibold sm:text-2xl">Что вы получите в мини-разборе</h3>
           <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {analysisPoints.map((point) => (
+            {[
+              "символический взгляд на текущую финансовую ситуацию",
+              "возможные внутренние ограничения и страхи",
+              "подсказку, на что обратить внимание прямо сейчас",
+              "первый бережный шаг к решению",
+              "если нужна практическая помощь — рекомендацию, с каким финансовым направлением лучше обратиться к Данису",
+            ].map((point) => (
               <li key={point} className="flex items-start gap-3 rounded-md border border-border/60 bg-surface-soft/60 p-4 text-sm leading-6 text-muted-foreground sm:text-base">
                 <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
                 {point}
@@ -303,13 +309,31 @@ const Index = () => {
 
 
         <div id="quiz" className="scroll-mt-24">
-          <div className="mb-5 space-y-2">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Мини-опрос перед разбором</p>
+          <div className="mb-5 space-y-3">
+            <p className="text-sm uppercase tracking-[0.16em] text-primary">Мини-опрос перед разбором на таро</p>
             <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
-              Ответьте на 7 коротких вопросов — подготовим разбор под вашу ситуацию
+              Ответьте на 7 коротких вопросов — подготовим финансовый мини-разбор на картах таро
             </h3>
+            <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
+              С помощью карт таро мы посмотрим, что сейчас влияет на вашу финансовую ситуацию, где могут быть внутренние ограничения и какой первый шаг стоит сделать бережно и осознанно.
+            </p>
           </div>
           <CustdevQuiz scrollTargetId="lead-form" />
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-lg border border-border/70 bg-surface-soft p-5">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Форматы</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Первый мини-разбор доступен бесплатно за подписку на канал. Более глубокий персональный разбор можно будет заказать отдельно после первичной диагностики.
+              </p>
+            </div>
+            <div className="rounded-lg border border-border/70 bg-surface-soft p-5">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Дисклеймер</p>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                Финансовый мини-разбор на картах таро не является финансовой, юридической или инвестиционной рекомендацией. Это символический формат, который помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
+              </p>
+            </div>
+          </div>
         </div>
 
       </section>
@@ -485,8 +509,8 @@ const Index = () => {
                 {
                   icon: MessageCircle,
                   label: "Канал в MAX",
-                  value: "Если Telegram недоступен — скоро",
-                  href: undefined as string | undefined,
+                  value: "Если Telegram недоступен",
+                  href: "https://max.ru/join/AyR7Opid1dNqTW_j70Y5fxCN4mEp_x8BvtziiucoDZ4",
                 },
                 {
                   icon: HandHelping,
