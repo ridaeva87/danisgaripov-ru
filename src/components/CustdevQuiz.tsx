@@ -244,12 +244,11 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
         </div>
         <h3 className="mt-5 text-2xl font-semibold text-balance sm:text-3xl">Спасибо</h3>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-          На основе ваших ответов мы подготовим предварительный финансовый разбор
-          и подскажем возможные варианты решения вашей ситуации.
+          На основе ваших ответов мы подготовим предварительный финансовый мини-разбор на картах таро и подскажем, с каким направлением лучше обратиться к Данису, если нужна практическая помощь.
         </p>
         <div className="mt-6 flex justify-center">
           <Button variant="hero" size="xl" onClick={scrollToForm}>
-            👉 Получить финансовый разбор
+            👉 Получить мини-разбор
             <ArrowRight />
           </Button>
         </div>
