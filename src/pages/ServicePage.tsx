@@ -58,7 +58,7 @@ const ServicePage = () => {
                 <a href="#service-form">Оставить заявку</a>
               </Button>
               <Button asChild variant="soft" size="xl">
-                <Link to="/#lead-form">Получить финансовый разбор</Link>
+                <Link to="/#quiz">Получить финансовый разбор</Link>
               </Button>
             </div>
           )}
@@ -66,8 +66,9 @@ const ServicePage = () => {
 
         <div className="relative overflow-hidden rounded-lg border border-border/70 bg-surface-elevated shadow-panel">
           <div className="absolute inset-0 bg-gradient-accent opacity-10" />
-          <img src={danisHero} alt="Данис Гарипов — финансовый сервис" className="h-full w-full object-cover object-center" loading="eager" />
+          <img src={service.heroImage ?? danisHero} alt={service.title} className="h-full w-full object-cover object-center" loading="eager" />
         </div>
+
       </section>
 
       {service.comingSoon ? (

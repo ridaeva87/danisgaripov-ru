@@ -3,19 +3,15 @@ import { Link } from "react-router-dom";
 
 import {
   ArrowRight,
-  BadgeCheck,
-  BriefcaseBusiness,
   HandHelping,
   HeartHandshake,
-  Mail,
   MessageCircle,
-  Phone,
-  Scale,
-  Shield,
+  Send,
 } from "lucide-react";
 
+
 import danisHero from "@/assets/danis-garipov-hero.png";
-import danisPortrait from "@/assets/danis-garipov-portrait.png";
+
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
 import { CustdevQuiz } from "@/components/CustdevQuiz";
@@ -36,6 +32,7 @@ const audience = [
   "если хотите вернуть страховку",
   "если нужны быстрые финансы",
   "если нужно срочно продать авто 24/7",
+  "если вам нужно автоматизировать бизнес и масштабироваться",
 ];
 
 const analysisPoints = [
@@ -51,23 +48,6 @@ const analysisPoints = [
 
 const CHARITY_GOAL = 1_114_000;
 
-const trustSignals = [
-  {
-    title: "Финансовые решения по сути",
-    description: "Сложные ситуации собираются в понятную систему действий без лишнего шума.",
-    icon: Scale,
-  },
-  {
-    title: "Спокойная сильная подача",
-    description: "Коммуникация строится ровно, предметно и с уважением к реальной ситуации человека.",
-    icon: Shield,
-  },
-  {
-    title: "Порядок на каждом этапе",
-    description: "От первого обращения до запуска решения клиент понимает, что происходит и зачем.",
-    icon: BadgeCheck,
-  },
-];
 
 const agentReasons = ["для тех, кто умеет выстраивать доверие", "для тех, кто хочет вести людей к сильному сервису", "для тех, кому важен взрослый формат работы"];
 
@@ -322,7 +302,7 @@ const Index = () => {
         </div>
 
 
-        <div className="mb-8">
+        <div id="quiz" className="scroll-mt-24">
           <div className="mb-5 space-y-2">
             <p className="text-sm uppercase tracking-[0.16em] text-primary">Мини-опрос перед разбором</p>
             <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
@@ -332,16 +312,6 @@ const Index = () => {
           <CustdevQuiz scrollTargetId="lead-form" />
         </div>
 
-        <div id="financial-analysis-form" className="scroll-mt-24">
-          <LeadForm
-            title="Получить финансовый разбор"
-            description="Оставьте имя, контакт и короткий запрос. После финансового разбора вы поймёте, что сейчас происходит с вашей финансовой ситуацией, где у вас слабое место и какой следующий шаг поможет увеличить доход и навести порядок в деньгах."
-            compact
-            ctaLabel="Получить финансовый разбор"
-            contactPlaceholder="Ссылка на ваш Тг личный или на Max"
-            telegramOnly
-          />
-        </div>
       </section>
 
       <section className="border-y border-border/60 bg-surface-elevated/40">
@@ -352,19 +322,9 @@ const Index = () => {
               Данис Гарипов — финансовый брокер с многолетним опытом, который структурирует сделки, соединяет нужных людей и выстраивает финансовое решение под конкретную задачу, сумму и срок.
             </h2>
           </div>
-          <div className="grid gap-5 lg:grid-cols-3">
-            {trustSignals.map(({ title, description, icon: Icon }) => (
-              <article key={title} className="panel rounded-lg p-6">
-                <div className="inline-flex rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
-                  <Icon className="size-5" />
-                </div>
-                <h3 className="mt-4 text-xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">{description}</p>
-              </article>
-            ))}
-          </div>
         </div>
       </section>
+
 
       {/* Editorial portrait block — inspired by the reference bottom block */}
       <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] py-14 text-[#FDFDFD] lg:py-20">
@@ -377,59 +337,44 @@ const Index = () => {
 
         <div className="container relative">
           <div className="mx-auto max-w-6xl rounded-2xl border border-[#FDFDFD]/10 bg-[#F4F1EA] p-6 text-[#1E1E1E] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] sm:p-8 lg:p-10">
-            <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-10">
-              {/* Left — name + stats */}
-              <div>
-                <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
-                  <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
-                  <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
-                </h2>
-                <p className="mt-4 max-w-md text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
-                  Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
-                </p>
+            <div>
+              <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
+                <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
+                <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
+                Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
+              </p>
 
-                <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
-                  {[
-                    { v: "7+", l: "лет в финансах" },
-                    { v: "500+", l: "проведённых сделок" },
-                    { v: "24/7", l: "сопровождение" },
-                  ].map((s) => (
-                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
-                      <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">{s.l}</p>
-                    </div>
-                  ))}
-                  {[
-                    { v: "100%", l: "по сути, без шума" },
-                    { v: "5+", l: "направлений сервиса" },
-                    { v: "1×1", l: "разбор ситуации" },
-                  ].map((s) => (
-                    <div key={s.l} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
-                      <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                      <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">{s.l}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-6">
-                  <Button asChild variant="hero" size="xl">
-                    <a href="#lead-form">Записаться сейчас</a>
-                  </Button>
-                </div>
+              <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
+                {[
+                  { v: "7+", l: ["лет в финансах"] },
+                  { v: "500+", l: ["проведённых", "сделок"] },
+                  { v: "24/7", l: ["сопровождение"] },
+                  { v: "100%", l: ["по вашему запросу"] },
+                  { v: "5+", l: ["направлений", "сервиса"] },
+                  { v: "1×1", l: ["разбор ситуации"] },
+                ].map((s) => (
+                  <div key={s.l.join(" ")} className="rounded-lg border border-[#1E1E1E]/10 bg-white p-2 text-center shadow-sm sm:p-4">
+                    <p className="text-base font-bold text-[#1E1E1E] sm:text-2xl">{s.v}</p>
+                    <p className="mt-1 text-[9px] uppercase leading-tight tracking-normal text-[#1E1E1E]/60 sm:text-[11px] sm:tracking-wider">
+                      {s.l.map((line, idx) => (
+                        <span key={idx} className="block">{line}</span>
+                      ))}
+                    </p>
+                  </div>
+                ))}
               </div>
 
-              {/* Right — full portrait */}
-              <div className="relative flex justify-center lg:justify-end">
-                <img
-                  src={danisPortrait}
-                  alt="Данис Гарипов"
-                  className="h-[560px] w-auto max-h-none object-contain object-center drop-shadow-[0_30px_60px_rgba(0,0,0,0.45)] sm:h-[680px] lg:h-[820px]"
-                  loading="lazy"
-                />
+              <div className="mt-6">
+                <Button asChild variant="hero" size="xl">
+                  <a href="#lead-form">Записаться сейчас</a>
+                </Button>
               </div>
             </div>
           </div>
         </div>
+
       </section>
 
 
@@ -485,17 +430,15 @@ const Index = () => {
                 Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление показывает ценности проекта и то, что за ним стоят не только деньги и задачи, но и внутренняя основа.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
-                <a
-                  href="#lead-form"
+                <button
+                  type="button"
                   className="inline-flex flex-col items-center justify-center rounded-md bg-[#C8102E] px-8 py-3 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
                 >
                   <span className="text-lg font-bold uppercase tracking-wider leading-none">Участвовать</span>
                   <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">внести вклад</span>
-                </a>
-                <Button asChild variant="soft" size="xl">
-                  <a href="#lead-form">Связаться по разделу</a>
-                </Button>
+                </button>
               </div>
+
             </div>
             <div className="space-y-5">
               <div className="rounded-lg border border-primary/30 bg-primary/5 p-6">
@@ -533,12 +476,26 @@ const Index = () => {
             <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Связь без лишних кругов — через заявку, удобный контакт и понятный запрос.</h2>
             <div className="grid gap-3">
               {[
-                { icon: Phone, label: "Телефон", value: "Связь по заявке" },
-                { icon: Mail, label: "Email", value: "Ответ на указанный контакт" },
-                { icon: MessageCircle, label: "Мессенджеры", value: "Telegram / WhatsApp по обращению" },
-                { icon: HandHelping, label: "Режим работы", value: "Предметный разбор по вашему запросу" },
-              ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm">
+                {
+                  icon: Send,
+                  label: "Telegram-канал Даниса Гарипова",
+                  value: "@garipovdanis",
+                  href: "https://t.me/garipovdanis",
+                },
+                {
+                  icon: MessageCircle,
+                  label: "Канал в MAX",
+                  value: "Если Telegram недоступен — скоро",
+                  href: undefined as string | undefined,
+                },
+                {
+                  icon: HandHelping,
+                  label: "Связаться с менеджером",
+                  value: "@Albina_assistent",
+                  href: "https://t.me/Albina_assistent",
+                },
+              ].map(({ icon: Icon, label, value, href }) => {
+                const content = (
                   <div className="flex items-center gap-3">
                     <div className="rounded-md border border-border/70 bg-surface-soft p-2 text-primary">
                       <Icon className="size-4" />
@@ -548,9 +505,25 @@ const Index = () => {
                       <p className="text-base text-foreground">{value}</p>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+                return href ? (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm transition-colors hover:border-primary/60"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div key={label} className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm">
+                    {content}
+                  </div>
+                );
+              })}
             </div>
+
           </div>
         </div>
       </section>
