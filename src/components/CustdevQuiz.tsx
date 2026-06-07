@@ -7,8 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-const TELEGRAM_BOT_TOKEN = "8633522720:AAESZq9pqUjROVediUOC88ULuUA9wmkyeNM";
-const TELEGRAM_CHAT_ID = "658189023";
 
 type Step = {
   question: string;
@@ -157,18 +155,11 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
           (s, i) => `${i + 1}. ${s.question}\n→ ${answers[i] || "—"}`,
         ).join("\n\n");
 
-      await fetch(
-        `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-        {
+      await fetch("/api/lead", {
           method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: tgText,
-          }).toString(),
-        }
-      );
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: tgText }),
+        });
 
       setDone(true);
     } catch (error) {
