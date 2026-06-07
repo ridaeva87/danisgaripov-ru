@@ -1,6 +1,6 @@
 import { BadgeDollarSign, Cpu, FileCheck2, GaugeCircle, HandCoins, ShieldCheck, type LucideIcon } from "lucide-react";
 
-import itDevelopmentAsset from "@/assets/it-development.jpg.asset.json";
+import itDevelopmentImage from "@/assets/it-development.jpg";
 
 export type InfoBlock = {
   title: string;
@@ -194,7 +194,7 @@ export const services: ServiceItem[] = [
     heroDescription:
       "Разрабатываем сайты, веб-сервисы, AI-помощников и автоматизацию бизнес-процессов под задачи вашей компании.",
     icon: Cpu,
-    heroImage: itDevelopmentAsset.url,
+    heroImage: itDevelopmentImage,
     intro:
       "Создаём инструменты, которые помогают экономить время сотрудников, сокращать рутину и увеличивать эффективность бизнеса.",
     suitableFor: [
