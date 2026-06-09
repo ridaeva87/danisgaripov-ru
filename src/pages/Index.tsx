@@ -571,6 +571,18 @@ const Index = () => {
           </div>
         </div>
       </section>
+      <footer className="border-t border-border/60 bg-background">
+        <div className="container flex flex-col gap-3 py-6 text-sm leading-6 text-muted-foreground sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="font-medium text-foreground">ИП Гарипов Данис Дамирович</p>
+            <p>ОГРНИП 323169000194615</p>
+            <p>ИНН 166017353038</p>
+          </div>
+          <p className="max-w-md sm:text-right">
+            © 2026 Финансовая экосистема. Данис Гарипов. Все права защищены.
+          </p>
+        </div>
+      </footer>
     </main>
   );
 };
