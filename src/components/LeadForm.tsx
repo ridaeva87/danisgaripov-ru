@@ -117,10 +117,10 @@ export const LeadForm = ({
 
 
   return (
-    <form onSubmit={onSubmit} className="panel relative rounded-lg p-5 sm:p-6">
+    <form onSubmit={onSubmit} className="relative rounded-lg border border-border/70 bg-surface-elevated/70 p-5 shadow-panel sm:p-7">
       <div className="mb-5 space-y-2">
-        <h3 className="text-2xl font-semibold text-balance">{title}</h3>
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">{description}</p>
+        <h3 className="text-3xl font-semibold text-balance sm:text-4xl">{title}</h3>
+        <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">{description}</p>
       </div>
 
       <div className={`grid gap-4 ${compact ? "lg:grid-cols-3" : "lg:grid-cols-2"}`}>
@@ -129,7 +129,7 @@ export const LeadForm = ({
           placeholder="Ваше имя"
           value={form.name}
           onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-          className="h-12 border-border/80 bg-surface-soft"
+          className="h-14 border-border/80 bg-background/45 text-base"
         />
         <Input
           required
@@ -137,33 +137,33 @@ export const LeadForm = ({
           placeholder={contactPlaceholder}
           value={form.phone}
           onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
-          className="h-12 border-border/80 bg-surface-soft"
+          className="h-14 border-border/80 bg-background/45 text-base"
         />
         <Input
           type="email"
           placeholder="Email"
           value={form.email}
           onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-          className="h-12 border-border/80 bg-surface-soft"
+          className="h-14 border-border/80 bg-background/45 text-base"
         />
         <Input
           placeholder="Telegram"
           value={form.telegram}
           onChange={(event) => setForm((prev) => ({ ...prev, telegram: event.target.value }))}
-          className="h-12 border-border/80 bg-surface-soft"
+          className="h-14 border-border/80 bg-background/45 text-base"
         />
         <Input
           placeholder="Желаемая сумма"
           value={form.max}
           onChange={(event) => setForm((prev) => ({ ...prev, max: event.target.value }))}
-          className={`h-12 border-border/80 bg-surface-soft ${compact ? "" : "lg:col-span-2"}`}
+          className={`h-14 border-border/80 bg-background/45 text-base ${compact ? "" : "lg:col-span-2"}`}
         />
         <Textarea
           required
           placeholder="Коротко опишите вашу финансовую ситуацию"
           value={form.comment}
           onChange={(event) => setForm((prev) => ({ ...prev, comment: event.target.value }))}
-          className={`min-h-32 border-border/80 bg-surface-soft ${compact ? "lg:col-span-3" : "lg:col-span-2"}`}
+          className={`min-h-36 border-border/80 bg-background/45 text-base ${compact ? "lg:col-span-3" : "lg:col-span-2"}`}
         />
       </div>
 
@@ -174,7 +174,7 @@ export const LeadForm = ({
           onCheckedChange={(value) => setAgree(value === true)}
           className="mt-1"
         />
-        <Label htmlFor={`agree-${title}`} className="text-sm leading-6 text-muted-foreground font-normal cursor-pointer">
+        <Label htmlFor={`agree-${title}`} className="text-base leading-7 text-muted-foreground font-normal cursor-pointer">
           Я согласен на{" "}
           <a
             href="/docs/politika-personalnyh-dannyh.docx"
@@ -188,7 +188,7 @@ export const LeadForm = ({
       </div>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm leading-6 text-muted-foreground">Фокус на вашей ситуации, сроках и реальном варианте решения.</p>
+        <p className="text-base leading-7 text-muted-foreground">Фокус на вашей ситуации, сроках и реальном варианте решения.</p>
         <Button type="submit" variant="hero" size="xl" disabled={!agree || loading}>
           {loading ? <Loader2 className="animate-spin" /> : <Send />}
           {loading ? "Отправляем…" : ctaLabel}
@@ -197,9 +197,9 @@ export const LeadForm = ({
       </div>
 
       {submitted && (
-        <div className="mt-5 flex animate-in fade-in slide-in-from-bottom-2 flex-col items-center justify-center rounded-md bg-[#0a7d3b] px-4 py-3 text-white shadow-soft">
+        <div className="mt-5 flex animate-in fade-in slide-in-from-bottom-2 flex-col items-center justify-center rounded-md bg-primary px-4 py-3 text-primary-foreground shadow-glow">
           <span className="text-base font-bold uppercase tracking-wider leading-none">Заявка принята</span>
-          <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">мы скоро свяжемся</span>
+          <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-primary-foreground/85">мы скоро свяжемся</span>
         </div>
       )}
     </form>

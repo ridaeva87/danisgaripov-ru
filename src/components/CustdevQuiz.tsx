@@ -179,14 +179,14 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
 
   if (showGate) {
     return (
-      <div className="panel rounded-lg p-6 sm:p-10 text-center">
+      <div className="rounded-lg border border-border/70 bg-surface-elevated/70 p-6 text-center shadow-panel sm:p-10">
         <div className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-primary/15 text-primary">
           <Send className="size-7" />
         </div>
-        <h3 className="mt-5 text-2xl font-semibold text-balance sm:text-3xl">
+        <h3 className="mt-5 text-3xl font-semibold text-balance sm:text-4xl">
           Бесплатный финансовый мини-разбор по нумерологии
         </h3>
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+        <p className="mx-auto mt-3 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
           Чтобы получить бесплатный финансовый мини-разбор по нумерологии, подпишитесь на канал @garipovdanis
         </p>
         <div className="mt-4 flex justify-center">
@@ -197,7 +197,7 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
             </a>
           </Button>
         </div>
-        <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+        <p className="mx-auto mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
           После подписки напишите /start боту @finance_razbor_bot и введите полученный код:
         </p>
         <div className="mx-auto mt-3 flex max-w-sm flex-col gap-3">
@@ -214,7 +214,7 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
               setGateCode(e.target.value);
               if (gateError) setGateError("");
             }}
-            className="h-12 border-border/80 bg-surface-soft text-center text-base"
+            className="h-14 border-border/80 bg-background/45 text-center text-base"
           />
           {gateError && (
             <p className="text-sm text-destructive">{gateError}</p>
@@ -229,12 +229,12 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
 
   if (done) {
     return (
-      <div className="panel rounded-lg p-6 sm:p-10 text-center">
+      <div className="rounded-lg border border-border/70 bg-surface-elevated/70 p-6 text-center shadow-panel sm:p-10">
         <div className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-primary/15 text-primary">
           <Check className="size-7" />
         </div>
-        <h3 className="mt-5 text-2xl font-semibold text-balance sm:text-3xl">Спасибо</h3>
-        <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
+        <h3 className="mt-5 text-3xl font-semibold text-balance sm:text-4xl">Спасибо</h3>
+        <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
           На основе ваших ответов мы подготовим предварительный финансовый мини-разбор по нумерологии и подскажем, с каким направлением лучше обратиться к Данису, если нужна практическая помощь.
         </p>
         <div className="mt-6 flex justify-center">
@@ -251,7 +251,7 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
   const currentStep = STEPS[step];
 
   return (
-    <div className="panel rounded-lg p-5 sm:p-8">
+    <div className="rounded-lg border border-border/70 bg-surface-elevated/70 p-5 shadow-panel sm:p-8">
       <div className="mb-6 flex items-center justify-between gap-4">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
           Шаг {step + 1} из {TOTAL_STEPS}
@@ -269,13 +269,13 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
 
       {isContactStep ? (
         <div className="space-y-5">
-          <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
+          <h3 className="text-3xl font-semibold text-balance sm:text-4xl">
             Куда отправить результаты мини-разбора по нумерологии?
           </h3>
-          <p className="text-sm leading-6 text-muted-foreground">
+          <p className="text-base leading-7 text-muted-foreground">
             Оставьте контакты — мы свяжемся с вами и обсудим результаты.
           </p>
-          <p className="rounded-md border border-border/60 bg-surface-soft/60 p-3 text-xs leading-5 text-muted-foreground">
+          <p className="rounded-md border border-border/60 bg-background/45 p-4 text-sm leading-6 text-muted-foreground">
             Финансовый мини-разбор по нумерологии не является финансовой или юридической рекомендацией. Это символический формат, который помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -284,7 +284,7 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
               placeholder="Ваше имя"
               value={contact.name}
               onChange={(e) => setContact((p) => ({ ...p, name: e.target.value }))}
-              className="h-12 border-border/80 bg-surface-soft"
+              className="h-14 border-border/80 bg-background/45 text-base"
             />
             <Input
               required
@@ -292,13 +292,13 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
               placeholder="Телефон"
               value={contact.phone}
               onChange={(e) => setContact((p) => ({ ...p, phone: e.target.value }))}
-              className="h-12 border-border/80 bg-surface-soft"
+              className="h-14 border-border/80 bg-background/45 text-base"
             />
             <Input
               placeholder="Telegram"
               value={contact.telegram}
               onChange={(e) => setContact((p) => ({ ...p, telegram: e.target.value }))}
-              className="h-12 border-border/80 bg-surface-soft sm:col-span-2"
+              className="h-14 border-border/80 bg-background/45 text-base sm:col-span-2"
             />
           </div>
 
@@ -311,7 +311,7 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
             />
             <Label
               htmlFor="quiz-agree"
-              className="text-sm leading-6 text-muted-foreground font-normal cursor-pointer"
+              className="text-base leading-7 text-muted-foreground font-normal cursor-pointer"
             >
               Я согласен на{" "}
               <a
@@ -343,7 +343,7 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
         </div>
       ) : (
         <div className="space-y-5">
-          <h3 className="text-2xl font-semibold text-balance sm:text-[28px] sm:leading-tight">
+          <h3 className="text-3xl font-semibold text-balance sm:text-4xl sm:leading-tight">
             {currentStep.question}
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
@@ -354,10 +354,10 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
                   key={option}
                   type="button"
                   onClick={() => selectOption(option)}
-                  className={`group flex items-center justify-between gap-3 rounded-md border px-4 py-4 text-left text-sm leading-6 transition-all sm:text-base ${
+                  className={`group flex items-center justify-between gap-3 rounded-md border px-4 py-4 text-left text-base leading-7 transition-all sm:text-lg ${
                     selected
-                      ? "border-primary bg-primary/10 text-foreground shadow-glow"
-                      : "border-border/70 bg-surface-soft text-muted-foreground hover:border-primary/60 hover:text-foreground"
+                        ? "border-primary bg-primary/10 text-foreground shadow-glow"
+                        : "border-border/70 bg-background/45 text-muted-foreground hover:border-primary/60 hover:text-foreground"
                   }`}
                 >
                   <span>{option}</span>

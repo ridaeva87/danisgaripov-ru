@@ -11,10 +11,10 @@ All colors MUST be HSL.
     --background: 0 0% 12%;
     --foreground: 0 0% 99%;
 
-    --card: 271 14% 16%;
+    --card: 0 0% 15%;
     --card-foreground: 0 0% 99%;
 
-    --popover: 271 14% 16%;
+    --popover: 0 0% 15%;
     --popover-foreground: 0 0% 99%;
 
     --primary: 59 24% 48%;
@@ -23,35 +23,35 @@ All colors MUST be HSL.
     --secondary: 73 23% 32%;
     --secondary-foreground: 0 0% 99%;
 
-    --muted: 272 10% 22%;
+    --muted: 0 0% 22%;
     --muted-foreground: 0 0% 82%;
 
     --accent: 73 23% 32%;
     --accent-foreground: 0 0% 99%;
 
-    --destructive: 2 75% 54%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 73 23% 32%;
+    --destructive-foreground: 0 0% 99%;
 
-    --border: 272 8% 28%;
-    --input: 272 8% 28%;
+    --border: 0 0% 28%;
+    --input: 0 0% 28%;
     --ring: 59 24% 48%;
 
     --surface: 0 0% 12%;
     --surface-foreground: 0 0% 99%;
-    --surface-elevated: 272 14% 16%;
-    --surface-soft: 272 11% 19%;
+    --surface-elevated: 0 0% 15%;
+    --surface-soft: 0 0% 18%;
 
     --brand: 59 24% 48%;
-    --brand-strong: 59 25% 55%;
+    --brand-strong: 59 26% 56%;
     --brand-muted: 73 23% 32%;
 
     --radius: 0.5rem;
 
-    --shadow-soft: 0 10px 30px -18px hsl(0 0% 3% / 0.55);
-    --shadow-panel: 0 24px 50px -30px hsl(0 0% 0% / 0.8);
-    --shadow-glow: 0 0 0 1px hsl(var(--brand) / 0.15), 0 0 50px -18px hsl(var(--brand) / 0.45);
+    --shadow-soft: 0 16px 36px -24px hsl(0 0% 3% / 0.72);
+    --shadow-panel: 0 26px 58px -34px hsl(0 0% 0% / 0.86);
+    --shadow-glow: 0 0 0 1px hsl(var(--brand) / 0.28), 0 18px 60px -28px hsl(var(--brand) / 0.62);
 
-    --gradient-hero: radial-gradient(circle at 75% 45%, hsl(var(--brand) / 0.26), transparent 42%), radial-gradient(circle at 25% 80%, hsl(var(--brand-muted) / 0.18), transparent 38%), linear-gradient(120deg, hsl(0 0% 8%), hsl(var(--background)) 40%, hsl(271 14% 14%));
+    --gradient-hero: radial-gradient(circle at 75% 45%, hsl(var(--brand) / 0.32), transparent 42%), radial-gradient(circle at 25% 80%, hsl(var(--brand-muted) / 0.2), transparent 38%), linear-gradient(120deg, hsl(0 0% 10%), hsl(var(--background)) 44%, hsl(0 0% 15%));
     --gradient-panel: linear-gradient(145deg, hsl(var(--surface-elevated)), hsl(var(--surface-soft)));
     --gradient-accent: linear-gradient(135deg, hsl(var(--brand)), hsl(var(--brand-muted)));
 
@@ -59,9 +59,9 @@ All colors MUST be HSL.
     --sidebar-foreground: 0 0% 99%;
     --sidebar-primary: 59 24% 48%;
     --sidebar-primary-foreground: 0 0% 12%;
-    --sidebar-accent: 272 11% 19%;
+    --sidebar-accent: 0 0% 18%;
     --sidebar-accent-foreground: 0 0% 99%;
-    --sidebar-border: 272 8% 28%;
+    --sidebar-border: 0 0% 28%;
     --sidebar-ring: 59 24% 48%;
   }
 
@@ -69,10 +69,10 @@ All colors MUST be HSL.
     --background: 0 0% 12%;
     --foreground: 0 0% 99%;
 
-    --card: 271 14% 16%;
+    --card: 0 0% 15%;
     --card-foreground: 0 0% 99%;
 
-    --popover: 271 14% 16%;
+    --popover: 0 0% 15%;
     --popover-foreground: 0 0% 99%;
 
     --primary: 59 24% 48%;
@@ -81,32 +81,32 @@ All colors MUST be HSL.
     --secondary: 73 23% 32%;
     --secondary-foreground: 0 0% 99%;
 
-    --muted: 272 10% 22%;
+    --muted: 0 0% 22%;
     --muted-foreground: 0 0% 82%;
 
     --accent: 73 23% 32%;
     --accent-foreground: 0 0% 99%;
 
-    --destructive: 2 75% 54%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 73 23% 32%;
+    --destructive-foreground: 0 0% 99%;
 
-    --border: 272 8% 28%;
-    --input: 272 8% 28%;
+    --border: 0 0% 28%;
+    --input: 0 0% 28%;
     --ring: 59 24% 48%;
     --surface: 0 0% 12%;
     --surface-foreground: 0 0% 99%;
-    --surface-elevated: 272 14% 16%;
-    --surface-soft: 272 11% 19%;
+    --surface-elevated: 0 0% 15%;
+    --surface-soft: 0 0% 18%;
     --brand: 59 24% 48%;
-    --brand-strong: 59 25% 55%;
+    --brand-strong: 59 26% 56%;
     --brand-muted: 73 23% 32%;
     --sidebar-background: 0 0% 12%;
     --sidebar-foreground: 0 0% 99%;
     --sidebar-primary: 59 24% 48%;
     --sidebar-primary-foreground: 0 0% 12%;
-    --sidebar-accent: 272 11% 19%;
+    --sidebar-accent: 0 0% 18%;
     --sidebar-accent-foreground: 0 0% 99%;
-    --sidebar-border: 272 8% 28%;
+    --sidebar-border: 0 0% 28%;
     --sidebar-ring: 59 24% 48%;
   }
 }
@@ -134,7 +134,23 @@ All colors MUST be HSL.
 
 @layer utilities {
   .panel {
-    @apply border border-border bg-gradient-panel shadow-panel;
+    @apply border border-border/70 bg-gradient-panel shadow-panel;
+  }
+
+  .section-dark {
+    @apply border-y border-border/60 bg-background;
+  }
+
+  .section-graphite {
+    @apply border-y border-border/60 bg-surface-elevated/70;
+  }
+
+  .section-spacious {
+    @apply py-16 lg:py-24;
+  }
+
+  .section-kicker {
+    @apply text-sm font-medium uppercase tracking-[0.18em] text-primary sm:text-base;
   }
 
   .text-balance {

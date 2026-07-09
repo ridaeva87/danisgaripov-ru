@@ -106,7 +106,7 @@ const Index = () => {
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] text-[#FDFDFD]">
+      <section className="relative overflow-hidden border-b border-border/60 bg-background text-foreground">
         {/* Background image */}
         <div
           className="absolute inset-0 bg-cover bg-center opacity-50"
@@ -114,25 +114,25 @@ const Index = () => {
           aria-hidden="true"
         />
         {/* Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,14,14,0.55)_55%,#0E0E0E_100%)]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--background)/0.56)_55%,hsl(var(--background))_100%)]" aria-hidden="true" />
         {/* Olive top spotlight */}
         <div
-          className="pointer-events-none absolute left-1/2 top-0 h-[80%] w-[75%] -translate-x-1/2"
+          className="pointer-events-none absolute left-1/2 top-0 h-[82%] w-[78%] -translate-x-1/2"
           style={{
             background:
-              "radial-gradient(ellipse at top, rgba(151,150,91,0.32) 0%, rgba(151,150,91,0.08) 40%, transparent 75%)",
+              "radial-gradient(ellipse at top, hsl(var(--brand) / 0.42) 0%, hsl(var(--brand) / 0.12) 42%, transparent 76%)",
           }}
           aria-hidden="true"
         />
         {/* Decorative side diamonds */}
-        <div className="pointer-events-none absolute left-6 top-1/3 hidden h-2 w-2 rotate-45 bg-[#97965B]/40 lg:block" aria-hidden="true" />
-        <div className="pointer-events-none absolute right-6 top-1/3 hidden h-2 w-2 rotate-45 bg-[#97965B]/40 lg:block" aria-hidden="true" />
-        <div className="pointer-events-none absolute left-10 bottom-24 hidden h-1.5 w-1.5 rotate-45 bg-[#97965B]/30 lg:block" aria-hidden="true" />
-        <div className="pointer-events-none absolute right-10 bottom-24 hidden h-1.5 w-1.5 rotate-45 bg-[#97965B]/30 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-6 top-1/3 hidden h-2 w-2 rotate-45 bg-primary/45 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-6 top-1/3 hidden h-2 w-2 rotate-45 bg-primary/45 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute left-10 bottom-24 hidden h-1.5 w-1.5 rotate-45 bg-primary/35 lg:block" aria-hidden="true" />
+        <div className="pointer-events-none absolute right-10 bottom-24 hidden h-1.5 w-1.5 rotate-45 bg-primary/35 lg:block" aria-hidden="true" />
 
-        <div className="container relative pt-8 pb-12 lg:pt-12 lg:pb-20">
+        <div className="container relative pt-10 pb-16 lg:pt-14 lg:pb-24">
           {/* Tagline above name */}
-          <p className="text-center text-[10px] font-medium uppercase tracking-[0.45em] text-[#97965B] sm:text-xs">
+          <p className="text-center text-xs font-medium uppercase tracking-[0.42em] text-primary sm:text-sm">
             Финансовый брокер · Эксперт · Стратег · Наставник
           </p>
 
@@ -144,10 +144,10 @@ const Index = () => {
               className="pointer-events-none relative z-0 select-none text-center font-extrabold uppercase leading-[0.85] tracking-tight"
               style={{ letterSpacing: "-0.04em" }}
             >
-              <span className="block bg-gradient-to-b from-[#FDFDFD] via-[#FDFDFD]/85 to-[#FDFDFD]/30 bg-clip-text text-[18vw] text-transparent drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-[15vw] lg:text-[11.5vw]">
+              <span className="block bg-gradient-to-b from-foreground via-foreground/85 to-foreground/30 bg-clip-text text-[19vw] text-transparent drop-shadow-[0_4px_18px_hsl(0_0%_0%/0.45)] sm:text-[15.5vw] lg:text-[12vw]">
                 ДАНИС
               </span>
-              <span className="mt-[-0.12em] block bg-gradient-to-b from-[#FDFDFD] via-[#FDFDFD]/80 to-[#FDFDFD]/25 bg-clip-text text-[16vw] text-transparent drop-shadow-[0_4px_18px_rgba(0,0,0,0.45)] sm:text-[13vw] lg:text-[10.5vw]">
+              <span className="mt-[-0.12em] block bg-gradient-to-b from-foreground via-foreground/80 to-foreground/25 bg-clip-text text-[17vw] text-transparent drop-shadow-[0_4px_18px_hsl(0_0%_0%/0.45)] sm:text-[13.5vw] lg:text-[11vw]">
                 ГАРИПОВ
               </span>
             </h1>
@@ -157,26 +157,26 @@ const Index = () => {
               <img
                 src={danisHero}
                 alt="Данис Гарипов — финансовый брокер"
-                className="h-[420px] w-auto object-contain object-top drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)] sm:h-[560px] lg:h-[720px]"
+                className="h-[360px] w-auto object-contain object-top drop-shadow-[0_34px_68px_hsl(0_0%_0%/0.84)] sm:h-[580px] lg:h-[740px]"
                 loading="eager"
               />
             </div>
 
             {/* Reserve vertical space for figure */}
-            <div aria-hidden="true" className="h-[400px] sm:h-[520px] lg:h-[660px]" />
+            <div aria-hidden="true" className="h-[350px] sm:h-[540px] lg:h-[680px]" />
 
             {/* Side info panels — flank the figure on lg, stack on mobile */}
-            <div className="relative z-20 mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4 lg:absolute lg:inset-x-0 lg:top-[58%] lg:mt-0 lg:grid-cols-[minmax(180px,220px)_1fr_minmax(180px,220px)] lg:gap-6 lg:px-4">
-              <div className="rounded-md border border-[#97965B]/35 bg-[#0E0E0E]/75 p-4 text-left backdrop-blur-md sm:p-5 lg:col-start-1">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-[#97965B]">О сервисе</p>
-                <p className="mt-2 text-[13px] leading-5 text-[#FDFDFD]/90">
+            <div className="relative z-20 mt-4 grid grid-cols-2 gap-3 sm:gap-4 lg:absolute lg:inset-x-0 lg:top-[58%] lg:mt-0 lg:grid-cols-[minmax(180px,220px)_1fr_minmax(180px,220px)] lg:gap-6 lg:px-4">
+              <div className="rounded-md border border-primary/45 bg-background/80 p-3 text-left shadow-soft backdrop-blur-md sm:p-5 lg:col-start-1">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-primary sm:text-xs">О сервисе</p>
+                <p className="mt-2 text-xs leading-5 text-foreground/90 sm:text-sm sm:leading-6">
                   Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
                 </p>
               </div>
               <div className="hidden lg:block lg:col-start-2" aria-hidden="true" />
-              <div className="rounded-md border border-[#97965B]/35 bg-[#0E0E0E]/75 p-4 text-left backdrop-blur-md sm:p-5 lg:col-start-3">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-[#97965B]">Подход</p>
-                <p className="mt-2 text-[13px] leading-5 text-[#FDFDFD]/90">
+              <div className="rounded-md border border-primary/45 bg-background/80 p-3 text-left shadow-soft backdrop-blur-md sm:p-5 lg:col-start-3">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-primary sm:text-xs">Подход</p>
+                <p className="mt-2 text-xs leading-5 text-foreground/90 sm:text-sm sm:leading-6">
                   Решения под конкретную задачу, сумму и срок.
                 </p>
               </div>
@@ -185,46 +185,47 @@ const Index = () => {
 
           {/* CTAs — sit just under the figure, like reference */}
           <div className="relative z-30 mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row lg:mt-10">
-            <Button asChild size="xl" className="min-w-[230px] border border-[#FDFDFD]/15 bg-[#2A2A2A] text-[#FDFDFD] hover:bg-[#1F1F1F]">
+            <Button asChild variant="hero" size="xl" className="min-w-[250px]">
               <a href="#services">Мои услуги</a>
             </Button>
           </div>
 
-          <p className="relative z-30 mx-auto mt-6 max-w-2xl text-center text-[11px] uppercase tracking-[0.32em] text-[#97965B] sm:text-xs">
+          <p className="relative z-30 mx-auto mt-7 max-w-2xl text-center text-xs uppercase tracking-[0.32em] text-primary sm:text-sm">
             Финансовая экосистема, где каждый получает своё
           </p>
         </div>
       </section>
 
 
-      <section id="services" className="container py-14 lg:py-20">
+      <section id="services" className="section-dark section-spacious">
+        <div className="container">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Основные направления</p>
+            <p className="section-kicker">Основные направления</p>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-10 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
           {services.map((service) => {
             const Icon = service.icon;
             return (
-              <article key={service.slug} className="panel group flex flex-col rounded-lg p-6 transition-transform duration-300 hover:-translate-y-1">
+              <article key={service.slug} className="group flex flex-col rounded-lg border border-border/70 bg-surface-soft/55 p-6 shadow-soft transition-transform duration-300 hover:-translate-y-1 hover:border-primary/50 sm:p-7">
                 <div className="flex items-center gap-3">
-                  <div className="rounded-md border border-border/70 bg-surface-soft p-3 text-primary">
-                    <Icon className="size-5" />
+                  <div className="rounded-md border border-primary/35 bg-primary/10 p-3 text-primary">
+                    <Icon className="size-6" />
                   </div>
-                  <h3 className="flex flex-wrap items-center gap-2 text-xl font-semibold">
+                  <h3 className="flex flex-wrap items-center gap-2 text-2xl font-semibold">
                     <span>{service.title}</span>
                     {service.comingSoon && (
-                      <span className="rounded-md bg-[#C8102E] px-2 py-0.5 text-sm font-bold uppercase tracking-wider text-white">СКОРО</span>
+                      <span className="rounded-md bg-secondary px-2 py-0.5 text-sm font-bold uppercase tracking-wider text-secondary-foreground">СКОРО</span>
                     )}
                   </h3>
                 </div>
-                <p className="mt-4 text-sm leading-7 text-muted-foreground sm:text-base">{service.shortDescription}</p>
+                <p className="mt-4 text-base leading-7 text-muted-foreground sm:text-lg">{service.shortDescription}</p>
                 {service.bullets && (
                   <ul className="mt-4 space-y-2">
                     {service.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <li key={b} className="flex items-start gap-2 text-base leading-7 text-muted-foreground">
                         <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
                         {b}
                       </li>
@@ -249,20 +250,21 @@ const Index = () => {
             );
           })}
         </div>
+        </div>
       </section>
 
-      <section className="border-y border-border/60 bg-surface-elevated/50">
-        <div className="container py-14 lg:py-18">
+      <section className="section-graphite">
+        <div className="container py-16 lg:py-24">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <div className="space-y-3">
-              <p className="text-sm uppercase tracking-[0.16em] text-primary">Как мы работаем</p>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Прямой и понятный путь от обращения до решения.</h2>
+              <p className="section-kicker">Как мы работаем</p>
+              <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Прямой и понятный путь от обращения до решения.</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
               {workflow.map((step, index) => (
-                <div key={step} className="rounded-lg border border-border/70 bg-background/70 p-5 backdrop-blur-sm">
-                  <p className="text-sm text-primary">0{index + 1}</p>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{step}</p>
+                <div key={step} className="rounded-lg border border-border/70 bg-background/65 p-5 backdrop-blur-sm">
+                  <p className="text-base text-primary">0{index + 1}</p>
+                  <p className="mt-3 text-base leading-7 text-muted-foreground">{step}</p>
                 </div>
               ))}
             </div>
@@ -270,11 +272,12 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="analysis" className="container py-14 lg:py-20">
+      <section id="analysis" className="section-dark section-spacious">
+        <div className="container">
         <div className="mb-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-3">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Финансовый мини-разбор по нумерологии</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Первый бережный шаг, чтобы шире посмотреть на свою финансовую ситуацию.</h2>
+            <p className="section-kicker">Финансовый мини-разбор по нумерологии</p>
+            <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Первый бережный шаг, чтобы шире посмотреть на свою финансовую ситуацию.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {[
@@ -282,15 +285,15 @@ const Index = () => {
               "какие варианты решения реально доступны",
               "с какого шага лучше начинать",
             ].map((point) => (
-              <div key={point} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
+              <div key={point} className="rounded-lg border border-border/70 bg-surface-soft/70 p-5 text-base leading-7 text-muted-foreground">
                 {point}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="mb-8 panel rounded-lg p-6 sm:p-8">
-          <h3 className="text-xl font-semibold sm:text-2xl">Что вы получите в мини-разборе</h3>
+        <div className="mb-8 rounded-lg border border-border/70 bg-surface-elevated/65 p-6 shadow-soft sm:p-8">
+          <h3 className="text-2xl font-semibold sm:text-3xl">Что вы получите в мини-разборе</h3>
           <ul className="mt-5 grid gap-3 sm:grid-cols-2">
             {[
               "символический взгляд на текущую финансовую ситуацию",
@@ -299,7 +302,7 @@ const Index = () => {
               "первый бережный шаг к решению",
               "если нужна практическая помощь — рекомендацию, с каким финансовым направлением лучше обратиться к Данису",
             ].map((point) => (
-              <li key={point} className="flex items-start gap-3 rounded-md border border-border/60 bg-surface-soft/60 p-4 text-sm leading-6 text-muted-foreground sm:text-base">
+              <li key={point} className="flex items-start gap-3 rounded-md border border-border/60 bg-background/45 p-4 text-base leading-7 text-muted-foreground">
                 <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
                 {point}
               </li>
@@ -310,39 +313,40 @@ const Index = () => {
 
         <div id="quiz" className="scroll-mt-24">
           <div className="mb-5 space-y-3">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Мини-опрос перед разбором по нумерологии</p>
-            <h3 className="text-2xl font-semibold text-balance sm:text-3xl">
+            <p className="section-kicker">Мини-опрос перед разбором по нумерологии</p>
+            <h3 className="text-3xl font-semibold text-balance sm:text-4xl">
               Ответьте на 7 коротких вопросов — подготовим финансовый мини-разбор по нумерологии
             </h3>
-            <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
+            <p className="max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
               С помощью нумерологии мы посмотрим, что сейчас влияет на вашу финансовую ситуацию, где могут быть внутренние ограничения и какой первый шаг стоит сделать бережно и осознанно.
             </p>
           </div>
           <CustdevQuiz scrollTargetId="lead-form" />
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-lg border border-border/70 bg-surface-soft p-5">
+            <div className="rounded-lg border border-border/70 bg-surface-soft/70 p-5">
               <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Форматы</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <p className="mt-2 text-base leading-7 text-muted-foreground">
                 Первый мини-разбор доступен бесплатно за подписку на канал. Более глубокий персональный разбор можно будет заказать отдельно после первичной диагностики.
               </p>
             </div>
-            <div className="rounded-lg border border-border/70 bg-surface-soft p-5">
+            <div className="rounded-lg border border-border/70 bg-surface-soft/70 p-5">
               <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Обратите внимание</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              <p className="mt-2 text-base leading-7 text-muted-foreground">
                 Финансовый мини-разбор по нумерологии не является финансовой или юридической рекомендацией. Это символический формат, который помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
               </p>
             </div>
           </div>
         </div>
 
+        </div>
       </section>
 
-      <section className="border-y border-border/60 bg-surface-elevated/40">
+      <section className="section-graphite">
         <div className="container py-14 lg:py-20">
           <div className="mb-8 max-w-3xl space-y-3">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Почему мне доверяют</p>
-            <h2 className="text-2xl font-semibold leading-snug text-balance sm:text-3xl">
+            <p className="section-kicker">Почему мне доверяют</p>
+            <h2 className="text-3xl font-semibold leading-snug text-balance sm:text-4xl">
               Данис Гарипов — финансовый брокер с многолетним опытом, который структурирует сделки, соединяет нужных людей и выстраивает финансовое решение под конкретную задачу, сумму и срок.
             </h2>
           </div>
@@ -351,22 +355,22 @@ const Index = () => {
 
 
       {/* Editorial portrait block — inspired by the reference bottom block */}
-      <section className="relative overflow-hidden border-b border-border/60 bg-[#0E0E0E] py-14 text-[#FDFDFD] lg:py-20">
+      <section className="relative overflow-hidden border-b border-border/60 bg-background py-16 text-foreground lg:py-24">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-25"
           style={{ backgroundImage: `url(${heroBackground})` }}
           aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(14,14,14,0.7)_60%,#0E0E0E_100%)]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,hsl(var(--background)/0.72)_60%,hsl(var(--background))_100%)]" aria-hidden="true" />
 
         <div className="container relative">
-          <div className="mx-auto max-w-6xl rounded-2xl border border-[#FDFDFD]/10 bg-[#F4F1EA] p-6 text-[#1E1E1E] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)] sm:p-8 lg:p-10">
+          <div className="mx-auto max-w-6xl rounded-lg border border-primary/25 bg-surface-elevated/88 p-6 text-foreground shadow-panel sm:p-8 lg:p-10">
             <div>
-              <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-[#1E1E1E]" style={{ letterSpacing: "-0.03em" }}>
+              <h2 className="font-extrabold uppercase leading-[0.85] tracking-tight text-foreground" style={{ letterSpacing: "-0.03em" }}>
                 <span className="block text-[14vw] sm:text-[10vw] lg:text-[6.5vw]">ГАРИПОВ</span>
-                <span className="block text-[12vw] text-[#97965B] sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
+                <span className="block text-[12vw] text-primary sm:text-[8.5vw] lg:text-[5.5vw]">финансы</span>
               </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#1E1E1E]/75 sm:text-base">
+              <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
                 Финансовый брокер с многолетним опытом структурирования сделок и работы со сложными ситуациями.
               </p>
 
@@ -379,9 +383,9 @@ const Index = () => {
                   { v: "5+", l: ["направлений", "сервиса"] },
                   { v: "1×1", l: ["разбор ситуации"] },
                 ].map((s) => (
-                  <div key={s.l.join(" ")} className="rounded-lg border border-[#1E1E1E]/10 bg-white px-1 py-2 text-center shadow-sm sm:p-4">
-                    <p className="text-base font-bold leading-none text-[#1E1E1E] sm:text-2xl">{s.v}</p>
-                    <p className="mt-1 text-[8px] uppercase leading-tight tracking-tight text-[#1E1E1E]/60 break-words hyphens-auto sm:text-[11px] sm:tracking-wider">
+                  <div key={s.l.join(" ")} className="rounded-lg border border-border/70 bg-background/70 px-1 py-3 text-center shadow-soft sm:p-4">
+                    <p className="text-lg font-bold leading-none text-foreground sm:text-3xl">{s.v}</p>
+                    <p className="mt-1 text-[10px] uppercase leading-tight tracking-tight text-muted-foreground break-words hyphens-auto sm:text-xs sm:tracking-wider">
                       {s.l.map((line, idx) => (
                         <span key={idx} className="block">{line}</span>
                       ))}
@@ -403,36 +407,38 @@ const Index = () => {
 
 
 
-      <section className="container py-14 lg:py-20">
+      <section className="section-dark section-spacious">
+        <div className="container">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="space-y-3">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Кому подходит</p>
-            <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Для людей, которым нужно улучшить финансовую ситуацию .</h2>
+            <p className="section-kicker">Кому подходит</p>
+            <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Для людей, которым нужно улучшить финансовую ситуацию .</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {audience.map((item) => (
-              <div key={item} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground sm:text-base">
+              <div key={item} className="rounded-lg border border-border/70 bg-surface-soft/65 p-5 text-base leading-7 text-muted-foreground sm:text-lg">
                 {item}
               </div>
             ))}
           </div>
         </div>
+        </div>
       </section>
 
-      <section id="agent" className="border-y border-border/60 bg-surface-elevated/40">
-        <div className="container py-14 lg:py-20">
+      <section id="agent" className="section-graphite">
+        <div className="container py-16 lg:py-24">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
             <div className="space-y-4">
-              <p className="text-sm uppercase tracking-[0.16em] text-primary">Стать агентом</p>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Формат для тех, кто хочет зарабатывать в команде сильных экспертов финансового сервиса и работать на доверие.</h2>
-              <p className="text-base leading-7 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью финансовой экосистемы.</p>
+              <p className="section-kicker">Стать агентом</p>
+              <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Формат для тех, кто хочет зарабатывать в команде сильных экспертов финансового сервиса и работать на доверие.</h2>
+              <p className="text-lg leading-8 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью финансовой экосистемы.</p>
               <Button asChild variant="hero" size="xl">
                 <a href="#lead-form">Оставить заявку</a>
               </Button>
             </div>
             <div className="grid gap-4">
               {agentReasons.map((item) => (
-                <div key={item} className="rounded-lg border border-border/70 bg-background/70 p-5 text-sm leading-6 text-muted-foreground backdrop-blur-sm">
+                <div key={item} className="rounded-lg border border-border/70 bg-background/70 p-5 text-base leading-7 text-muted-foreground backdrop-blur-sm">
                   {item}
                 </div>
               ))}
@@ -441,25 +447,26 @@ const Index = () => {
         </div>
       </section>
 
-      <section id="charity" className="container py-14 lg:py-20">
-        <div className="panel rounded-lg p-6 sm:p-8">
+      <section id="charity" className="section-dark section-spacious">
+        <div className="container">
+        <div className="rounded-lg border border-border/70 bg-surface-elevated/60 p-6 shadow-soft sm:p-8">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
             <div className="space-y-4">
               <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-soft px-4 py-2 text-sm text-muted-foreground">
                 <HeartHandshake className="size-4 text-primary" />
                 Благотворительность
               </div>
-              <h2 className="text-3xl font-semibold text-balance sm:text-4xl">Отдельное направление, в котором важны участие, внимание и реальная польза.</h2>
-              <p className="text-base leading-7 text-muted-foreground">
+              <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Отдельное направление, в котором важны участие, внимание и реальная польза.</h2>
+              <p className="text-lg leading-8 text-muted-foreground">
                 Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление показывает ценности проекта и то, что за ним стоят не только деньги и задачи, но и внутренняя основа.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <button
                   type="button"
-                  className="inline-flex flex-col items-center justify-center rounded-md bg-[#C8102E] px-8 py-3 text-white shadow-soft transition-transform duration-200 hover:-translate-y-0.5 hover:bg-[#A50D26] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8102E]/60"
+                  className="inline-flex flex-col items-center justify-center rounded-md bg-primary px-8 py-3 text-primary-foreground shadow-glow transition-transform duration-200 hover:-translate-y-0.5 hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <span className="text-lg font-bold uppercase tracking-wider leading-none">Участвовать</span>
-                  <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/85">внести вклад</span>
+                  <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-primary-foreground/85">внести вклад</span>
                 </button>
               </div>
 
@@ -476,7 +483,7 @@ const Index = () => {
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {charityPoints.map((item) => (
-                  <div key={item} className="rounded-lg border border-border/70 bg-surface-soft p-5 text-sm leading-6 text-muted-foreground">
+                  <div key={item} className="rounded-lg border border-border/70 bg-surface-soft/70 p-5 text-base leading-7 text-muted-foreground">
                     {item}
                   </div>
                 ))}
@@ -484,19 +491,22 @@ const Index = () => {
             </div>
           </div>
         </div>
+        </div>
       </section>
 
-      <section id="lead-form" className="container py-6 lg:py-10">
+      <section id="lead-form" className="section-graphite py-12 lg:py-16">
+        <div className="container">
         <LeadForm
           title="Оставить заявку"
           description="Если у вас есть финансовая ситуация, которую нужно разобрать — оставьте контакт и запрос. Мы вернёмся с понятной логикой дальнейших действий."
         />
+        </div>
       </section>
 
-      <section id="contacts" className="border-t border-border/60 bg-surface-elevated/45">
-        <div className="container grid gap-8 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:py-18">
+      <section id="contacts" className="section-dark">
+        <div className="container grid gap-8 py-16 lg:grid-cols-[0.8fr_1.2fr] lg:py-20">
           <div className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.16em] text-primary">Контакты и форма</p>
+            <p className="section-kicker">Контакты и форма</p>
             
             <div className="grid gap-3">
               {[
@@ -536,12 +546,12 @@ const Index = () => {
                     href={href}
                     target="_blank"
                     rel="noreferrer"
-                    className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm transition-colors hover:border-primary/60"
+                    className="rounded-lg border border-border/70 bg-surface-soft/60 p-4 backdrop-blur-sm transition-colors hover:border-primary/60"
                   >
                     {content}
                   </a>
                 ) : (
-                  <div key={label} className="rounded-lg border border-border/70 bg-background/70 p-4 backdrop-blur-sm">
+                  <div key={label} className="rounded-lg border border-border/70 bg-surface-soft/60 p-4 backdrop-blur-sm">
                     {content}
                   </div>
                 );
@@ -551,10 +561,10 @@ const Index = () => {
           </div>
         </div>
       </section>
-      <section className="border-t border-border/60 bg-surface-elevated/30">
-        <div className="container py-10 lg:py-14">
-          <p className="text-sm uppercase tracking-[0.16em] text-primary">Документы</p>
-          <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Правовая информация</h2>
+      <section className="section-graphite">
+        <div className="container py-12 lg:py-16">
+          <p className="section-kicker">Документы</p>
+          <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Правовая информация</h2>
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             {[
               { label: "Политика обработки персональных данных", href: "/docs/politika-personalnyh-dannyh.docx" },
