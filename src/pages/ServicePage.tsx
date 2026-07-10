@@ -59,7 +59,7 @@ const ServicePage = () => {
                 <a href="#service-form">Оставить заявку</a>
               </Button>
               <Button asChild variant="soft" size="xl" className="h-auto min-h-12 whitespace-normal px-5 text-center sm:px-10">
-                <Link to="/#quiz">Получить мини-разбор по нумерологии</Link>
+                <Link to="/#quiz">Получить мини финансовый разбор</Link>
               </Button>
             </div>
           )}

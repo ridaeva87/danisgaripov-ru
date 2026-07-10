@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import {
   ArrowRight,
   HandHelping,
-  HeartHandshake,
   MessageCircle,
   Send,
 } from "lucide-react";
@@ -46,20 +45,9 @@ const analysisPoints = [
   "в каком направлении сейчас лучше двигаться по деньгам",
 ];
 
-const CHARITY_GOAL = 1_114_000;
-
-
 const agentReasons = ["для тех, кто умеет выстраивать доверие", "для тех, кто хочет вести людей к сильному сервису", "для тех, кому важен взрослый формат работы"];
 
-const charityPoints = ["поддержка людей в сложной жизненной ситуации", "участие в полезных адресных инициативах", "взрослая позиция сервиса — не только решать, но и помогать"];
-
-const formatRub = (value: number) =>
-  new Intl.NumberFormat("ru-RU").format(value) + " ₽";
-
-
 const Index = () => {
-  const [charityRaised, setCharityRaised] = useState(0);
-
   useEffect(() => {
     document.title = "Данис Гарипов — финансовые решения";
     if (window.location.hash) {
@@ -69,20 +57,6 @@ const Index = () => {
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
-  }, []);
-
-  useEffect(() => {
-    const duration = 1400;
-    const start = performance.now();
-    let raf = 0;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setCharityRaised(Math.round(CHARITY_GOAL * eased));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
   }, []);
 
   return (
@@ -95,9 +69,8 @@ const Index = () => {
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Услуги</a>
-            <a href="#analysis" className="transition-colors hover:text-foreground">Мини-разбор по нумерологии</a>
+            <a href="#analysis" className="transition-colors hover:text-foreground">Мини-разбор</a>
             <a href="#agent" className="transition-colors hover:text-foreground">Стать агентом</a>
-            <a href="#charity" className="transition-colors hover:text-foreground">Благотворительность</a>
             <a href="#contacts" className="transition-colors hover:text-foreground">Контакты</a>
           </nav>
           <Button asChild variant="hero" className="hidden lg:inline-flex">
@@ -276,7 +249,7 @@ const Index = () => {
         <div className="container">
         <div className="mb-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-3">
-            <p className="section-kicker">Финансовый мини-разбор по нумерологии</p>
+            <p className="section-kicker">Бесплатный финансовый мини-разбор</p>
             <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Первый бережный шаг, чтобы шире посмотреть на свою финансовую ситуацию.</h2>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
@@ -313,12 +286,12 @@ const Index = () => {
 
         <div id="quiz" className="scroll-mt-24">
           <div className="mb-5 space-y-3">
-            <p className="section-kicker">Мини-опрос перед разбором по нумерологии</p>
+            <p className="section-kicker">Мини-опрос перед разбором</p>
             <h3 className="text-3xl font-semibold text-balance sm:text-4xl">
-              Ответьте на 7 коротких вопросов — подготовим финансовый мини-разбор по нумерологии
+              Ответьте на 7 коротких вопросов — подготовим финансовый мини-разбор
             </h3>
             <p className="max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
-              С помощью нумерологии мы посмотрим, что сейчас влияет на вашу финансовую ситуацию, где могут быть внутренние ограничения и какой первый шаг стоит сделать бережно и осознанно.
+              Посмотрим, что сейчас влияет на вашу финансовую ситуацию, где могут быть внутренние ограничения и какой первый шаг стоит сделать бережно и осознанно.
             </p>
           </div>
           <CustdevQuiz scrollTargetId="lead-form" />
@@ -329,11 +302,14 @@ const Index = () => {
               <p className="mt-2 text-base leading-7 text-muted-foreground">
                 Первый мини-разбор доступен бесплатно за подписку на канал. Более глубокий персональный разбор можно будет заказать отдельно после первичной диагностики.
               </p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Сноска: мини-разбор проводится в нумерологическом формате и помогает шире посмотреть на финансовую ситуацию.
+              </p>
             </div>
             <div className="rounded-lg border border-border/70 bg-surface-soft/70 p-5">
               <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Обратите внимание</p>
               <p className="mt-2 text-base leading-7 text-muted-foreground">
-                Финансовый мини-разбор по нумерологии не является финансовой или юридической рекомендацией. Это символический формат, который помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
+                Финансовый мини-разбор не является финансовой или юридической рекомендацией. Это символический формат, который помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
               </p>
             </div>
           </div>
@@ -376,9 +352,9 @@ const Index = () => {
 
               <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-4">
                 {[
-                  { v: "7+", l: ["лет в финансах"] },
+                  { v: "10+", l: ["лет в финансах"] },
                   { v: "500+", l: ["проведённых", "сделок"] },
-                  { v: "24/7", l: ["сопровождение"] },
+                  { v: "Оперативная", l: ["обратная", "связь"] },
                   { v: "100%", l: ["по вашему запросу"] },
                   { v: "5+", l: ["направлений", "сервиса"] },
                   { v: "1×1", l: ["разбор ситуации"] },
@@ -444,53 +420,6 @@ const Index = () => {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="charity" className="section-dark section-spacious">
-        <div className="container">
-        <div className="rounded-lg border border-border/70 bg-surface-elevated/60 p-6 shadow-soft sm:p-8">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface-soft px-4 py-2 text-sm text-muted-foreground">
-                <HeartHandshake className="size-4 text-primary" />
-                Благотворительность
-              </div>
-              <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Отдельное направление, в котором важны участие, внимание и реальная польза.</h2>
-              <p className="text-lg leading-8 text-muted-foreground">
-                Финансовый сервис может быть сильным и при этом человечным. Благотворительное направление показывает ценности проекта и то, что за ним стоят не только деньги и задачи, но и внутренняя основа.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
-                <button
-                  type="button"
-                  className="inline-flex flex-col items-center justify-center rounded-md bg-primary px-8 py-3 text-primary-foreground shadow-glow transition-transform duration-200 hover:-translate-y-0.5 hover:bg-brand-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <span className="text-lg font-bold uppercase tracking-wider leading-none">Участвовать</span>
-                  <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-primary-foreground/85">внести вклад</span>
-                </button>
-              </div>
-
-            </div>
-            <div className="space-y-5">
-              <div className="rounded-lg border border-primary/30 bg-primary/5 p-6">
-                <p className="text-sm uppercase tracking-[0.16em] text-primary">Уже собрано на благотворительность</p>
-                <p className="mt-3 text-4xl font-bold tabular-nums text-foreground sm:text-5xl">
-                  {formatRub(charityRaised)}
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Счётчик отражает суммарные взносы, направленные через сервис.
-                </p>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-3">
-                {charityPoints.map((item) => (
-                  <div key={item} className="rounded-lg border border-border/70 bg-surface-soft/70 p-5 text-base leading-7 text-muted-foreground">
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
         </div>
       </section>
 
