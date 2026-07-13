@@ -14,7 +14,17 @@ const ServicePage = () => {
   useEffect(() => {
     if (service) {
       document.title = `${service.title} — Данис Гарипов`;
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (window.location.hash) {
+        const id = window.location.hash.slice(1);
+        requestAnimationFrame(() => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   }, [service]);
 
@@ -56,11 +66,19 @@ const ServicePage = () => {
           {!service.comingSoon && (
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button asChild variant="hero" size="xl" className="h-auto min-h-12 whitespace-normal px-5 text-center sm:px-10">
-                <a href="#service-form">Оставить заявку</a>
+                <a
+                  href={service.primaryCtaHref ?? "#service-form"}
+                  target={service.primaryCtaHref?.startsWith("http") ? "_blank" : undefined}
+                  rel={service.primaryCtaHref?.startsWith("http") ? "noreferrer" : undefined}
+                >
+                  {service.primaryCtaLabel ?? "Оставить заявку"}
+                </a>
               </Button>
-              <Button asChild variant="soft" size="xl" className="h-auto min-h-12 whitespace-normal px-5 text-center sm:px-10">
-                <Link to="/#quiz">Получить мини финансовый разбор</Link>
-              </Button>
+              {!service.primaryCtaHref && (
+                <Button asChild variant="soft" size="xl" className="h-auto min-h-12 whitespace-normal px-5 text-center sm:px-10">
+                  <Link to="/#quiz">Получить мини финансовый разбор</Link>
+                </Button>
+              )}
             </div>
           )}
         </div>
@@ -142,6 +160,19 @@ const ServicePage = () => {
             </section>
           )}
 
+          {service.reviewsPlaceholder && (
+            <section className="section-dark">
+              <div className="container py-10 lg:py-16">
+              <div className="rounded-lg border border-border/70 bg-surface-elevated/65 p-6 shadow-soft sm:p-8">
+                <h2 className="text-3xl font-semibold">Отзывы</h2>
+                <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
+                  {service.reviewsPlaceholder}
+                </p>
+              </div>
+              </div>
+            </section>
+          )}
+
           {service.differences && (
             <section className="section-dark">
               <div className="container py-10 lg:py-16">
@@ -179,11 +210,28 @@ const ServicePage = () => {
 
           <section id="service-form" className="section-graphite py-12 lg:py-16">
             <div className="container">
-            <LeadForm
-              title={`Заявка по направлению «${service.title}»`}
-              description="Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
-              ctaLabel="Отправить запрос"
-            />
+            {service.primaryCtaHref ? (
+              <div className="rounded-lg border border-border/70 bg-surface-elevated/70 p-6 shadow-panel sm:p-8">
+                <p className="section-kicker">Запись на консультацию</p>
+                <h2 className="mt-3 max-w-3xl text-3xl font-semibold sm:text-4xl">
+                  Перейдите к оплате и записи на консультацию.
+                </h2>
+                <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
+                  После оплаты команда свяжется с вами и согласует удобный формат консультации.
+                </p>
+                <Button asChild variant="hero" size="xl" className="mt-6 h-auto min-h-12 whitespace-normal text-center">
+                  <a href={service.primaryCtaHref} target="_blank" rel="noreferrer">
+                    {service.primaryCtaLabel ?? "Записаться"}
+                  </a>
+                </Button>
+              </div>
+            ) : (
+              <LeadForm
+                title={`Заявка по направлению «${service.title}»`}
+                description="Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
+                ctaLabel="Отправить запрос"
+              />
+            )}
             </div>
           </section>
         </>

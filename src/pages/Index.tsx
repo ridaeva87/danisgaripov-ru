@@ -90,31 +90,6 @@ const financialReviewTariffs = [
 
 const agentReasons = ["для тех, кто умеет выстраивать доверие", "для тех, кто хочет вести людей к сильному сервису", "для тех, кому важен взрослый формат работы"];
 
-const businessPsychologistPaymentUrl = "https://qr.nspk.ru/BS2A0054HVSSGK0N8SF88T0FIN73QU6O?type=01&bank=100000000284&crc=490A";
-
-const businessPsychologistAudience = [
-  "предпринимателям и экспертам, которые хотят масштабироваться, но чувствуют внутреннее напряжение перед ростом",
-  "руководителям, которым важно принимать финансовые и управленческие решения спокойнее и яснее",
-  "тем, кто видит потенциал в IT-разработке, автоматизации и новых бизнес-инструментах, но откладывает внедрение",
-  "тем, кто упирается не только в цифры, но и в страх ошибки, перегруз, сомнения или хаос в приоритетах",
-];
-
-const businessPsychologistSteps = [
-  "Формулируем запрос: деньги, бизнес, масштабирование, команда, решения или личное состояние предпринимателя.",
-  "Разбираем, какие установки, сценарии и реакции сейчас влияют на финансовые и бизнес-действия.",
-  "Соединяем психологическую часть с практической логикой: что можно изменить в мышлении, коммуникации и управлении.",
-  "Фиксируем следующий шаг, который помогает двигаться к росту без лишнего давления и хаотичных решений.",
-];
-
-const businessPsychologistResults = [
-  "более ясное понимание, где именно предприниматель тормозит рост бизнеса или дохода",
-  "бережную настройку мышления под масштабирование, деньги и ответственность",
-  "опору для решений, связанных с финансами, командой, IT-разработкой и развитием проекта",
-  "конкретный следующий шаг после консультации, а не просто абстрактное обсуждение проблемы",
-];
-
-const businessPsychologistReviews: { author: string; text: string }[] = [];
-
 const Index = () => {
   useEffect(() => {
     document.title = "Данис Гарипов — финансовые решения";
@@ -139,7 +114,6 @@ const Index = () => {
             <a href="#services" className="transition-colors hover:text-foreground">Услуги</a>
             <a href="#analysis" className="transition-colors hover:text-foreground">Мини-разбор</a>
             <a href="#agent" className="transition-colors hover:text-foreground">Стать агентом</a>
-            <a href="#business-psychologist" className="transition-colors hover:text-foreground">Бизнес-психолог</a>
             <a href="#contacts" className="transition-colors hover:text-foreground">Контакты</a>
           </nav>
           <Button asChild variant="hero" className="hidden lg:inline-flex">
@@ -282,10 +256,17 @@ const Index = () => {
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="flex-1 justify-between">
-                    <a href="#lead-form">
+                    {service.primaryCtaHref ? (
+                      <Link to={`/services/${service.slug}#service-form`}>
+                        Оставить заявку
+                        <ArrowRight />
+                      </Link>
+                    ) : (
+                      <a href="#lead-form">
                       Оставить заявку
                       <ArrowRight />
-                    </a>
+                      </a>
+                    )}
                   </Button>
                 </div>
               </article>
@@ -517,100 +498,6 @@ const Index = () => {
                   {item}
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="business-psychologist" className="section-dark section-spacious">
-        <div className="container">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-            <div className="space-y-5">
-              <div className="space-y-3">
-                <p className="section-kicker">Бизнес-психолог</p>
-                <h2 className="text-4xl font-semibold text-balance sm:text-5xl">
-                  Консультация для предпринимателей, которым важно расти без внутреннего саботажа.
-                </h2>
-              </div>
-              <p className="text-lg leading-8 text-muted-foreground">
-                Работа с Анастасией помогает соединить финансовые цели, состояние предпринимателя и реальные бизнес-действия. Это направление дополняет финансовую экосистему Даниса: деньги, бизнес-психология, IT-разработка и масштабирование рассматриваются как связанные части одного роста.
-              </p>
-              <div className="rounded-lg border border-primary/35 bg-primary/10 p-5">
-                <h3 className="text-2xl font-semibold">Описание услуги</h3>
-                <p className="mt-3 text-base leading-7 text-muted-foreground sm:text-lg">
-                  Консультация подходит для ситуаций, когда бизнесу нужны не только финансовые инструменты, но и работа с мышлением, решимостью, устойчивостью и внутренними ограничениями. На встрече запрос переводится из тревоги или хаоса в понятную структуру: что происходит сейчас, что мешает двигаться дальше и какой следующий шаг поможет клиенту действовать осознаннее.
-                </p>
-              </div>
-              <Button asChild variant="hero" size="xl" className="h-auto min-h-12 whitespace-normal text-center">
-                <a href={businessPsychologistPaymentUrl} target="_blank" rel="noreferrer">
-                  Записаться на консультацию
-                </a>
-              </Button>
-            </div>
-
-            <div className="grid gap-5">
-              <div className="rounded-lg border border-border/70 bg-surface-soft/65 p-6">
-                <h3 className="text-2xl font-semibold">Кому подходит</h3>
-                <div className="mt-5 grid gap-3">
-                  {businessPsychologistAudience.map((item) => (
-                    <div key={item} className="flex gap-3 text-base leading-7 text-muted-foreground">
-                      <span className="mt-3 size-1.5 shrink-0 rounded-full bg-primary" />
-                      <p>{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-5 xl:grid-cols-2">
-                <div className="rounded-lg border border-border/70 bg-surface-elevated/65 p-6">
-                  <h3 className="text-2xl font-semibold">Как проходит консультация</h3>
-                  <div className="mt-5 space-y-4">
-                    {businessPsychologistSteps.map((step, index) => (
-                      <div key={step} className="grid grid-cols-[auto_1fr] gap-3">
-                        <span className="text-sm font-semibold text-primary">0{index + 1}</span>
-                        <p className="text-base leading-7 text-muted-foreground">{step}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-lg border border-border/70 bg-surface-elevated/65 p-6">
-                  <h3 className="text-2xl font-semibold">Какой результат получает клиент</h3>
-                  <div className="mt-5 space-y-3">
-                    {businessPsychologistResults.map((item) => (
-                      <div key={item} className="flex gap-3 text-base leading-7 text-muted-foreground">
-                        <span className="mt-3 size-1.5 shrink-0 rounded-full bg-primary" />
-                        <p>{item}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-lg border border-border/70 bg-background/55 p-6">
-                <h3 className="text-2xl font-semibold">Отзывы</h3>
-                {businessPsychologistReviews.length > 0 ? (
-                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                    {businessPsychologistReviews.map((review) => (
-                      <blockquote key={`${review.author}-${review.text}`} className="rounded-lg border border-border/70 bg-surface-soft/65 p-5">
-                        <p className="text-base leading-7 text-muted-foreground">{review.text}</p>
-                        <footer className="mt-3 text-sm font-medium text-primary">{review.author}</footer>
-                      </blockquote>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="mt-3 text-base leading-7 text-muted-foreground">
-                    Раздел подготовлен для дальнейшего добавления отзывов участников программ Анастасии после согласования публикации.
-                  </p>
-                )}
-              </div>
-
-              <div className="rounded-lg border border-border/70 bg-surface-soft/65 p-6">
-                <h3 className="text-2xl font-semibold">Важно</h3>
-                <p className="mt-3 text-base leading-7 text-muted-foreground">
-                  Консультация бизнес-психолога не является медицинской, психотерапевтической, финансовой, инвестиционной или юридической услугой. Формат помогает структурировать запрос, увидеть возможные внутренние ограничения и определить следующий шаг. Финансовые, кредитные, IT- и бизнес-решения обсуждаются отдельно в рамках соответствующих направлений экосистемы.
-                </p>
-              </div>
             </div>
           </div>
         </div>
