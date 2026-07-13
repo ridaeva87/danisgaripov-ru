@@ -45,6 +45,49 @@ const analysisPoints = [
   "в каком направлении сейчас лучше двигаться по деньгам",
 ];
 
+const financialReviewTariffs = [
+  {
+    id: "mini",
+    title: "Мини-разбор",
+    price: "5 000 ₽",
+    note: "Бесплатно за подписку на Telegram-канал",
+    buttonLabel: "Получить бесплатно",
+    href: "#quiz",
+    description: "Формат для первого знакомства с финансовой ситуацией.",
+    integrationPayload: {
+      service: "financial_review",
+      tariff: "mini",
+      source: "site_analysis_block",
+    },
+  },
+  {
+    id: "comfort",
+    title: "Комфорт",
+    price: "10 000 ₽",
+    buttonLabel: "Оплатить 10 000 ₽",
+    href: "https://auth.robokassa.ru/merchant/Invoice/0mq2XM8pv0uWCuoFeeEl4g",
+    description: "Расширенный персональный разбор финансовой ситуации с более подробными рекомендациями по следующему шагу.",
+    integrationPayload: {
+      service: "financial_review",
+      tariff: "comfort",
+      source: "site_analysis_block",
+    },
+  },
+  {
+    id: "ultimate",
+    title: "Ultimate",
+    price: "50 000 ₽",
+    buttonLabel: "Оплатить 50 000 ₽",
+    href: "https://auth.robokassa.ru/merchant/Invoice/m5OY9uzI3EuTxEKBTBqE0g",
+    description: "Глубокий персональный разбор с детальной стратегией действий и рекомендациями по дальнейшему финансовому направлению.",
+    integrationPayload: {
+      service: "financial_review",
+      tariff: "ultimate",
+      source: "site_analysis_block",
+    },
+  },
+];
+
 const agentReasons = ["для тех, кто умеет выстраивать доверие", "для тех, кто хочет вести людей к сильному сервису", "для тех, кому важен взрослый формат работы"];
 
 const Index = () => {
@@ -249,15 +292,14 @@ const Index = () => {
         <div className="container">
         <div className="mb-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div className="space-y-3">
-            <p className="section-kicker">Бесплатный финансовый мини-разбор</p>
-            <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Первый бережный шаг, чтобы шире посмотреть на свою финансовую ситуацию.</h2>
+            <p className="section-kicker">Финансовые разборы</p>
+            <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Выберите формат разбора под глубину вашей финансовой задачи.</h2>
+            <p className="max-w-2xl text-lg leading-8 text-muted-foreground">
+              От первого знакомства с ситуацией до глубокой персональной стратегии: каждый формат помогает шире посмотреть на деньги и выбрать следующий шаг.
+            </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            {[
-              "где вы находитесь сейчас",
-              "какие варианты решения реально доступны",
-              "с какого шага лучше начинать",
-            ].map((point) => (
+            {analysisPoints.slice(0, 3).map((point) => (
               <div key={point} className="rounded-lg border border-border/70 bg-surface-soft/70 p-5 text-base leading-7 text-muted-foreground">
                 {point}
               </div>
@@ -265,22 +307,53 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="mb-8 rounded-lg border border-border/70 bg-surface-elevated/65 p-6 shadow-soft sm:p-8">
-          <h3 className="text-2xl font-semibold sm:text-3xl">Что вы получите в мини-разборе</h3>
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-            {[
-              "символический взгляд на текущую финансовую ситуацию",
-              "возможные внутренние ограничения и страхи",
-              "подсказку, на что обратить внимание прямо сейчас",
-              "первый бережный шаг к решению",
-              "если нужна практическая помощь — рекомендацию, с каким финансовым направлением лучше обратиться к Данису",
-            ].map((point) => (
-              <li key={point} className="flex items-start gap-3 rounded-md border border-border/60 bg-background/45 p-4 text-base leading-7 text-muted-foreground">
-                <span className="mt-2 size-1.5 shrink-0 rounded-full bg-primary" />
-                {point}
-              </li>
-            ))}
-          </ul>
+        <div className="mb-8 grid gap-4 lg:grid-cols-3">
+          {financialReviewTariffs.map((tariff) => (
+            <article
+              key={tariff.id}
+              data-service={tariff.integrationPayload.service}
+              data-tariff={tariff.integrationPayload.tariff}
+              data-source={tariff.integrationPayload.source}
+              className="flex h-full flex-col rounded-lg border border-border/70 bg-surface-elevated/65 p-6 shadow-soft sm:p-7"
+            >
+              <div className="space-y-3">
+                <div className="flex items-start justify-between gap-4">
+                  <h3 className="text-2xl font-semibold sm:text-3xl">{tariff.title}</h3>
+                  <p className="rounded-md border border-primary/35 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+                    {tariff.price}
+                  </p>
+                </div>
+                {tariff.note && (
+                  <p className="inline-flex rounded-md border border-border/70 bg-background/45 px-3 py-2 text-sm leading-5 text-muted-foreground">
+                    {tariff.note}
+                  </p>
+                )}
+                <p className="text-base italic leading-7 text-muted-foreground">
+                  {tariff.description}
+                </p>
+              </div>
+              <div className="mt-auto pt-6">
+                <Button asChild variant={tariff.id === "mini" ? "hero" : "soft"} size="xl" className="h-auto min-h-12 w-full whitespace-normal text-center">
+                  <a
+                    href={tariff.href}
+                    target={tariff.href.startsWith("http") ? "_blank" : undefined}
+                    rel={tariff.href.startsWith("http") ? "noreferrer" : undefined}
+                  >
+                    {tariff.buttonLabel}
+                  </a>
+                </Button>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mb-8 rounded-lg border border-border/70 bg-surface-soft/70 p-5 text-base leading-7 text-muted-foreground">
+          <p>
+            Финансовые разборы не являются финансовой, инвестиционной или юридической рекомендацией и не заменяют индивидуальную консультацию профильного специалиста. Практические решения по кредитованию, займам, возвратам и другим направлениям обсуждаются отдельно после анализа вашей ситуации.
+          </p>
+          <p className="mt-3 text-sm leading-6">
+            Архитектурно блок подготовлен к дальнейшей интеграции нового Telegram-бота через связку service/tariff/source, но на этом этапе новый бот не разрабатывается. Существующий @finance_razbor_bot продолжает использоваться только для проверки подписки и выдачи кода доступа к бесплатному формату.
+          </p>
         </div>
 
 
