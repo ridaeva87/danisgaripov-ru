@@ -1,0 +1,14 @@
+{
+  "name": "danisgaripov-client-telegram-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Unified Telegram client bot for danisgaripov.ru service requests.",
+  "scripts": {
+    "start": "node src/bot.mjs",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
