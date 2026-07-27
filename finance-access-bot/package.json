@@ -1,0 +1,14 @@
+{
+  "name": "danisgaripov-finance-access-bot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Access-code bot for the free financial review flow.",
+  "scripts": {
+    "start": "node src/bot.mjs",
+    "check": "node --check src/bot.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
