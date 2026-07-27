@@ -1,6 +1,7 @@
 import { BadgeDollarSign, BrainCircuit, Cpu, FileCheck2, GaugeCircle, HandCoins, ShieldCheck, type LucideIcon } from "lucide-react";
 
-import itDevelopmentImage from "@/assets/it-development.jpg";
+import liliaAndDanisImage from "@/assets/lilia-and-danis.jpg";
+import nastyaAndDanisImage from "@/assets/nastya-and-danis.png";
 
 export type InfoBlock = {
   title: string;
@@ -26,12 +27,13 @@ export type ServiceItem = {
   bonus?: InfoBlock;
   important?: string;
   heroImage?: string;
+  heroImagePosition?: string;
   primaryCtaLabel?: string;
   primaryCtaHref?: string;
   reviewsPlaceholder?: string;
 };
 
-export const services: ServiceItem[] = [
+const serviceItems: ServiceItem[] = [
   {
     slug: "vozvrat-strahovok",
     title: "Возврат страховок",
@@ -197,7 +199,8 @@ export const services: ServiceItem[] = [
     heroDescription:
       "Разрабатываем сайты, веб-сервисы, AI-помощников и автоматизацию бизнес-процессов под задачи вашей компании.",
     icon: Cpu,
-    heroImage: itDevelopmentImage,
+    heroImage: liliaAndDanisImage,
+    heroImagePosition: "center 42%",
     intro:
       "Создаём инструменты, которые помогают экономить время сотрудников, сокращать рутину и увеличивать эффективность бизнеса.",
     suitableFor: [
@@ -247,6 +250,8 @@ export const services: ServiceItem[] = [
     heroDescription:
       "Консультация для предпринимателей, которым важно расти без внутреннего саботажа.",
     icon: BrainCircuit,
+    heroImage: nastyaAndDanisImage,
+    heroImagePosition: "center 44%",
     primaryCtaLabel: "Записаться на консультацию",
     primaryCtaHref: "https://qr.nspk.ru/BS2A0054HVSSGK0N8SF88T0FIN73QU6O?type=01&bank=100000000284&crc=490A",
     intro:
@@ -280,5 +285,23 @@ export const services: ServiceItem[] = [
     trustPoints: [],
   },
 ];
+
+const serviceOrder = [
+  "kreditovanie",
+  "chastnye-zaymy",
+  "vozvrat-strahovok",
+  "uluchshenie-kreditnoy-istorii",
+  "srochnyy-vykup-avto",
+  "it-razrabotka",
+  "business-psychologist",
+];
+
+export const services = serviceOrder.map((slug) => {
+  const service = serviceItems.find((item) => item.slug === slug);
+  if (!service) {
+    throw new Error(`Service not found: ${slug}`);
+  }
+  return service;
+});
 
 export const servicesMap = Object.fromEntries(services.map((service) => [service.slug, service]));

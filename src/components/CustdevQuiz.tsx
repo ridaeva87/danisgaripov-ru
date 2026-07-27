@@ -96,9 +96,11 @@ const TOTAL_STEPS = 8;
 
 type CustdevQuizProps = {
   scrollTargetId: string;
+  completionHref?: string;
+  completionButtonLabel?: string;
 };
 
-export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
+export const CustdevQuiz = ({ scrollTargetId, completionHref, completionButtonLabel }: CustdevQuizProps) => {
   const [showGate, setShowGate] = useState(true);
   const [gateCode, setGateCode] = useState("");
   const [gateError, setGateError] = useState("");
@@ -173,6 +175,10 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
   };
 
   const scrollToForm = () => {
+    if (completionHref) {
+      window.location.href = completionHref;
+      return;
+    }
     const el = document.getElementById(scrollTargetId);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -184,13 +190,13 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
           <Send className="size-7" />
         </div>
         <h3 className="mt-5 text-3xl font-semibold text-balance sm:text-4xl">
-          Бесплатный финансовый мини-разбор
+          Бесплатный финансовый разбор
         </h3>
         <p className="mx-auto mt-3 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
-          Чтобы получить бесплатный финансовый мини-разбор, подпишитесь на канал @garipovdanis
+          Чтобы получить бесплатный финансовый разбор, подпишитесь на канал @garipovdanis
         </p>
         <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
-          Сноска: мини-разбор проводится в нумерологическом формате и помогает шире посмотреть на финансовую ситуацию.
+          Сноска: финансовый разбор проводится в нумерологическом формате и помогает шире посмотреть на финансовую ситуацию.
         </p>
         <div className="mt-4 flex justify-center">
           <Button asChild variant="hero" size="xl">
@@ -238,11 +244,11 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
         </div>
         <h3 className="mt-5 text-3xl font-semibold text-balance sm:text-4xl">Спасибо</h3>
         <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-          На основе ваших ответов мы подготовим предварительный финансовый мини-разбор и подскажем, с каким направлением лучше обратиться к Данису, если нужна практическая помощь.
+          На основе ваших ответов мы подготовим предварительный финансовый разбор и подскажем, с каким направлением лучше обратиться к Данису, если нужна практическая помощь.
         </p>
         <div className="mt-6 flex justify-center">
           <Button variant="hero" size="xl" onClick={scrollToForm}>
-            👉 Получить мини-разбор
+            {completionButtonLabel ?? "Получить финансовый разбор"}
             <ArrowRight />
           </Button>
         </div>
@@ -273,13 +279,13 @@ export const CustdevQuiz = ({ scrollTargetId }: CustdevQuizProps) => {
       {isContactStep ? (
         <div className="space-y-5">
           <h3 className="text-3xl font-semibold text-balance sm:text-4xl">
-            Куда отправить результаты мини-разбора?
+            Куда отправить результаты финансового разбора?
           </h3>
           <p className="text-base leading-7 text-muted-foreground">
             Оставьте контакты — мы свяжемся с вами и обсудим результаты.
           </p>
           <p className="rounded-md border border-border/60 bg-background/45 p-4 text-sm leading-6 text-muted-foreground">
-            Финансовый мини-разбор не является финансовой или юридической рекомендацией. Сноска: он проводится в нумерологическом формате и помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
+            Финансовый разбор не является финансовой или юридической рекомендацией. Сноска: он проводится в нумерологическом формате и помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от финансового разбора.
           </p>
           <div className="grid gap-4 sm:grid-cols-2">
             <Input

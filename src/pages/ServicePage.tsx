@@ -76,7 +76,7 @@ const ServicePage = () => {
               </Button>
               {!service.primaryCtaHref && (
                 <Button asChild variant="soft" size="xl" className="h-auto min-h-12 whitespace-normal px-5 text-center sm:px-10">
-                  <Link to="/#quiz">Получить мини финансовый разбор</Link>
+                  <Link to="/financial-review">Получить финансовый разбор</Link>
                 </Button>
               )}
             </div>
@@ -85,7 +85,13 @@ const ServicePage = () => {
 
         <div className="relative overflow-hidden rounded-lg border border-primary/25 bg-surface-elevated shadow-panel">
           <div className="absolute inset-0 bg-gradient-accent opacity-10" />
-          <img src={service.heroImage ?? danisHero} alt={service.title} className="h-full w-full object-cover object-center" loading="eager" />
+          <img
+            src={service.heroImage ?? danisHero}
+            alt={service.title}
+            className="h-full w-full object-cover object-center"
+            style={{ objectPosition: service.heroImagePosition ?? "center" }}
+            loading="eager"
+          />
         </div>
 
         </div>

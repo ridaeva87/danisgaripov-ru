@@ -13,7 +13,6 @@ import danisHero from "@/assets/danis-garipov-hero.png";
 
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
-import { CustdevQuiz } from "@/components/CustdevQuiz";
 import { Button } from "@/components/ui/button";
 import { services } from "@/data/services";
 
@@ -48,12 +47,12 @@ const analysisPoints = [
 const financialReviewTariffs = [
   {
     id: "mini",
-    title: "Мини-разбор",
+    title: "Light",
     price: "5 000 ₽",
     note: "Бесплатно за подписку на Telegram-канал",
     buttonLabel: "Получить бесплатно",
-    href: "#quiz",
-    description: "Формат для первого знакомства с финансовой ситуацией.",
+    href: "/financial-review",
+    description: "Если вы не понимаете, почему финансовая ситуация не меняется и с чего начать. Разбор поможет увидеть главную причину и определить первый шаг.",
     integrationPayload: {
       service: "financial_review",
       tariff: "mini",
@@ -62,11 +61,11 @@ const financialReviewTariffs = [
   },
   {
     id: "comfort",
-    title: "Комфорт",
+    title: "Comfort",
     price: "10 000 ₽",
     buttonLabel: "Оплатить 10 000 ₽",
     href: "https://auth.robokassa.ru/merchant/Invoice/0mq2XM8pv0uWCuoFeeEl4g",
-    description: "Расширенный персональный разбор финансовой ситуации с более подробными рекомендациями по следующему шагу.",
+    description: "Если деньги приходят, но доход не растёт или постоянно возникают финансовые сложности. Вы получите подробный разбор ситуации и конкретные рекомендации, что изменить в первую очередь.",
     integrationPayload: {
       service: "financial_review",
       tariff: "comfort",
@@ -79,7 +78,7 @@ const financialReviewTariffs = [
     price: "50 000 ₽",
     buttonLabel: "Оплатить 50 000 ₽",
     href: "https://auth.robokassa.ru/merchant/Invoice/m5OY9uzI3EuTxEKBTBqE0g",
-    description: "Глубокий персональный разбор с детальной стратегией действий и рекомендациями по дальнейшему финансовому направлению.",
+    description: "Если вам нужна финансовая стратегия для масштабирования и увеличения дохода. Глубокий разбор поможет увидеть точки роста и составить пошаговый план действий под ваши цели.",
     integrationPayload: {
       service: "financial_review",
       tariff: "ultimate",
@@ -112,7 +111,7 @@ const Index = () => {
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
             <a href="#services" className="transition-colors hover:text-foreground">Услуги</a>
-            <a href="#analysis" className="transition-colors hover:text-foreground">Мини-разбор</a>
+            <a href="#analysis" className="transition-colors hover:text-foreground">Финансовый разбор</a>
             <a href="#agent" className="transition-colors hover:text-foreground">Стать агентом</a>
             <a href="#contacts" className="transition-colors hover:text-foreground">Контакты</a>
           </nav>
@@ -263,8 +262,8 @@ const Index = () => {
                       </Link>
                     ) : (
                       <a href="#lead-form">
-                      Оставить заявку
-                      <ArrowRight />
+                        Оставить заявку
+                        <ArrowRight />
                       </a>
                     )}
                   </Button>
@@ -363,37 +362,6 @@ const Index = () => {
           </p>
         </div>
 
-
-        <div id="quiz" className="scroll-mt-24">
-          <div className="mb-5 space-y-3">
-            <p className="section-kicker">Мини-опрос перед разбором</p>
-            <h3 className="text-3xl font-semibold text-balance sm:text-4xl">
-              Ответьте на 7 коротких вопросов — подготовим финансовый мини-разбор
-            </h3>
-            <p className="max-w-3xl text-base leading-8 text-muted-foreground sm:text-lg">
-              Посмотрим, что сейчас влияет на вашу финансовую ситуацию, где могут быть внутренние ограничения и какой первый шаг стоит сделать бережно и осознанно.
-            </p>
-          </div>
-          <CustdevQuiz scrollTargetId="lead-form" />
-
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-lg border border-border/70 bg-surface-soft/70 p-5">
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Форматы</p>
-              <p className="mt-2 text-base leading-7 text-muted-foreground">
-                Первый мини-разбор доступен бесплатно за подписку на канал. Более глубокий персональный разбор можно будет заказать отдельно после первичной диагностики.
-              </p>
-              <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                Сноска: мини-разбор проводится в нумерологическом формате и помогает шире посмотреть на финансовую ситуацию.
-              </p>
-            </div>
-            <div className="rounded-lg border border-border/70 bg-surface-soft/70 p-5">
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Обратите внимание</p>
-              <p className="mt-2 text-base leading-7 text-muted-foreground">
-                Финансовый мини-разбор не является финансовой или юридической рекомендацией. Это символический формат, который помогает посмотреть на ситуацию шире и сформулировать следующий шаг. Практические финансовые решения Данис оказывает как финансовый брокер — отдельно от мини-разбора.
-              </p>
-            </div>
-          </div>
-        </div>
 
         </div>
       </section>
