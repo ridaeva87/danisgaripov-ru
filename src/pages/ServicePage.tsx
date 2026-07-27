@@ -218,13 +218,23 @@ const ServicePage = () => {
             <div className="container">
             {service.primaryCtaHref ? (
               <div className="rounded-lg border border-border/70 bg-surface-elevated/70 p-6 shadow-panel sm:p-8">
-                <p className="section-kicker">Запись на консультацию</p>
+                <p className="section-kicker">{service.paymentSteps ? "Оплата и дальнейшие шаги" : "Запись на консультацию"}</p>
                 <h2 className="mt-3 max-w-3xl text-3xl font-semibold sm:text-4xl">
-                  Перейдите к оплате и записи на консультацию.
+                  {service.paymentTitle ?? "Перейдите к оплате и записи на консультацию."}
                 </h2>
                 <p className="mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
-                  После оплаты команда свяжется с вами и согласует удобный формат консультации.
+                  {service.paymentDescription ?? "После оплаты команда свяжется с вами и согласует удобный формат консультации."}
                 </p>
+                {service.paymentSteps && (
+                  <div className="mt-6 grid gap-3 md:grid-cols-2">
+                    {service.paymentSteps.map((step, index) => (
+                      <div key={step} className="rounded-md border border-border/70 bg-background/45 p-4">
+                        <p className="text-sm font-medium text-primary">Шаг {index + 1}</p>
+                        <p className="mt-2 text-base leading-7 text-muted-foreground">{step}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <Button asChild variant="hero" size="xl" className="mt-6 h-auto min-h-12 whitespace-normal text-center">
                   <a href={service.primaryCtaHref} target="_blank" rel="noreferrer">
                     {service.primaryCtaLabel ?? "Записаться"}
