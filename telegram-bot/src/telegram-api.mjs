@@ -41,4 +41,33 @@ export class TelegramApi {
       ...(caption ? { caption } : {}),
     });
   }
+
+  sendPhoto({ chatId, photo, caption, replyMarkup }) {
+    return this.call("sendPhoto", {
+      chat_id: chatId,
+      photo,
+      caption,
+      ...(replyMarkup ? { reply_markup: replyMarkup } : {}),
+    });
+  }
+
+  answerCallbackQuery({ callbackQueryId, text, showAlert = false }) {
+    return this.call("answerCallbackQuery", {
+      callback_query_id: callbackQueryId,
+      text,
+      show_alert: showAlert,
+    });
+  }
+
+  editMessageReplyMarkup({ chatId, messageId, replyMarkup }) {
+    return this.call("editMessageReplyMarkup", {
+      chat_id: chatId,
+      message_id: messageId,
+      reply_markup: replyMarkup,
+    });
+  }
+
+  setMyCommands(commands) {
+    return this.call("setMyCommands", { commands });
+  }
 }

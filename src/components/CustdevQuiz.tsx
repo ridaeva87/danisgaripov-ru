@@ -148,20 +148,27 @@ export const CustdevQuiz = ({ scrollTargetId, completionHref, completionButtonLa
 
     setLoading(true);
     try {
-      const tgText =
-        `🧩 Новая заявка из квиза (кастдэв)\n\n` +
-        `👤 Имя: ${contact.name || "—"}\n` +
-        `📞 Телефон: ${contact.phone || "—"}\n` +
-        `💬 Telegram: ${contact.telegram || "—"}\n\n` +
-        STEPS.map(
-          (s, i) => `${i + 1}. ${s.question}\n→ ${answers[i] || "—"}`,
-        ).join("\n\n");
-
-      await fetch("/api/lead", {
+      const response = await fetch("/api/lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: tgText }),
+          body: JSON.stringify({
+            type: "site_request",
+            serviceKey: "financial_light",
+            packageName: "Light",
+            client: {
+              name: contact.name,
+              phone: contact.phone,
+              telegram: contact.telegram,
+            },
+            answers: STEPS.map((s, i) => ({
+              question: s.question,
+              answer: answers[i] || "—",
+            })),
+          }),
         });
+      if (!response.ok) {
+        throw new Error("Lead API rejected quiz request");
+      }
 
       setDone(true);
     } catch (error) {

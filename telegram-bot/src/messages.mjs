@@ -59,13 +59,120 @@ export const SERVICES = {
 };
 
 export const STATUS_LABELS = {
-  new: "Новая",
-  collecting: "Сбор данных",
-  in_progress: "В работе",
-  waiting_client: "Ждём клиента",
-  ready: "Результат готов",
-  closed: "Закрыта",
+  collecting: "Заявка получена",
+  assigned: "Передана специалисту",
+  in_progress: "Взята в работу",
+  waiting_client: "Ожидаются документы",
+  ready: "Работа завершена",
+  closed: "Работа завершена",
 };
+
+export const DOCUMENT_LINKS = {
+  privacy: "/docs/politika-personalnyh-dannyh.docx",
+  personalDataConsent: "/docs/soglasie-personalnyh-dannyh.docx",
+};
+
+export const WELCOME_TEXT = [
+  "Здравствуйте! Я финансовый помощник Даниса Гарипова.",
+  "",
+  "Здесь вы сможете:",
+  "- выбрать нужную услугу;",
+  "- продолжить работу после оплаты;",
+  "- пройти финансовый разбор;",
+  "- отправить данные для диагностики кредитной истории;",
+  "- загрузить необходимые документы;",
+  "- проверить статус своей заявки;",
+  "- связаться с командой Даниса.",
+  "",
+  "Telegram-канал Даниса: @garipovdanis",
+  "",
+  "Для продолжения работы необходимо ознакомиться с Политикой обработки персональных данных и дать согласие на обработку персональных данных.",
+].join("\n");
+
+export const MAIN_MENU = [
+  "Финансовый разбор",
+  "Диагностика кредитной истории",
+  "Отправить документы",
+  "Статус заявки",
+  "Связаться с командой",
+];
+
+export const getDocumentUrl = (publicSiteUrl, path) => new URL(path, publicSiteUrl).toString();
+
+export const buildWelcomeKeyboard = (publicSiteUrl) => ({
+  inline_keyboard: [
+    [
+      { text: "Политика конфиденциальности", url: getDocumentUrl(publicSiteUrl, DOCUMENT_LINKS.privacy) },
+    ],
+    [
+      { text: "Согласие на обработку данных", url: getDocumentUrl(publicSiteUrl, DOCUMENT_LINKS.personalDataConsent) },
+    ],
+    [{ text: "Принимаю и продолжаю", callback_data: "consent:accept" }],
+  ],
+});
+
+export const buildMainMenuKeyboard = () => ({
+  keyboard: [
+    [{ text: "Финансовый разбор" }],
+    [{ text: "Диагностика кредитной истории" }],
+    [{ text: "Отправить документы" }, { text: "Статус заявки" }],
+    [{ text: "Связаться с командой" }],
+  ],
+  resize_keyboard: true,
+  one_time_keyboard: false,
+});
+
+export const buildBackMenuKeyboard = () => ({
+  keyboard: [[{ text: "Назад в главное меню" }]],
+  resize_keyboard: true,
+  one_time_keyboard: false,
+});
+
+export const FINANCIAL_PACKAGES = [
+  {
+    key: "financial_light",
+    title: "Light",
+    description:
+      "Если вы не понимаете, почему финансовая ситуация не меняется и с чего начать. Разбор поможет увидеть главную причину и определить первый шаг.",
+    button: "Получить Light бесплатно",
+    url: "/financial-review",
+  },
+  {
+    key: "financial_comfort",
+    title: "Comfort",
+    description:
+      "Если деньги приходят, но доход не растёт или постоянно возникают финансовые сложности. Вы получите подробный разбор ситуации и конкретные рекомендации, что изменить в первую очередь.",
+    button: "Выбрать Comfort - 10 000 ₽",
+    url: "/#analysis",
+  },
+  {
+    key: "financial_ultimate",
+    title: "Ultimate",
+    description:
+      "Если вам нужна финансовая стратегия для масштабирования и увеличения дохода. Глубокий разбор поможет увидеть точки роста и составить пошаговый план действий под ваши цели.",
+    button: "Выбрать Ultimate - 50 000 ₽",
+    url: "/#analysis",
+  },
+];
+
+export const buildFinancialKeyboard = (publicSiteUrl) => ({
+  inline_keyboard: FINANCIAL_PACKAGES.map((item) => [
+    { text: item.button, url: getDocumentUrl(publicSiteUrl, item.url) },
+  ]),
+});
+
+export const buildAdminStatusKeyboard = (requestId) => ({
+  inline_keyboard: [
+    [
+      { text: "Взять в работу", callback_data: `admin:take:${requestId}` },
+      { text: "Связались", callback_data: `admin:status:${requestId}:assigned` },
+    ],
+    [
+      { text: "Ожидаются документы", callback_data: `admin:status:${requestId}:waiting_client` },
+      { text: "Завершено", callback_data: `admin:status:${requestId}:ready` },
+    ],
+  ],
+});
 
 export const normalizePayload = (payload = "") => {
   const value = payload.trim().toLowerCase().replace(/-/g, "_");
@@ -100,14 +207,44 @@ export const formatRequestSummary = (request) => {
   return [
     `Заявка ${request.id}`,
     `Услуга: ${service?.adminTitle || request.serviceKey}`,
+    request.packageName ? `Пакет: ${request.packageName}` : "",
+    request.price ? `Стоимость: ${request.price}` : "",
+    request.payment?.status ? `Статус оплаты: ${request.payment.status}` : "",
+    request.payment?.id ? `ID платежа: ${request.payment.id}` : "",
     `Статус: ${status}`,
     `Клиент: ${request.client.name || "без имени"} (@${request.client.username || "нет username"})`,
-    `Telegram ID: ${request.client.chatId}`,
+    request.client.chatId ? `Telegram ID: ${request.client.chatId}` : "",
     `Сообщений: ${messages}`,
     `Файлов/скриншотов: ${attachments}`,
+    request.assignedTo?.name ? `Ответственный: ${request.assignedTo.name}` : "",
+    request.source ? `Источник: ${request.source}` : "",
     `Создана: ${request.createdAt}`,
     `Обновлена: ${request.updatedAt}`,
-  ].join("\n");
+  ].filter(Boolean).join("\n");
+};
+
+export const formatSiteRequestMessage = (request) => {
+  const answers = request.answers?.length
+    ? request.answers.map((item, index) => `${index + 1}. ${item.question} - ${item.answer || "-"}`).join("\n")
+    : "Ответы не переданы.";
+
+  return [
+    "НОВАЯ ЗАЯВКА",
+    `Услуга: ${SERVICES[request.serviceKey]?.adminTitle || request.serviceKey}`,
+    request.packageName ? `Пакет: ${request.packageName}` : "",
+    request.price ? `Стоимость: ${request.price}` : "",
+    request.payment?.status ? `Статус оплаты: ${request.payment.status}` : "",
+    request.payment?.id ? `ID платежа: ${request.payment.id}` : "",
+    `Имя: ${request.client.name || "-"}`,
+    `Телефон: ${request.client.phone || "-"}`,
+    `Telegram: ${request.client.username || request.client.telegram || "-"}`,
+    `Дата: ${request.createdAt}`,
+    `Источник: ${request.source || "danisgaripov.ru"}`,
+    `Номер заявки: ${request.id}`,
+    "",
+    "Ответы пользователя:",
+    answers,
+  ].filter(Boolean).join("\n");
 };
 
 export const formatClientStartMessage = (serviceKey, publicSiteUrl) => {

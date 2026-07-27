@@ -240,6 +240,18 @@ const ServicePage = () => {
                     {service.primaryCtaLabel ?? "Записаться"}
                   </a>
                 </Button>
+                {service.slug === "business-psychologist" && (
+                  <div className="mt-8">
+                    <LeadForm
+                      title="Заявка бизнес-психологу"
+                      description="Оставьте контакт и коротко опишите запрос. Команда Даниса получит заявку в закрытой группе и свяжется с вами."
+                      ctaLabel="Отправить заявку"
+                      service="Бизнес-психолог"
+                      serviceKey="business_psychologist"
+                      telegramOnly
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <LeadForm

@@ -95,8 +95,8 @@ const serviceItems: ServiceItem[] = [
     shortDescription: "Узнайте, почему банки отказывают — и что с этим делать.",
     heroDescription: "Узнайте, почему банки отказывают — и что с этим делать",
     icon: GaugeCircle,
-    primaryCtaLabel: "Оплатить диагностику 5 000 ₽",
-    primaryCtaHref: "https://auth.robokassa.ru/merchant/Invoice/0vY2jKtymUuLlZ-c-9fMAA",
+    primaryCtaLabel: "Оплатить диагностику 2 000 ₽",
+    primaryCtaHref: "https://auth.robokassa.ru/merchant/Invoice/ncJcgVOuWUqOyNwNnPgLmA",
     paymentTitle: "Оплатите диагностику и подготовьте кредитную историю.",
     paymentDescription:
       "После успешной оплаты вы получите инструкцию по получению кредитной истории и перейдёте в новый Telegram-бот для дальнейшего взаимодействия. Новый бот будет сопровождать загрузку отчёта, вопросы команды и уведомление о готовности результата.",

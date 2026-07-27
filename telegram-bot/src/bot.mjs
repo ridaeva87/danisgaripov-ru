@@ -4,9 +4,17 @@ import { fileURLToPath } from "node:url";
 
 import { getConfig } from "./config.mjs";
 import {
+  FINANCIAL_PACKAGES,
+  MAIN_MENU,
   SERVICES,
   STATUS_LABELS,
+  WELCOME_TEXT,
+  buildAdminStatusKeyboard,
+  buildBackMenuKeyboard,
+  buildFinancialKeyboard,
+  buildMainMenuKeyboard,
   buildServiceKeyboard,
+  buildWelcomeKeyboard,
   formatClientStartMessage,
   formatRequestSummary,
   normalizePayload,
@@ -16,6 +24,10 @@ import { RequestStore } from "./store.mjs";
 import { TelegramApi } from "./telegram-api.mjs";
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024;
+const ALLOWED_MIME_TYPES = new Set(["application/pdf", "image/jpeg", "image/png"]);
+const ALLOWED_EXTENSIONS = [".pdf", ".jpg", ".jpeg", ".png"];
+const userModes = new Map();
 
 const sleep = (ms) => new Promise((resolveSleep) => setTimeout(resolveSleep, ms));
 
@@ -45,15 +57,15 @@ const getClient = (message) => ({
 const adminHelp = [
   "Команды для группы администраторов:",
   "/info REQ-00001 - показать заявку",
-  "/status REQ-00001 collecting|in_progress|waiting_client|ready|closed - изменить статус",
+  "/status REQ-00001 collecting|assigned|in_progress|waiting_client|ready|closed - изменить статус",
   "/reply REQ-00001 текст - отправить сообщение клиенту",
   "/result REQ-00001 текст - отправить результат клиенту",
   "/close REQ-00001 - закрыть заявку",
 ].join("\n");
 
 const clientHelp = [
-  "Выберите направление кнопкой ниже или отправьте сообщение с описанием задачи.",
-  "К заявке можно прикреплять PDF-файлы, документы и скриншоты.",
+  "Выберите раздел в главном меню.",
+  "Команда Даниса увидит только ваши заявки, сообщения и документы.",
 ].join("\n");
 
 const parseCommand = (text = "") => {
@@ -75,6 +87,24 @@ const notifyAdminAboutRequest = async ({ api, config, request }) => {
       "",
       adminHelp,
     ].join("\n"),
+    replyMarkup: buildAdminStatusKeyboard(request.id),
+  });
+};
+
+const showWelcome = async ({ api, config, message }) => {
+  await api.sendPhoto({
+    chatId: message.chat.id,
+    photo: `${config.publicSiteUrl}/bot/welcome.png`,
+    caption: WELCOME_TEXT,
+    replyMarkup: buildWelcomeKeyboard(config.publicSiteUrl),
+  });
+};
+
+const showMainMenu = async ({ api, chatId }) => {
+  await api.sendMessage({
+    chatId,
+    text: "Главное меню. Выберите, что нужно сделать.",
+    replyMarkup: buildMainMenuKeyboard(),
   });
 };
 
@@ -87,7 +117,7 @@ const startRequest = async ({ api, config, store, message, serviceKey }) => {
   await api.sendMessage({
     chatId: message.chat.id,
     text: formatClientStartMessage(serviceKey, config.publicSiteUrl),
-    replyMarkup: { remove_keyboard: true },
+    replyMarkup: buildBackMenuKeyboard(),
   });
   await notifyAdminAboutRequest({ api, config, request });
 
@@ -101,6 +131,7 @@ const describeAttachment = (message) => {
       fileId: message.document.file_id,
       fileName: message.document.file_name || "",
       mimeType: message.document.mime_type || "",
+      fileSize: message.document.file_size || 0,
     };
   }
 
@@ -111,10 +142,64 @@ const describeAttachment = (message) => {
       fileId: photo.file_id,
       fileName: "photo",
       mimeType: "image/jpeg",
+      fileSize: photo.file_size || 0,
     };
   }
 
   return null;
+};
+
+const isAllowedAttachment = (attachment) => {
+  if (!attachment) return false;
+  const fileName = attachment.fileName.toLowerCase();
+  const hasAllowedExtension = attachment.type === "photo" || ALLOWED_EXTENSIONS.some((extension) => fileName.endsWith(extension));
+  const hasAllowedMime = !attachment.mimeType || ALLOWED_MIME_TYPES.has(attachment.mimeType);
+  const hasAllowedSize = !attachment.fileSize || attachment.fileSize <= MAX_FILE_SIZE_BYTES;
+  return hasAllowedExtension && hasAllowedMime && hasAllowedSize;
+};
+
+const getAuthor = (from = {}) => ({
+  id: String(from.id || ""),
+  name: [from.first_name, from.last_name].filter(Boolean).join(" ") || from.username || String(from.id || ""),
+  username: from.username || "",
+});
+
+const changeAdminStatus = async ({ api, config, store, requestId, status, from }) => {
+  const request = store.getRequest(requestId);
+  if (!request) {
+    await api.sendMessage({ chatId: config.adminChatId, text: `Заявка ${requestId} не найдена.` });
+    return;
+  }
+
+  let updated = request;
+  const author = getAuthor(from);
+  if (status === "in_progress") {
+    updated = await store.assignRequest(requestId, author);
+    if (updated.assignedTo?.id !== author.id) {
+      await api.sendMessage({
+        chatId: config.adminChatId,
+        text: `Заявка ${requestId} уже в работе у ${updated.assignedTo.name}.`,
+      });
+      return;
+    }
+  } else {
+    updated = await store.setStatus(requestId, status);
+  }
+
+  await store.addAdminNote(requestId, { type: "status", author: author.name, text: status });
+  const statusLine = [
+    `Статус заявки ${requestId}: ${STATUS_LABELS[updated.status] || updated.status}`,
+    `Сотрудник: ${author.name}`,
+    `Дата: ${new Date().toISOString()}`,
+  ].join("\n");
+
+  await api.sendMessage({ chatId: config.adminChatId, text: statusLine });
+  if (updated.client?.chatId) {
+    await api.sendMessage({
+      chatId: updated.client.chatId,
+      text: `Статус вашей заявки ${updated.id}: ${STATUS_LABELS[updated.status] || updated.status}.`,
+    });
+  }
 };
 
 const handleAdminMessage = async ({ api, config, store, message }) => {
@@ -152,20 +237,7 @@ const handleAdminMessage = async ({ api, config, store, message }) => {
       return;
     }
 
-    const updated = await store.setStatus(requestId, status);
-    await store.addAdminNote(requestId, {
-      type: "status",
-      author: message.from?.username || String(message.from?.id || ""),
-      text: status,
-    });
-    await api.sendMessage({
-      chatId: updated.client.chatId,
-      text: `Статус вашей заявки ${updated.id} изменён: ${STATUS_LABELS[status]}.`,
-    });
-    await api.sendMessage({
-      chatId: config.adminChatId,
-      text: `Статус заявки ${updated.id} изменён: ${STATUS_LABELS[status]}.`,
-    });
+    await changeAdminStatus({ api, config, store, requestId, status, from: message.from });
     return;
   }
 
@@ -186,6 +258,11 @@ const handleAdminMessage = async ({ api, config, store, message }) => {
       await store.setStatus(requestId, "ready");
     }
 
+    if (!request.client.chatId) {
+      await api.sendMessage({ chatId: config.adminChatId, text: `У заявки ${request.id} нет Telegram ID клиента.` });
+      return;
+    }
+
     await api.sendMessage({ chatId: request.client.chatId, text: `${prefix}${rest}` });
     await api.sendMessage({ chatId: config.adminChatId, text: `Сообщение отправлено клиенту по заявке ${request.id}.` });
     return;
@@ -193,15 +270,153 @@ const handleAdminMessage = async ({ api, config, store, message }) => {
 
   if (command === "/close") {
     const updated = await store.setStatus(requestId, "closed");
-    await api.sendMessage({
-      chatId: updated.client.chatId,
-      text: `Заявка ${updated.id} закрыта. Спасибо за обращение.`,
-    });
+    if (updated.client.chatId) {
+      await api.sendMessage({
+        chatId: updated.client.chatId,
+        text: `Заявка ${updated.id} закрыта. Спасибо за обращение.`,
+      });
+    }
     await api.sendMessage({ chatId: config.adminChatId, text: `Заявка ${updated.id} закрыта.` });
     return;
   }
 
   await api.sendMessage({ chatId: config.adminChatId, text: adminHelp });
+};
+
+const handleCallbackQuery = async ({ api, config, store, callbackQuery }) => {
+  const data = callbackQuery.data || "";
+  const message = callbackQuery.message;
+  const chatId = message?.chat?.id;
+
+  if (data === "consent:accept") {
+    await store.rememberConsent({ chatId: callbackQuery.from.id });
+    await api.answerCallbackQuery({ callbackQueryId: callbackQuery.id, text: "Согласие сохранено" });
+    await showMainMenu({ api, chatId: callbackQuery.from.id });
+    return;
+  }
+
+  if (String(chatId) === String(config.adminChatId) && data.startsWith("admin:")) {
+    const [, action, requestId, status] = data.split(":");
+    await api.answerCallbackQuery({ callbackQueryId: callbackQuery.id, text: "Статус обновляется" });
+    if (action === "take") {
+      await changeAdminStatus({ api, config, store, requestId, status: "in_progress", from: callbackQuery.from });
+      return;
+    }
+    if (action === "status") {
+      await changeAdminStatus({ api, config, store, requestId, status, from: callbackQuery.from });
+    }
+    return;
+  }
+
+  if (data.startsWith("payment:check:")) {
+    await api.answerCallbackQuery({ callbackQueryId: callbackQuery.id, text: "Проверяем оплату" });
+    await api.sendMessage({
+      chatId: callbackQuery.from.id,
+      text: "Оплата пока не найдена. Проверьте данные заказа или свяжитесь с командой Даниса.",
+      replyMarkup: buildMainMenuKeyboard(),
+    });
+  }
+};
+
+const sendFinancialReview = async ({ api, config, chatId }) => {
+  const text = [
+    "Финансовый разбор",
+    "",
+    ...FINANCIAL_PACKAGES.map((item) => `${item.title}\n${item.description}`).join("\n\n").split("\n"),
+  ].join("\n");
+
+  await api.sendMessage({
+    chatId,
+    text,
+    replyMarkup: buildFinancialKeyboard(config.publicSiteUrl),
+  });
+  await api.sendMessage({ chatId, text: "Для возврата используйте кнопку ниже.", replyMarkup: buildBackMenuKeyboard() });
+};
+
+const sendCreditHistory = async ({ api, config, chatId }) => {
+  await api.sendMessage({
+    chatId,
+    text: [
+      "Диагностика кредитной истории",
+      "",
+      "После оплаты команда проверит кредитную историю и подскажет, что мешает одобрению.",
+      "",
+      "Кнопка «Я уже оплатил» не открывает загрузку документов без серверного подтверждения оплаты.",
+      "Если оплата пока не найдена, бот попросит связаться с командой.",
+    ].join("\n"),
+    replyMarkup: {
+      inline_keyboard: [
+        [{ text: "Оформить диагностику", url: `${config.publicSiteUrl}/services/uluchshenie-kreditnoy-istorii` }],
+        [{ text: "Я уже оплатил", callback_data: "payment:check:credit_history" }],
+      ],
+    },
+  });
+  await api.sendMessage({ chatId, text: "Для возврата используйте кнопку ниже.", replyMarkup: buildBackMenuKeyboard() });
+};
+
+const sendStatus = async ({ api, store, chatId }) => {
+  const requests = store.getRequestsByChatId(chatId).filter((request) => request.status !== "closed");
+  if (!requests.length) {
+    await api.sendMessage({
+      chatId,
+      text: "По вашему Telegram-аккаунту активные заявки не найдены.",
+      replyMarkup: buildBackMenuKeyboard(),
+    });
+    return;
+  }
+
+  await api.sendMessage({
+    chatId,
+    text: requests
+      .map((request) => `${request.id} - ${SERVICES[request.serviceKey]?.adminTitle || request.serviceKey} - ${STATUS_LABELS[request.status] || request.status}`)
+      .join("\n"),
+    replyMarkup: buildBackMenuKeyboard(),
+  });
+};
+
+const requestDocuments = async ({ api, store, chatId }) => {
+  const request = store.getActiveRequest(chatId) || store.getRequestsByChatId(chatId)[0];
+  if (!request) {
+    await api.sendMessage({
+      chatId,
+      text: "По вашему Telegram-аккаунту активные заявки не найдены. Сначала выберите услугу или свяжитесь с командой.",
+      replyMarkup: buildMainMenuKeyboard(),
+    });
+    return;
+  }
+
+  if (["credit_history", "financial_comfort", "financial_ultimate"].includes(request.serviceKey) && request.payment?.status !== "Оплата подтверждена") {
+    await api.sendMessage({
+      chatId,
+      text: "Для этой услуги нужна подтверждённая оплата. Оплата пока не найдена. Проверьте данные заказа или свяжитесь с командой Даниса.",
+      replyMarkup: buildMainMenuKeyboard(),
+    });
+    return;
+  }
+
+  userModes.set(String(chatId), { type: "documents", requestId: request.id });
+  await api.sendMessage({
+    chatId,
+    text: [
+      `Отправьте документы по заявке ${request.id}.`,
+      "Разрешены форматы: PDF, JPG, JPEG, PNG.",
+      "Максимальный размер файла: 15 МБ.",
+    ].join("\n"),
+    replyMarkup: buildBackMenuKeyboard(),
+  });
+};
+
+const requestContact = async ({ api, store, chatId }) => {
+  const request = store.getActiveRequest(chatId) || store.getRequestsByChatId(chatId)[0] || null;
+  userModes.set(String(chatId), { type: "contact", requestId: request?.id || "" });
+  await api.sendMessage({
+    chatId,
+    text: "Напишите вопрос команде Даниса. Мы передадим его в закрытую группу.",
+    replyMarkup: {
+      keyboard: [[{ text: "Отменить обращение" }], [{ text: "Назад в главное меню" }]],
+      resize_keyboard: true,
+    },
+  });
 };
 
 const handleClientMessage = async ({ api, config, store, message }) => {
@@ -211,25 +426,48 @@ const handleClientMessage = async ({ api, config, store, message }) => {
     const [, payload = ""] = text.split(/\s+/, 2);
     const serviceKey = normalizePayload(payload);
 
-    if (serviceKey) {
+    if (serviceKey && store.hasConsent(message.chat.id)) {
       await startRequest({ api, config, store, message, serviceKey });
       return;
     }
 
-    await api.sendMessage({
-      chatId: message.chat.id,
-      text: clientHelp,
-      replyMarkup: buildServiceKeyboard(),
-    });
+    await showWelcome({ api, config, message });
     return;
   }
 
-  if (text === "/help") {
-    await api.sendMessage({
-      chatId: message.chat.id,
-      text: clientHelp,
-      replyMarkup: buildServiceKeyboard(),
-    });
+  if (!store.hasConsent(message.chat.id)) {
+    await showWelcome({ api, config, message });
+    return;
+  }
+
+  if (text === "/help" || text === "Связаться с командой") {
+    await requestContact({ api, store, chatId: message.chat.id });
+    return;
+  }
+
+  if (text === "/services" || text === "Финансовый разбор") {
+    await sendFinancialReview({ api, config, chatId: message.chat.id });
+    return;
+  }
+
+  if (text === "Диагностика кредитной истории") {
+    await sendCreditHistory({ api, config, chatId: message.chat.id });
+    return;
+  }
+
+  if (text === "/documents" || text === "Отправить документы") {
+    await requestDocuments({ api, store, chatId: message.chat.id });
+    return;
+  }
+
+  if (text === "/status" || text === "Статус заявки") {
+    await sendStatus({ api, store, chatId: message.chat.id });
+    return;
+  }
+
+  if (text === "Назад в главное меню" || text === "Отменить обращение") {
+    userModes.delete(String(message.chat.id));
+    await showMainMenu({ api, chatId: message.chat.id });
     return;
   }
 
@@ -240,17 +478,46 @@ const handleClientMessage = async ({ api, config, store, message }) => {
   }
 
   const request = store.getActiveRequest(message.chat.id);
+  const mode = userModes.get(String(message.chat.id));
+
+  if (mode?.type === "contact" && text) {
+    await api.sendMessage({
+      chatId: config.adminChatId,
+      text: [
+        "ОБРАЩЕНИЕ К КОМАНДЕ",
+        `Имя: ${getClient(message).name || "-"}`,
+        `Telegram: @${getClient(message).username || "-"}`,
+        `Telegram ID: ${message.chat.id}`,
+        mode.requestId ? `Номер заявки: ${mode.requestId}` : "",
+        mode.requestId ? `Услуга: ${SERVICES[store.getRequest(mode.requestId)?.serviceKey]?.adminTitle || "-"}` : "",
+        `Текст вопроса: ${text}`,
+        `Дата: ${new Date().toISOString()}`,
+      ].filter(Boolean).join("\n"),
+      replyMarkup: mode.requestId ? buildAdminStatusKeyboard(mode.requestId) : undefined,
+    });
+    await api.sendMessage({ chatId: message.chat.id, text: "Ваш вопрос передан команде Даниса.", replyMarkup: buildMainMenuKeyboard() });
+    userModes.delete(String(message.chat.id));
+    return;
+  }
+
   if (!request) {
     await api.sendMessage({
       chatId: message.chat.id,
-      text: "Чтобы команда Даниса увидела заявку, выберите направление.",
-      replyMarkup: buildServiceKeyboard(),
+      text: clientHelp,
+      replyMarkup: buildMainMenuKeyboard(),
     });
     return;
   }
 
   const attachment = describeAttachment(message);
   if (attachment) {
+    if (!isAllowedAttachment(attachment)) {
+      await api.sendMessage({
+        chatId: message.chat.id,
+        text: "Не удалось принять файл. Отправьте документ в формате PDF, JPG или PNG.",
+      });
+      return;
+    }
     await store.addAttachment(request.id, {
       ...attachment,
       caption: message.caption || "",
@@ -264,7 +531,7 @@ const handleClientMessage = async ({ api, config, store, message }) => {
     });
     await api.sendMessage({
       chatId: message.chat.id,
-      text: `Файл принят и прикреплён к заявке ${request.id}.`,
+      text: "Документ получен и прикреплён к вашей заявке.",
     });
     return;
   }
@@ -287,6 +554,11 @@ const handleClientMessage = async ({ api, config, store, message }) => {
 };
 
 const handleUpdate = async ({ api, config, store, update }) => {
+  if (update.callback_query) {
+    await handleCallbackQuery({ api, config, store, callbackQuery: update.callback_query });
+    return;
+  }
+
   const message = update.message;
   if (!message?.chat) return;
 
@@ -308,6 +580,13 @@ const main = async () => {
   const api = new TelegramApi(config.token);
   const store = new RequestStore(resolve(rootDir, config.dataDir));
   await store.load();
+  await api.setMyCommands([
+    { command: "start", description: "Открыть главное меню" },
+    { command: "services", description: "Посмотреть услуги" },
+    { command: "documents", description: "Отправить документы" },
+    { command: "status", description: "Проверить статус заявки" },
+    { command: "help", description: "Связаться с командой" },
+  ]);
 
   let offset = 0;
   console.log("Client Telegram bot started");
@@ -317,7 +596,7 @@ const main = async () => {
       const updates = await api.getUpdates({
         offset,
         timeout: config.pollTimeoutSeconds,
-        allowed_updates: ["message"],
+        allowed_updates: ["message", "callback_query"],
       });
 
       for (const update of updates) {

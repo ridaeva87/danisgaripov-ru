@@ -15,6 +15,8 @@ type LeadFormProps = {
   ctaLabel?: string;
   contactPlaceholder?: string;
   service?: string;
+  serviceKey?: string;
+  packageName?: string;
   telegramOnly?: boolean;
 };
 
@@ -29,6 +31,8 @@ export const LeadForm = ({
   ctaLabel = "Оставить заявку",
   contactPlaceholder = "Телефон",
   service,
+  serviceKey,
+  packageName,
   telegramOnly = false,
 }: LeadFormProps) => {
   const [form, setForm] = useState({
@@ -65,20 +69,28 @@ export const LeadForm = ({
       };
 
       if (telegramOnly) {
-        const tgText =
-          `🔔 Новая заявка — ${serviceName}\n\n` +
-          `👤 Имя: ${form.name || "—"}\n` +
-          `📞 Телефон: ${form.phone || "—"}\n` +
-          `✉️ Email: ${form.email || "—"}\n` +
-          `💬 Telegram: ${form.telegram || "—"}\n` +
-          `💰 MAX: ${form.max || "—"}\n` +
-          `📝 Комментарий: ${form.comment || "—"}`;
-
-        await fetch("/api/lead", {
+        const response = await fetch("/api/lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: tgText }),
+          body: JSON.stringify({
+            type: "site_request",
+            serviceKey: serviceKey || "business_psychologist",
+            packageName: packageName || "",
+            client: {
+              name: form.name,
+              phone: form.phone,
+              telegram: form.telegram,
+            },
+            answers: [
+              { question: "Email", answer: form.email || "—" },
+              { question: "Желаемая сумма", answer: form.max || "—" },
+              { question: "Запрос", answer: form.comment || "—" },
+            ],
+          }),
         });
+        if (!response.ok) {
+          throw new Error("Lead API rejected site request");
+        }
       } else {
         await fetch(SHEETS_WEBHOOK_URL, {
           method: "POST",
