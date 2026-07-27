@@ -17,12 +17,7 @@ type LeadFormProps = {
   service?: string;
   serviceKey?: string;
   packageName?: string;
-  telegramOnly?: boolean;
 };
-
-const SHEETS_WEBHOOK_URL =
-  "https://script.google.com/macros/s/AKfycbxb-6Z9chGABoxiOuwwopHJgl1FIpYoZ0ANhWaOLaSjCh8kBduWkYtPaipY47ttliWF/exec";
-
 
 export const LeadForm = ({
   title,
@@ -33,7 +28,6 @@ export const LeadForm = ({
   service,
   serviceKey,
   packageName,
-  telegramOnly = false,
 }: LeadFormProps) => {
   const [form, setForm] = useState({
     name: "",
@@ -58,46 +52,30 @@ export const LeadForm = ({
     setLoading(true);
     try {
       const serviceName = service ?? title;
-      const payload = {
-        name: form.name,
-        phone: form.phone,
-        email: form.email,
-        telegram: form.telegram,
-        max: form.max,
-        service: serviceName,
-        comment: form.comment,
-      };
-
-      if (telegramOnly) {
-        const response = await fetch("/api/lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: "site_request",
-            serviceKey: serviceKey || "business_psychologist",
-            packageName: packageName || "",
-            client: {
-              name: form.name,
-              phone: form.phone,
-              telegram: form.telegram,
-            },
-            answers: [
-              { question: "Email", answer: form.email || "—" },
-              { question: "Желаемая сумма", answer: form.max || "—" },
-              { question: "Запрос", answer: form.comment || "—" },
-            ],
-          }),
-        });
-        if (!response.ok) {
-          throw new Error("Lead API rejected site request");
-        }
-      } else {
-        await fetch(SHEETS_WEBHOOK_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload),
-        });
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "site_request",
+          serviceKey: serviceKey || "general_request",
+          packageName: packageName || "",
+          client: {
+            name: form.name,
+            phone: form.phone,
+            email: form.email,
+            telegram: form.telegram,
+          },
+          max: form.max,
+          service: serviceName,
+          answers: [
+            { question: "Email", answer: form.email || "—" },
+            { question: "Желаемая сумма / MAX", answer: form.max || "—" },
+            { question: "Комментарий", answer: form.comment || "—" },
+          ],
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Lead API rejected site request");
       }
 
       toast.success("Заявка отправлена", {

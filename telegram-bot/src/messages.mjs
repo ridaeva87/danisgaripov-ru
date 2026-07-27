@@ -1,4 +1,9 @@
 export const SERVICES = {
+  general_request: {
+    title: "Оставить заявку",
+    adminTitle: "Оставить заявку",
+    prompt: "Опишите запрос, с которым хотите обратиться к команде Даниса.",
+  },
   credit_history: {
     title: "Диагностика кредитной истории",
     adminTitle: "Диагностика кредитной истории",
@@ -237,7 +242,9 @@ export const formatSiteRequestMessage = (request) => {
     request.payment?.id ? `ID платежа: ${request.payment.id}` : "",
     `Имя: ${request.client.name || "-"}`,
     `Телефон: ${request.client.phone || "-"}`,
+    `Email: ${request.client.email || "-"}`,
     `Telegram: ${request.client.username || request.client.telegram || "-"}`,
+    `Сумма/MAX: ${request.max || "-"}`,
     `Дата: ${request.createdAt}`,
     `Источник: ${request.source || "danisgaripov.ru"}`,
     `Номер заявки: ${request.id}`,

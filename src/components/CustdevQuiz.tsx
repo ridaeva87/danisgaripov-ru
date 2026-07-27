@@ -158,8 +158,10 @@ export const CustdevQuiz = ({ scrollTargetId, completionHref, completionButtonLa
             client: {
               name: contact.name,
               phone: contact.phone,
+              email: "",
               telegram: contact.telegram,
             },
+            max: answers[3] || "",
             answers: STEPS.map((s, i) => ({
               question: s.question,
               answer: answers[i] || "—",

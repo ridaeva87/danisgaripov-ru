@@ -1,5 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { mkdtemp } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
 
 import {
   formatClientStartMessage,
@@ -8,6 +11,7 @@ import {
   normalizePayload,
   serviceKeyFromText,
 } from "../src/messages.mjs";
+import { RequestStore } from "../src/store.mjs";
 
 test("normalizes supported deep-link payloads", () => {
   assert.equal(normalizePayload("credit-history"), "credit_history");
@@ -53,7 +57,8 @@ test("formats site financial Light request without mini wording", () => {
     serviceKey: "financial_light",
     packageName: "Light",
     source: "danisgaripov.ru",
-    client: { name: "Лилия", phone: "+79990000000", telegram: "@lilia" },
+    client: { name: "Лилия", phone: "+79990000000", email: "test@example.invalid", telegram: "@lilia" },
+    max: "1-5 млн ₽",
     answers: [{ question: "Что актуально?", answer: "Финансовый разбор" }],
     payment: {},
     createdAt: "2026-07-27T10:00:00.000Z",
@@ -61,6 +66,45 @@ test("formats site financial Light request without mini wording", () => {
 
   assert.match(message, /НОВАЯ ЗАЯВКА/);
   assert.match(message, /Пакет: Light/);
+  assert.match(message, /Email: test@example\.invalid/);
+  assert.match(message, /Сумма\/MAX: 1-5 млн ₽/);
   assert.match(message, /Номер заявки: REQ-00002/);
   assert.doesNotMatch(message.toLowerCase(), /мини-разбор/);
+});
+
+test("site request store keeps one request id for repeated request key", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "danis-requests-"));
+  const store = new RequestStore(dir);
+  await store.load();
+
+  const first = await store.createRequestFromSite({
+    serviceKey: "kreditovanie",
+    client: {
+      name: "Тест",
+      phone: "+70000000000",
+      email: "test@example.invalid",
+      telegram: "@test",
+    },
+    max: "500000",
+    answers: [{ question: "Комментарий", answer: "Тестовая заявка" }],
+    requestKey: "site:test-key",
+  });
+  const second = await store.createRequestFromSite({
+    serviceKey: "kreditovanie",
+    client: {
+      name: "Тест",
+      phone: "+70000000000",
+      email: "test@example.invalid",
+      telegram: "@test",
+    },
+    max: "500000",
+    answers: [{ question: "Комментарий", answer: "Тестовая заявка" }],
+    requestKey: "site:test-key",
+  });
+
+  assert.equal(first.id, "REQ-00001");
+  assert.equal(second.id, first.id);
+  assert.equal(Object.keys(store.state.requests).length, 1);
+  assert.equal(first.delivery.telegram.status, "pending");
+  assert.equal(first.delivery.googleSheets.status, "pending");
 });

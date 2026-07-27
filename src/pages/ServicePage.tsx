@@ -7,6 +7,15 @@ import { LeadForm } from "@/components/LeadForm";
 import { Button } from "@/components/ui/button";
 import { services, servicesMap } from "@/data/services";
 
+const serviceLeadKeys: Record<string, string> = {
+  kreditovanie: "kreditovanie",
+  "chastnye-zaymy": "chastnye_zaymy",
+  "vozvrat-strahovok": "vozvrat_strahovok",
+  "srochnyy-vykup-avto": "srochnyy_vykup_avto",
+  "it-razrabotka": "it_razrabotka",
+  "business-psychologist": "business_psychologist",
+};
+
 const ServicePage = () => {
   const { slug } = useParams();
   const service = slug ? servicesMap[slug] : undefined;
@@ -248,7 +257,6 @@ const ServicePage = () => {
                       ctaLabel="Отправить заявку"
                       service="Бизнес-психолог"
                       serviceKey="business_psychologist"
-                      telegramOnly
                     />
                   </div>
                 )}
@@ -258,6 +266,8 @@ const ServicePage = () => {
                 title={`Заявка по направлению «${service.title}»`}
                 description="Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
                 ctaLabel="Отправить запрос"
+                service={service.title}
+                serviceKey={serviceLeadKeys[service.slug] || "general_request"}
               />
             )}
             </div>

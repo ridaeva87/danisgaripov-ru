@@ -46,7 +46,7 @@ export class RequestStore {
     return this.createRequestFromSite({ serviceKey, client });
   }
 
-  async createRequestFromSite({ serviceKey, client, packageName = "", price = "", payment = {}, answers = [], source = "danisgaripov.ru", requestKey = "" }) {
+  async createRequestFromSite({ serviceKey, client, packageName = "", price = "", payment = {}, max = "", answers = [], source = "danisgaripov.ru", requestKey = "" }) {
     if (requestKey && this.state.processedEvents?.[requestKey]) {
       return this.getRequest(this.state.processedEvents[requestKey]);
     }
@@ -60,6 +60,7 @@ export class RequestStore {
       packageName,
       price,
       payment,
+      max,
       source,
       status: "collecting",
       client,
@@ -68,6 +69,10 @@ export class RequestStore {
       attachments: [],
       adminNotes: [],
       assignedTo: null,
+      delivery: {
+        telegram: { status: "pending", error: "", updatedAt: "" },
+        googleSheets: { status: "pending", error: "", updatedAt: "" },
+      },
       createdAt: now,
       updatedAt: now,
     };
@@ -79,6 +84,24 @@ export class RequestStore {
     }
     await this.save();
     return this.state.requests[id];
+  }
+
+  async setDeliveryStatus(id, channel, status, error = "") {
+    const request = this.getRequest(id);
+    if (!request) return null;
+    request.delivery = {
+      telegram: { status: "pending", error: "", updatedAt: "" },
+      googleSheets: { status: "pending", error: "", updatedAt: "" },
+      ...(request.delivery || {}),
+    };
+    request.delivery[channel] = {
+      status,
+      error: String(error || "").slice(0, 500),
+      updatedAt: new Date().toISOString(),
+    };
+    request.updatedAt = new Date().toISOString();
+    await this.save();
+    return request;
   }
 
   async rememberConsent({ chatId, documentVersion = "2026-07-27" }) {
