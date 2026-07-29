@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -14,6 +14,7 @@ import danisHero from "@/assets/danis-garipov-hero.png";
 import heroBackground from "@/assets/hero-background.jpg";
 import { LeadForm } from "@/components/LeadForm";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { services } from "@/data/services";
 
 const workflow = [
@@ -90,6 +91,8 @@ const financialReviewTariffs = [
 const agentReasons = ["для тех, кто умеет выстраивать доверие", "для тех, кто хочет вести людей к сильному сервису", "для тех, кому важен взрослый формат работы"];
 
 const Index = () => {
+  const [agentDialogOpen, setAgentDialogOpen] = useState(false);
+
   useEffect(() => {
     document.title = "Данис Гарипов — финансовые решения";
     if (window.location.hash) {
@@ -116,7 +119,7 @@ const Index = () => {
             <a href="#contacts" className="transition-colors hover:text-foreground">Контакты</a>
           </nav>
           <Button asChild variant="hero" className="hidden lg:inline-flex">
-            <a href="#lead-form">Оставить заявку</a>
+            <a href="#services">Выбрать услугу</a>
           </Button>
         </div>
       </header>
@@ -255,17 +258,10 @@ const Index = () => {
                     </Link>
                   </Button>
                   <Button asChild variant="outline" className="flex-1 justify-between">
-                    {service.primaryCtaHref ? (
-                      <Link to={`/services/${service.slug}#service-form`}>
-                        Оставить заявку
-                        <ArrowRight />
-                      </Link>
-                    ) : (
-                      <a href="#lead-form">
-                        Оставить заявку
-                        <ArrowRight />
-                      </a>
-                    )}
+                    <Link to={`/services/${service.slug}#service-form`}>
+                      Оставить заявку
+                      <ArrowRight />
+                    </Link>
                   </Button>
                 </div>
               </article>
@@ -420,7 +416,7 @@ const Index = () => {
 
               <div className="mt-6">
                 <Button asChild variant="hero" size="xl">
-                  <a href="#lead-form">Записаться сейчас</a>
+                  <a href="#services">Выбрать услугу</a>
                 </Button>
               </div>
             </div>
@@ -456,9 +452,24 @@ const Index = () => {
               <p className="section-kicker">Стать агентом</p>
               <h2 className="text-4xl font-semibold text-balance sm:text-5xl">Формат для тех, кто хочет зарабатывать в команде сильных экспертов финансового сервиса и работать на доверие.</h2>
               <p className="text-lg leading-8 text-muted-foreground">Это подходит тем, кто умеет выстраивать коммуникацию, ценит порядок в работе и хочет быть частью финансовой экосистемы.</p>
-              <Button asChild variant="hero" size="xl">
-                <a href="#lead-form">Оставить заявку</a>
-              </Button>
+              <Dialog open={agentDialogOpen} onOpenChange={setAgentDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="hero" size="xl">Оставить заявку</Button>
+                </DialogTrigger>
+                <DialogContent className="max-h-[90vh] overflow-y-auto border-border/70 bg-background p-0 sm:max-w-2xl">
+                  <DialogTitle className="sr-only">Заявка на сотрудничество</DialogTitle>
+                  <LeadForm
+                    title="Заявка на сотрудничество"
+                    description="Оставьте свои контактные данные. Команда Даниса получит заявку и свяжется с вами."
+                    ctaLabel="Отправить заявку"
+                    service="Стать агентом"
+                    serviceKey="agent"
+                    showMaxField={false}
+                    showCommentField={false}
+                    footerText=""
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
             <div className="grid gap-4">
               {agentReasons.map((item) => (
@@ -468,15 +479,6 @@ const Index = () => {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="lead-form" className="section-graphite py-12 lg:py-16">
-        <div className="container">
-        <LeadForm
-          title="Оставить заявку"
-          description="Если у вас есть финансовая ситуация, которую нужно разобрать — оставьте контакт и запрос. Мы вернёмся с понятной логикой дальнейших действий."
-        />
         </div>
       </section>
 

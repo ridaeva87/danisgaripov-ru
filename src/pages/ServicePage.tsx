@@ -255,8 +255,11 @@ const ServicePage = () => {
                       title="Заявка бизнес-психологу"
                       description="Оставьте контакт и коротко опишите запрос. Команда Даниса получит заявку в закрытой группе и свяжется с вами."
                       ctaLabel="Отправить заявку"
-                      service="Бизнес-психолог"
+                      service="Консультация бизнес-психолога"
                       serviceKey="business_psychologist"
+                      showMaxField={false}
+                      commentPlaceholder="Коротко опишите вашу ситуацию"
+                      footerText=""
                     />
                   </div>
                 )}

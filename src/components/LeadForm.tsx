@@ -17,6 +17,10 @@ type LeadFormProps = {
   service?: string;
   serviceKey?: string;
   packageName?: string;
+  showMaxField?: boolean;
+  showCommentField?: boolean;
+  commentPlaceholder?: string;
+  footerText?: string;
 };
 
 export const LeadForm = ({
@@ -28,6 +32,10 @@ export const LeadForm = ({
   service,
   serviceKey,
   packageName,
+  showMaxField = true,
+  showCommentField = true,
+  commentPlaceholder = "Коротко опишите вашу финансовую ситуацию",
+  footerText = "Фокус на вашей ситуации, сроках и реальном варианте решения.",
 }: LeadFormProps) => {
   const [form, setForm] = useState({
     name: "",
@@ -52,6 +60,12 @@ export const LeadForm = ({
     setLoading(true);
     try {
       const serviceName = service ?? title;
+      const answers = [
+        { question: "Email", answer: form.email || "—" },
+        showMaxField ? { question: "Желаемая сумма / MAX", answer: form.max || "—" } : null,
+        showCommentField ? { question: "Комментарий", answer: form.comment || "—" } : null,
+      ].filter((item): item is { question: string; answer: string } => Boolean(item));
+
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,13 +79,9 @@ export const LeadForm = ({
             email: form.email,
             telegram: form.telegram,
           },
-          max: form.max,
+          max: showMaxField ? form.max : "",
           service: serviceName,
-          answers: [
-            { question: "Email", answer: form.email || "—" },
-            { question: "Желаемая сумма / MAX", answer: form.max || "—" },
-            { question: "Комментарий", answer: form.comment || "—" },
-          ],
+          answers,
         }),
       });
       if (!response.ok) {
@@ -142,19 +152,23 @@ export const LeadForm = ({
           onChange={(event) => setForm((prev) => ({ ...prev, telegram: event.target.value }))}
           className="h-14 border-border/80 bg-background/45 text-base"
         />
-        <Input
-          placeholder="Желаемая сумма"
-          value={form.max}
-          onChange={(event) => setForm((prev) => ({ ...prev, max: event.target.value }))}
-          className={`h-14 border-border/80 bg-background/45 text-base ${compact ? "" : "lg:col-span-2"}`}
-        />
-        <Textarea
-          required
-          placeholder="Коротко опишите вашу финансовую ситуацию"
-          value={form.comment}
-          onChange={(event) => setForm((prev) => ({ ...prev, comment: event.target.value }))}
-          className={`min-h-36 border-border/80 bg-background/45 text-base ${compact ? "lg:col-span-3" : "lg:col-span-2"}`}
-        />
+        {showMaxField && (
+          <Input
+            placeholder="Желаемая сумма"
+            value={form.max}
+            onChange={(event) => setForm((prev) => ({ ...prev, max: event.target.value }))}
+            className={`h-14 border-border/80 bg-background/45 text-base ${compact ? "" : "lg:col-span-2"}`}
+          />
+        )}
+        {showCommentField && (
+          <Textarea
+            required
+            placeholder={commentPlaceholder}
+            value={form.comment}
+            onChange={(event) => setForm((prev) => ({ ...prev, comment: event.target.value }))}
+            className={`min-h-36 border-border/80 bg-background/45 text-base ${compact ? "lg:col-span-3" : "lg:col-span-2"}`}
+          />
+        )}
       </div>
 
       <div className="mt-4 flex items-start gap-3">
@@ -178,7 +192,7 @@ export const LeadForm = ({
       </div>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-base leading-7 text-muted-foreground">Фокус на вашей ситуации, сроках и реальном варианте решения.</p>
+        {footerText ? <p className="text-base leading-7 text-muted-foreground">{footerText}</p> : <span />}
         <Button type="submit" variant="hero" size="xl" disabled={!agree || loading}>
           {loading ? <Loader2 className="animate-spin" /> : <Send />}
           {loading ? "Отправляем…" : ctaLabel}
