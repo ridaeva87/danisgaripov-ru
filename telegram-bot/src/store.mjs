@@ -1,3 +1,4 @@
+import { randomBytes } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -7,7 +8,11 @@ const initialState = {
   activeRequestByChatId: {},
   consentByChatId: {},
   processedEvents: {},
+  bindingTokens: {},
+  adminMessageMap: {},
 };
+
+const BINDING_TOKEN_TTL_MS = 48 * 60 * 60 * 1000;
 
 export class RequestStore {
   constructor(dataDir) {
@@ -28,6 +33,8 @@ export class RequestStore {
         activeRequestByChatId: this.state.activeRequestByChatId || {},
         consentByChatId: this.state.consentByChatId || {},
         processedEvents: this.state.processedEvents || {},
+        bindingTokens: this.state.bindingTokens || {},
+        adminMessageMap: this.state.adminMessageMap || {},
       };
     } catch (error) {
       if (error.code !== "ENOENT") {
@@ -86,6 +93,60 @@ export class RequestStore {
     return this.state.requests[id];
   }
 
+  async createBindingToken(requestId) {
+    const request = this.getRequest(requestId);
+    if (!request) return null;
+
+    const now = Date.now();
+    const existing = request.bindingToken;
+    if (existing?.token && !existing.usedAt && Date.parse(existing.expiresAt) > now) {
+      return existing;
+    }
+
+    const token = randomBytes(24).toString("base64url");
+    const bindingToken = {
+      token,
+      requestId,
+      createdAt: new Date(now).toISOString(),
+      expiresAt: new Date(now + BINDING_TOKEN_TTL_MS).toISOString(),
+      usedAt: "",
+    };
+    this.state.bindingTokens[token] = bindingToken;
+    request.bindingToken = bindingToken;
+    request.updatedAt = new Date().toISOString();
+    await this.save();
+    return bindingToken;
+  }
+
+  async bindRequestToChat(token, client) {
+    const bindingToken = this.state.bindingTokens?.[token];
+    if (!bindingToken) return { ok: false, reason: "not_found" };
+    if (bindingToken.usedAt) return { ok: false, reason: "used", request: this.getRequest(bindingToken.requestId) };
+    if (Date.parse(bindingToken.expiresAt) <= Date.now()) return { ok: false, reason: "expired", request: this.getRequest(bindingToken.requestId) };
+
+    const request = this.getRequest(bindingToken.requestId);
+    if (!request) return { ok: false, reason: "request_not_found" };
+
+    const previousChatId = request.client?.chatId;
+    request.client = {
+      ...(request.client || {}),
+      chatId: client.chatId,
+      telegramName: client.name,
+      username: client.username || request.client?.username || "",
+    };
+    if (previousChatId && String(previousChatId) !== String(client.chatId)) {
+      delete this.state.activeRequestByChatId[String(previousChatId)];
+    }
+    this.state.activeRequestByChatId[String(client.chatId)] = request.id;
+
+    const usedAt = new Date().toISOString();
+    bindingToken.usedAt = usedAt;
+    request.bindingToken = { ...bindingToken, usedAt };
+    request.updatedAt = usedAt;
+    await this.save();
+    return { ok: true, request };
+  }
+
   async setDeliveryStatus(id, channel, status, error = "") {
     const request = this.getRequest(id);
     if (!request) return null;
@@ -141,6 +202,18 @@ export class RequestStore {
     request.updatedAt = new Date().toISOString();
     await this.save();
     return request;
+  }
+
+  async mapAdminMessage(messageId, requestId) {
+    if (!messageId || !requestId) return null;
+    this.state.adminMessageMap[String(messageId)] = requestId;
+    await this.save();
+    return requestId;
+  }
+
+  getRequestByAdminMessage(messageId) {
+    const requestId = this.state.adminMessageMap?.[String(messageId)];
+    return requestId ? this.getRequest(requestId) : null;
   }
 
   async addAttachment(id, attachment) {

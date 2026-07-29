@@ -33,6 +33,7 @@ await loadBotEnv();
 
 const TELEGRAM_BOT_TOKEN = process.env.CLIENT_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.ADMIN_CHAT_ID || process.env.TELEGRAM_CHAT_ID;
+let telegramBotUsername = process.env.CLIENT_BOT_USERNAME || "";
 const dataDir = process.env.DATA_DIR?.startsWith("/")
   ? process.env.DATA_DIR
   : resolve(rootDir, "telegram-bot", process.env.DATA_DIR || "data");
@@ -77,9 +78,35 @@ const sendTelegramMessage = async (text, replyMarkup) => {
     }),
   });
 
-  if (!response.ok) {
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok || data.ok === false) {
     throw new Error(`Telegram API responded with ${response.status}`);
   }
+
+  return data.result;
+};
+
+const getTelegramBotUsername = async () => {
+  if (telegramBotUsername) return telegramBotUsername;
+  if (!TELEGRAM_BOT_TOKEN) {
+    throw new Error("Telegram bot token is not configured");
+  }
+
+  const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getMe`);
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || data.ok === false || !data.result?.username) {
+    throw new Error(`Telegram API getMe responded with ${response.status}`);
+  }
+  telegramBotUsername = data.result.username;
+  return telegramBotUsername;
+};
+
+const buildTelegramBindLink = async (request) => {
+  const bindingToken = await store.createBindingToken(request.id);
+  if (!bindingToken) return "";
+  const username = await getTelegramBotUsername();
+  return `https://t.me/${username}?start=bind_${bindingToken.token}`;
 };
 
 const formatAnswersForSheets = (answers) => {
@@ -181,7 +208,8 @@ const handleStructuredLead = async (payload) => {
   const errors = [];
   if (request.delivery?.telegram?.status !== "success") {
     try {
-      await sendTelegramMessage(formatSiteRequestMessage(request), buildAdminStatusKeyboard(request.id));
+      const adminMessage = await sendTelegramMessage(formatSiteRequestMessage(request), buildAdminStatusKeyboard(request.id));
+      await store.mapAdminMessage(adminMessage?.message_id, request.id);
       await store.setDeliveryStatus(request.id, "telegram", "success");
     } catch (error) {
       await store.setDeliveryStatus(request.id, "telegram", "failed", error.message);
@@ -199,11 +227,18 @@ const handleStructuredLead = async (payload) => {
     }
   }
 
+  let telegramBindLink = "";
+  try {
+    telegramBindLink = await buildTelegramBindLink(request);
+  } catch (error) {
+    console.error(`Lead ${request.id} binding link error: ${error.message}`);
+  }
+
   if (errors.length) {
     console.error(`Lead ${request.id} delivery errors: ${errors.join("; ")}`);
   }
 
-  return request;
+  return { request, telegramBindLink };
 };
 
 const server = http.createServer(async (req, res) => {
@@ -222,8 +257,8 @@ const server = http.createServer(async (req, res) => {
     const payload = JSON.parse(rawBody || "{}");
 
     if (payload.type === "site_request") {
-      const request = await handleStructuredLead(payload);
-      sendJson(res, 200, { ok: true, requestId: request.id });
+      const { request, telegramBindLink } = await handleStructuredLead(payload);
+      sendJson(res, 200, { ok: true, requestId: request.id, telegramBindLink });
       return;
     }
 

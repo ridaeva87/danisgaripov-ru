@@ -110,6 +110,7 @@ export const CustdevQuiz = ({ scrollTargetId, completionHref, completionButtonLa
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [submission, setSubmission] = useState<{ requestId: string; telegramBindLink: string } | null>(null);
 
   const progress = ((step + 1) / TOTAL_STEPS) * 100;
 
@@ -171,7 +172,12 @@ export const CustdevQuiz = ({ scrollTargetId, completionHref, completionButtonLa
       if (!response.ok) {
         throw new Error("Lead API rejected quiz request");
       }
+      const result = await response.json().catch(() => ({}));
 
+      setSubmission({
+        requestId: String(result.requestId || ""),
+        telegramBindLink: String(result.telegramBindLink || ""),
+      });
       setDone(true);
     } catch (error) {
       console.error("Quiz submit error", error);
@@ -255,11 +261,28 @@ export const CustdevQuiz = ({ scrollTargetId, completionHref, completionButtonLa
         <p className="mx-auto mt-3 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
           На основе ваших ответов мы подготовим предварительный финансовый разбор и подскажем, с каким направлением лучше обратиться к Данису, если нужна практическая помощь.
         </p>
+        {submission?.requestId && (
+          <p className="mx-auto mt-4 max-w-2xl text-base font-semibold text-foreground">
+            Номер вашей заявки: {submission.requestId}
+          </p>
+        )}
+        <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-muted-foreground">
+          Чтобы получать сообщения от команды и отправлять документы, продолжите общение в Telegram.
+        </p>
         <div className="mt-6 flex justify-center">
-          <Button variant="hero" size="xl" onClick={scrollToForm}>
-            {completionButtonLabel ?? "Получить финансовый разбор"}
-            <ArrowRight />
-          </Button>
+          {submission?.telegramBindLink ? (
+            <Button asChild variant="hero" size="xl">
+              <a href={submission.telegramBindLink} target="_blank" rel="noreferrer">
+                <Send />
+                Продолжить в Telegram
+              </a>
+            </Button>
+          ) : (
+            <Button variant="hero" size="xl" onClick={scrollToForm}>
+              {completionButtonLabel ?? "Получить финансовый разбор"}
+              <ArrowRight />
+            </Button>
+          )}
         </div>
       </div>
     );

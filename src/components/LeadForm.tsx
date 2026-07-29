@@ -50,6 +50,7 @@ export const LeadForm = ({
   const [agree, setAgree] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [submission, setSubmission] = useState<{ requestId: string; telegramBindLink: string } | null>(null);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -89,6 +90,7 @@ export const LeadForm = ({
       if (!response.ok) {
         throw new Error("Lead API rejected site request");
       }
+      const result = await response.json().catch(() => ({}));
 
       toast.success("Заявка отправлена", {
         description:
@@ -105,7 +107,10 @@ export const LeadForm = ({
       });
       setAgree(false);
       setSubmitted(true);
-      window.setTimeout(() => setSubmitted(false), 6000);
+      setSubmission({
+        requestId: String(result.requestId || ""),
+        telegramBindLink: String(result.telegramBindLink || ""),
+      });
     } catch (error) {
       console.error("Lead submit error", error);
       toast.error("Не удалось отправить заявку", {
@@ -203,9 +208,22 @@ export const LeadForm = ({
       </div>
 
       {submitted && (
-        <div className="mt-5 flex animate-in fade-in slide-in-from-bottom-2 flex-col items-center justify-center rounded-md bg-primary px-4 py-3 text-primary-foreground shadow-glow">
-          <span className="text-base font-bold uppercase tracking-wider leading-none">Заявка принята</span>
-          <span className="mt-1 text-[11px] font-medium uppercase tracking-wide text-primary-foreground/85">мы скоро свяжемся</span>
+        <div className="mt-5 flex animate-in fade-in slide-in-from-bottom-2 flex-col items-center justify-center rounded-md bg-primary px-4 py-4 text-center text-primary-foreground shadow-glow">
+          <span className="text-base font-bold uppercase tracking-wider leading-none">Заявка отправлена</span>
+          {submission?.requestId && (
+            <span className="mt-2 text-sm font-semibold">Номер вашей заявки: {submission.requestId}</span>
+          )}
+          <span className="mt-2 max-w-xl text-sm leading-6 text-primary-foreground/90">
+            Чтобы получать сообщения от команды и отправлять документы, продолжите общение в Telegram.
+          </span>
+          {submission?.telegramBindLink && (
+            <Button asChild variant="secondary" className="mt-4">
+              <a href={submission.telegramBindLink} target="_blank" rel="noreferrer">
+                <Send />
+                Продолжить в Telegram
+              </a>
+            </Button>
+          )}
         </div>
       )}
     </form>

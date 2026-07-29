@@ -25,7 +25,7 @@ import { TelegramApi } from "./telegram-api.mjs";
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const MAX_FILE_SIZE_BYTES = 15 * 1024 * 1024;
-const ALLOWED_MIME_TYPES = new Set(["application/pdf", "image/jpeg", "image/png"]);
+const ALLOWED_MIME_TYPES = new Set(["application/pdf", "image/jpeg", "image/png", "audio/ogg", "video/mp4", "video/quicktime"]);
 const ALLOWED_EXTENSIONS = [".pdf", ".jpg", ".jpeg", ".png"];
 const userModes = new Map();
 
@@ -54,6 +54,10 @@ const getClient = (message) => ({
   username: message.from?.username || "",
 });
 
+const formatTelegramIdentity = (client = {}) => (
+  client.username ? `@${client.username}` : client.telegramName || client.name || String(client.chatId || "-")
+);
+
 const adminHelp = [
   "Команды для группы администраторов:",
   "/info REQ-00001 - показать заявку",
@@ -77,8 +81,8 @@ const parseCommand = (text = "") => {
   };
 };
 
-const notifyAdminAboutRequest = async ({ api, config, request }) => {
-  await api.sendMessage({
+const notifyAdminAboutRequest = async ({ api, config, store, request }) => {
+  const adminMessage = await api.sendMessage({
     chatId: config.adminChatId,
     text: [
       "Новая заявка с сайта",
@@ -89,6 +93,7 @@ const notifyAdminAboutRequest = async ({ api, config, request }) => {
     ].join("\n"),
     replyMarkup: buildAdminStatusKeyboard(request.id),
   });
+  await store.mapAdminMessage(adminMessage?.message_id, request.id);
 };
 
 const showWelcome = async ({ api, config, message }) => {
@@ -119,7 +124,7 @@ const startRequest = async ({ api, config, store, message, serviceKey }) => {
     text: formatClientStartMessage(serviceKey, config.publicSiteUrl),
     replyMarkup: buildBackMenuKeyboard(),
   });
-  await notifyAdminAboutRequest({ api, config, request });
+  await notifyAdminAboutRequest({ api, config, store, request });
 
   return request;
 };
@@ -146,13 +151,33 @@ const describeAttachment = (message) => {
     };
   }
 
+  if (message.voice) {
+    return {
+      type: "voice",
+      fileId: message.voice.file_id,
+      fileName: "voice.ogg",
+      mimeType: message.voice.mime_type || "audio/ogg",
+      fileSize: message.voice.file_size || 0,
+    };
+  }
+
+  if (message.video) {
+    return {
+      type: "video",
+      fileId: message.video.file_id,
+      fileName: message.video.file_name || "video.mp4",
+      mimeType: message.video.mime_type || "video/mp4",
+      fileSize: message.video.file_size || 0,
+    };
+  }
+
   return null;
 };
 
 const isAllowedAttachment = (attachment) => {
   if (!attachment) return false;
   const fileName = attachment.fileName.toLowerCase();
-  const hasAllowedExtension = attachment.type === "photo" || ALLOWED_EXTENSIONS.some((extension) => fileName.endsWith(extension));
+  const hasAllowedExtension = ["photo", "voice", "video"].includes(attachment.type) || ALLOWED_EXTENSIONS.some((extension) => fileName.endsWith(extension));
   const hasAllowedMime = !attachment.mimeType || ALLOWED_MIME_TYPES.has(attachment.mimeType);
   const hasAllowedSize = !attachment.fileSize || attachment.fileSize <= MAX_FILE_SIZE_BYTES;
   return hasAllowedExtension && hasAllowedMime && hasAllowedSize;
@@ -193,7 +218,8 @@ const changeAdminStatus = async ({ api, config, store, requestId, status, from }
     `Дата: ${new Date().toISOString()}`,
   ].join("\n");
 
-  await api.sendMessage({ chatId: config.adminChatId, text: statusLine });
+  const statusMessage = await api.sendMessage({ chatId: config.adminChatId, text: statusLine });
+  await store.mapAdminMessage(statusMessage?.message_id, requestId);
   if (updated.client?.chatId) {
     await api.sendMessage({
       chatId: updated.client.chatId,
@@ -202,8 +228,114 @@ const changeAdminStatus = async ({ api, config, store, requestId, status, from }
   }
 };
 
+const handleBindPayload = async ({ api, config, store, message, token }) => {
+  const result = await store.bindRequestToChat(token, getClient(message));
+
+  if (!result.ok) {
+    const textByReason = {
+      used: "Эта ссылка уже была использована. Если нужно подключить Telegram заново, отправьте заявку ещё раз или свяжитесь с командой Даниса.",
+      expired: "Срок действия ссылки истёк. Отправьте заявку на сайте ещё раз, чтобы получить новую ссылку.",
+      request_not_found: "Заявка для этой ссылки не найдена. Отправьте заявку на сайте ещё раз.",
+      not_found: "Ссылка недействительна. Проверьте, что вы перешли по кнопке после отправки заявки.",
+    };
+    await api.sendMessage({
+      chatId: message.chat.id,
+      text: textByReason[result.reason] || "Не удалось подключить Telegram к заявке. Отправьте заявку на сайте ещё раз.",
+      replyMarkup: buildMainMenuKeyboard(),
+    });
+    return;
+  }
+
+  await store.rememberConsent({ chatId: message.chat.id });
+
+  await api.sendMessage({
+    chatId: message.chat.id,
+    text: `Заявка ${result.request.id} подключена к Telegram. Команда Даниса свяжется с вами в этом чате. Здесь вы сможете получать сообщения и отправлять документы.`,
+    replyMarkup: buildMainMenuKeyboard(),
+  });
+
+  const adminMessage = await api.sendMessage({
+    chatId: config.adminChatId,
+    text: [
+      "✅ Telegram клиента подключён",
+      `Номер заявки: ${result.request.id}`,
+      `Имя клиента: ${result.request.client?.name || "-"}`,
+      `Telegram: ${formatTelegramIdentity(result.request.client)}`,
+      "Статус: можно отвечать через бота",
+    ].join("\n"),
+    replyMarkup: buildAdminStatusKeyboard(result.request.id),
+  });
+  await store.mapAdminMessage(adminMessage?.message_id, result.request.id);
+};
+
+const ensureAssignedManager = async ({ api, config, request, from }) => {
+  const author = getAuthor(from);
+  if (!request.assignedTo?.id) {
+    await api.sendMessage({
+      chatId: config.adminChatId,
+      text: `Сначала возьмите заявку ${request.id} в работу, затем ответьте клиенту.`,
+    });
+    return false;
+  }
+  if (String(request.assignedTo.id) !== String(author.id)) {
+    await api.sendMessage({
+      chatId: config.adminChatId,
+      text: `Заявка ${request.id} закреплена за ${request.assignedTo.name}. Ответ через бота доступен только ответственному менеджеру.`,
+    });
+    return false;
+  }
+  return true;
+};
+
+const handleAdminReplyMessage = async ({ api, config, store, message }) => {
+  if ((message.text || "").startsWith("/")) return false;
+
+  const repliedMessageId = message.reply_to_message?.message_id;
+  if (!repliedMessageId) return false;
+
+  const request = store.getRequestByAdminMessage(repliedMessageId);
+  if (!request) return false;
+
+  if (!(await ensureAssignedManager({ api, config, request, from: message.from }))) {
+    return true;
+  }
+
+  if (!request.client?.chatId) {
+    const warning = await api.sendMessage({
+      chatId: config.adminChatId,
+      text: "Клиент ещё не подключил Telegram к заявке. Ответ через бота пока невозможен.",
+    });
+    await store.mapAdminMessage(warning?.message_id, request.id);
+    return true;
+  }
+
+  await store.addAdminNote(request.id, {
+    type: "reply",
+    author: message.from?.username || String(message.from?.id || ""),
+    text: message.text || message.caption || "[файл]",
+  });
+
+  await api.copyMessage({
+    chatId: request.client.chatId,
+    fromChatId: config.adminChatId,
+    messageId: message.message_id,
+  });
+
+  const confirmation = await api.sendMessage({
+    chatId: config.adminChatId,
+    text: `Сообщение отправлено клиенту по заявке ${request.id}.`,
+  });
+  await store.mapAdminMessage(message.message_id, request.id);
+  await store.mapAdminMessage(confirmation?.message_id, request.id);
+  return true;
+};
+
 const handleAdminMessage = async ({ api, config, store, message }) => {
   const text = message.text || "";
+
+  if (await handleAdminReplyMessage({ api, config, store, message })) {
+    return;
+  }
 
   if (!text.startsWith("/")) {
     return;
@@ -246,6 +378,9 @@ const handleAdminMessage = async ({ api, config, store, message }) => {
       await api.sendMessage({ chatId: config.adminChatId, text: "Добавьте текст сообщения после номера заявки." });
       return;
     }
+    if (!(await ensureAssignedManager({ api, config, request, from: message.from }))) {
+      return;
+    }
 
     const prefix = command === "/result" ? `Результат по заявке ${request.id}:\n\n` : "";
     await store.addAdminNote(requestId, {
@@ -264,7 +399,8 @@ const handleAdminMessage = async ({ api, config, store, message }) => {
     }
 
     await api.sendMessage({ chatId: request.client.chatId, text: `${prefix}${rest}` });
-    await api.sendMessage({ chatId: config.adminChatId, text: `Сообщение отправлено клиенту по заявке ${request.id}.` });
+    const confirmation = await api.sendMessage({ chatId: config.adminChatId, text: `Сообщение отправлено клиенту по заявке ${request.id}.` });
+    await store.mapAdminMessage(confirmation?.message_id, request.id);
     return;
   }
 
@@ -424,6 +560,11 @@ const handleClientMessage = async ({ api, config, store, message }) => {
 
   if (text.startsWith("/start")) {
     const [, payload = ""] = text.split(/\s+/, 2);
+    if (payload.startsWith("bind_")) {
+      await handleBindPayload({ api, config, store, message, token: payload.slice("bind_".length) });
+      return;
+    }
+
     const serviceKey = normalizePayload(payload);
 
     if (serviceKey && store.hasConsent(message.chat.id)) {
@@ -477,8 +618,9 @@ const handleClientMessage = async ({ api, config, store, message }) => {
     return;
   }
 
-  const request = store.getActiveRequest(message.chat.id);
   const mode = userModes.get(String(message.chat.id));
+  const activeRequests = store.getRequestsByChatId(message.chat.id).filter((item) => item.status !== "closed");
+  const request = mode?.requestId ? store.getRequest(mode.requestId) : store.getActiveRequest(message.chat.id);
 
   if (mode?.type === "contact" && text) {
     await api.sendMessage({
@@ -509,6 +651,18 @@ const handleClientMessage = async ({ api, config, store, message }) => {
     return;
   }
 
+  if (!mode && activeRequests.length > 1) {
+    await api.sendMessage({
+      chatId: message.chat.id,
+      text: [
+        "У вас несколько активных заявок.",
+        "Чтобы не смешать переписку, выберите нужную заявку через «Статус заявки» или напишите команде, указав номер заявки.",
+      ].join("\n"),
+      replyMarkup: buildMainMenuKeyboard(),
+    });
+    return;
+  }
+
   const attachment = describeAttachment(message);
   if (attachment) {
     if (!isAllowedAttachment(attachment)) {
@@ -523,12 +677,13 @@ const handleClientMessage = async ({ api, config, store, message }) => {
       caption: message.caption || "",
       telegramMessageId: message.message_id,
     });
-    await api.copyMessage({
+    const adminFileMessage = await api.copyMessage({
       chatId: config.adminChatId,
       fromChatId: message.chat.id,
       messageId: message.message_id,
       caption: `Файл по заявке ${request.id}`,
     });
+    await store.mapAdminMessage(adminFileMessage?.message_id, request.id);
     await api.sendMessage({
       chatId: message.chat.id,
       text: "Документ получен и прикреплён к вашей заявке.",
@@ -542,10 +697,11 @@ const handleClientMessage = async ({ api, config, store, message }) => {
       text: clientText,
       telegramMessageId: message.message_id,
     });
-    await api.sendMessage({
+    const adminClientMessage = await api.sendMessage({
       chatId: config.adminChatId,
       text: [`Новое сообщение по заявке ${request.id}:`, "", clientText].join("\n"),
     });
+    await store.mapAdminMessage(adminClientMessage?.message_id, request.id);
     await api.sendMessage({
       chatId: message.chat.id,
       text: `Сообщение принято и добавлено к заявке ${request.id}.`,

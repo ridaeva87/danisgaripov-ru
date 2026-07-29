@@ -108,3 +108,49 @@ test("site request store keeps one request id for repeated request key", async (
   assert.equal(first.delivery.telegram.status, "pending");
   assert.equal(first.delivery.googleSheets.status, "pending");
 });
+
+test("binding token links site request to one Telegram chat once", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "danis-binding-"));
+  const store = new RequestStore(dir);
+  await store.load();
+
+  const request = await store.createRequestFromSite({
+    serviceKey: "it_razrabotka",
+    client: { name: "Тест", telegram: "@test" },
+    requestKey: "site:binding-test",
+  });
+  const binding = await store.createBindingToken(request.id);
+  const result = await store.bindRequestToChat(binding.token, {
+    chatId: 123456,
+    name: "Telegram Client",
+    username: "telegram_client",
+  });
+  const repeated = await store.bindRequestToChat(binding.token, {
+    chatId: 987654,
+    name: "Other Client",
+    username: "other_client",
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(result.request.client.chatId, 123456);
+  assert.equal(result.request.client.username, "telegram_client");
+  assert.equal(store.getActiveRequest(123456).id, request.id);
+  assert.equal(repeated.ok, false);
+  assert.equal(repeated.reason, "used");
+});
+
+test("admin message map resolves reply target request", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "danis-message-map-"));
+  const store = new RequestStore(dir);
+  await store.load();
+
+  const request = await store.createRequestFromSite({
+    serviceKey: "business_psychologist",
+    client: { name: "Тест", chatId: 222 },
+    requestKey: "site:message-map-test",
+  });
+  await store.mapAdminMessage(555, request.id);
+
+  assert.equal(store.getRequestByAdminMessage(555).id, request.id);
+  assert.equal(store.getRequestByAdminMessage(556), null);
+});
