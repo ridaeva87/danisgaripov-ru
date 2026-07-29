@@ -710,6 +710,8 @@ const handleClientMessage = async ({ api, config, store, message }) => {
 };
 
 const handleUpdate = async ({ api, config, store, update }) => {
+  await store.load();
+
   if (update.callback_query) {
     await handleCallbackQuery({ api, config, store, callbackQuery: update.callback_query });
     return;
