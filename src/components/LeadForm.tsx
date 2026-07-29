@@ -19,6 +19,7 @@ type LeadFormProps = {
   packageName?: string;
   showMaxField?: boolean;
   showCommentField?: boolean;
+  commentQuestion?: string;
   commentPlaceholder?: string;
   footerText?: string;
 };
@@ -34,6 +35,7 @@ export const LeadForm = ({
   packageName,
   showMaxField = true,
   showCommentField = true,
+  commentQuestion = "Комментарий",
   commentPlaceholder = "Коротко опишите вашу финансовую ситуацию",
   footerText = "Фокус на вашей ситуации, сроках и реальном варианте решения.",
 }: LeadFormProps) => {
@@ -63,7 +65,7 @@ export const LeadForm = ({
       const answers = [
         { question: "Email", answer: form.email || "—" },
         showMaxField ? { question: "Желаемая сумма / MAX", answer: form.max || "—" } : null,
-        showCommentField ? { question: "Комментарий", answer: form.comment || "—" } : null,
+        showCommentField ? { question: commentQuestion, answer: form.comment || "—" } : null,
       ].filter((item): item is { question: string; answer: string } => Boolean(item));
 
       const response = await fetch("/api/lead", {

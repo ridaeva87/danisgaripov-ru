@@ -43,6 +43,7 @@ const ServicePage = () => {
 
   const otherServices = services.filter((item) => item.slug !== service.slug).slice(0, 3);
   const Icon = service.icon;
+  const isItDevelopment = service.slug === "it-razrabotka";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -267,10 +268,22 @@ const ServicePage = () => {
             ) : (
               <LeadForm
                 title={`Заявка по направлению «${service.title}»`}
-                description="Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
+                description={
+                  isItDevelopment
+                    ? "Оставьте контактные данные и коротко опишите задачу. Расскажите, чем занимается ваш бизнес и что именно вы хотите разработать."
+                    : "Оставьте контакт и коротко опишите ситуацию. В ответ вы получите предметный разбор и понятный следующий шаг без лишнего давления."
+                }
                 ctaLabel="Отправить запрос"
                 service={service.title}
                 serviceKey={serviceLeadKeys[service.slug] || "general_request"}
+                showMaxField={!isItDevelopment}
+                commentQuestion={isItDevelopment ? "Коротко опишите вашу задачу" : undefined}
+                commentPlaceholder={
+                  isItDevelopment
+                    ? "Чем занимается ваш бизнес? Что вы хотите разработать: сайт, приложение, Telegram-бот, личный кабинет, автоматизацию или другой IT-продукт? Для кого предназначена разработка и какие основные функции вам нужны?"
+                    : undefined
+                }
+                footerText={isItDevelopment ? "" : undefined}
               />
             )}
             </div>
