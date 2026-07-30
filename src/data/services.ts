@@ -2,6 +2,11 @@ import { BadgeDollarSign, BrainCircuit, Cpu, FileCheck2, GaugeCircle, HandCoins,
 
 import liliaAndDanisImage from "@/assets/lilia-and-danis.jpg";
 import nastyaAndDanisImage from "@/assets/nastya-and-danis.png";
+import serviceCreditHistoryImage from "@/assets/service-credit-history.jpg";
+import serviceInsuranceReturnImage from "@/assets/service-insurance-return.png";
+import serviceKreditovanieImage from "@/assets/service-kreditovanie.jpg";
+import servicePrivateLoansImage from "@/assets/service-private-loans.jpg";
+import serviceUrgentAutoBuyoutImage from "@/assets/service-urgent-auto-buyout.jpg";
 
 export type InfoBlock = {
   title: string;
@@ -44,6 +49,7 @@ const serviceItems: ServiceItem[] = [
     heroDescription:
       "Вы переплатили при оформлении кредита? Мы вернём эти деньги!",
     icon: FileCheck2,
+    heroImage: serviceInsuranceReturnImage,
     intro:
       "Многие заёмщики не знают, что страховки и дополнительные услуги, навязанные банком, можно вернуть. Если вы оформляли кредит с 2023 года, у вас есть право на возврат средств.",
     suitableFor: [
@@ -74,6 +80,7 @@ const serviceItems: ServiceItem[] = [
     shortDescription: "Помощь в получении кредита — ведём за руку от заявки до денег на карте.",
     heroDescription: "Помощь в получении кредита",
     icon: BadgeDollarSign,
+    heroImage: serviceKreditovanieImage,
     intro:
       "Нужны дополнительные средства, но не знаете, как их получить? Мы построим ваш путь к одобрению. Мы не просто «советуем» — мы ведём вас за руку от момента обращения до момента, когда деньги упадут на вашу карту.",
     suitableFor: [
@@ -95,6 +102,7 @@ const serviceItems: ServiceItem[] = [
     shortDescription: "Узнайте, почему банки отказывают — и что с этим делать.",
     heroDescription: "Узнайте, почему банки отказывают — и что с этим делать",
     icon: GaugeCircle,
+    heroImage: serviceCreditHistoryImage,
     primaryCtaLabel: "Оплатить диагностику 2 000 ₽",
     primaryCtaHref: "https://auth.robokassa.ru/merchant/Invoice/ncJcgVOuWUqOyNwNnPgLmA",
     paymentTitle: "Оплатите диагностику и подготовьте кредитную историю.",
@@ -135,6 +143,7 @@ const serviceItems: ServiceItem[] = [
     shortDescription: "Финансирование от частного инвестора — индивидуальные условия и быстрое решение.",
     heroDescription: "Частные займы",
     icon: HandCoins,
+    heroImage: servicePrivateLoansImage,
     intro:
       "Частный заём — это финансирование от частного инвестора, а не банка. Условия обсуждаются индивидуально, требования мягче, решение быстрее. Мы выступаем посредником: находим инвестора, согласовываем условия и сопровождаем сделку от начала до конца.",
     differences: {
@@ -180,6 +189,7 @@ const serviceItems: ServiceItem[] = [
     heroDescription:
       "Срочный выкуп авто — когда нужно быстро решить вопрос с машиной и выйти в деньги.",
     icon: ShieldCheck,
+    heroImage: serviceUrgentAutoBuyoutImage,
     intro:
       "Срочный выкуп авто — это услуга для тех, кому нужно быстро решить вопрос с машиной и не тратить время на долгую продажу, бесконечные показы и пустые звонки. Смотрим ситуацию, оцениваем автомобиль, проверяем документы и предлагаем понятный вариант, как можно выйти в деньги быстрее.",
     suitableFor: [
